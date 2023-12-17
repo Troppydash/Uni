@@ -1,0 +1,81 @@
+\documentclass[11pt]{article}
+\usepackage{mathptmx}
+\usepackage[a4paper,margin=1in,footskip=0.25in]{geometry}
+\usepackage{parskip}
+\usepackage{float}
+\usepackage{graphicx}
+
+\usepackage{mhchem}
+% referencing
+\usepackage[
+	style=ieee,
+	time=24h,
+	dateabbrev=false,
+	dateusetime=true,
+	style=numeric,
+]{biblatex}
+\addbibresource{expert.bib}
+
+
+\newcommand{\CO}{\ce{CO2}\,\,}
+
+\usepackage{hyperref}
+
+\begin{document}
+	
+%TODO: Add Citation, Proofread
+
+\section*{Evaluation of an Expert Talk}
+% address the question
+% 1) What controls Earth's climate on timescales of million of years?
+% 2) Describe similarities and ifferences between the controls on Earth's climate on timescales of millions of years and the controls on Earth's climate change over the last century
+% 720-880 words
+% criteria
+% 1), clear, evidence based answer, with suitable reference to the expert talk
+% 2) clear, evidence based answer, with suitable reference to both expert talk and lectures, and online content.
+% 3), well written and nicely presented.
+
+% introduction
+There exists a multitude of factors that controls our Earth's climate on differing timescales. Some factors, like the carbon cycle, maintain a long term stable environment using a negative feedback loop. Others are indirectly caused by human activities, creating volatility in the short term climate that magnifies climate change. This evaluation focuses on the controls of Earth's climate in different timescales; it views the aforementioned factors in higher detail and suitable context.
+
+% 1)
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{files/All_palaeotemps.png}
+	\caption{\autocite{clim}}
+	\label{fig:clim}
+\end{figure}
+
+How's Earth's historical climate so stable? Figure \ref{fig:clim} shows the predicted planet temperatures of the last 500 million years relative to today. Focus on the long term stability and low variance of the temperature measurements: with a high around 50 million years ago of 14 degrees extra, and a low about 20 thousand years ago of 6 degrees lower. This stable temperature is inspite of the brightening sunlight and changing atmosphere composition\autocite{talk}. How so?
+
+In her expert talk ``Earth's climate history'', Dr.~Ashleigh Hood attributed this stability to a negative feedback loop process between atmospheric and ground \CO reservoirs in response to changing solar intensity\autocite{talk}. The talk considers a simple solution to the Faint Young Sun paradox, namely that the greenhouse effect is stronger when solar radiation intensity is weak, and weaker when the radiation is higher. Under this theory, the main greenhouse gas, \CO, is undergoing a constant cycle between the atmosphere to being embedded underground, with the rate of its deposition and emission being dependent on global temperature; this forms a control on the long term Earth climate. The underlying idea is that Earth began with high atmospheric \CO concentration as to maintain temperature under a less bright sun. Gradually, increasing solar intensity indirectly converted atmospheric \CO into ground reservoirs, reducing the greenhouse effect and maintaining a habitable temperature. This theory is supported by the historical correlation between atmospheric \CO concentration and solar intensity\autocite{co}.
+
+More specifically, silicate weathering and metamorphism with volcanism are two methods of depositing and releasing \CO. In one direction, silicate weathering refers to the removal of \CO rich silicate rocks on mountains: raining separates lumps of silicate that tumbles towards coasts, eventually sinking down to ocean seabeds. In the other direction, metamorphism references the compressing and sliding of tectonic plates (ocean seabeds) full of limestone, which subducts these \CO rich rocks under volcanos, melting and releasing them into the atmospheric through volcanic eruptions. Importantly, the rate of weathering is dependent on the global temperature. When temperature rises, weathering rate is increased as rainfall increases\footnote{Rainfall is positively correlated to global temperature\autocite{rain}. This is because higher temperature leads to more evaporation, leading to higher precipitation}, removing \CO from the atmosphere and reducing the greenhouse effect, vice versa. This allows for a  negative feedback loop that stabilizes the Earth's long term climate and temperature.
+
+% recently
+% around 300 words left
+% 2) Describe similarities and ifferences between the controls on Earth's climate on timescales of millions of years and the controls on Earth's climate change over the last century
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{files/emer.jpg}
+	\caption{\autocite{emer}}
+	\label{fig:emer}
+\end{figure}
+However, by observing last century trends in global temperature and precipitation, there is a disconnect with the long term stability that was promised. Figure \ref{fig:emer} displays an overall upwards trend in all aspects of the climate: rising sea levels, global temperatures, humidity, and increasing melting of arctic sea ice. This recent abnormal climate is correlated with ever-higher atmospheric \CO concentrations, which likely has direct connections to human activities over the past century. 
+
+Empirically and theoretically, there exists a series of relationships between global temperature, \CO concentration, and human activity. Firstly, global \CO emission is on the rise ever since the industrial revolution (figure \ref{fig:emer}), where our burning of fossil fuels releases carbon stored in underground reservoirs. Secondly, the correlation between global temperature and \CO concentration is also likely a causal relationship. Theoretically, it is explained by the mechanism of greenhouse gases: the IR radiation emitted by Earth's surface is absorbed by greenhouse gases like \CO, which is then re-emitted in all directions, including towards Earth where the cycle repeats, repeatedly warming the planet\autocite{greenhouse}. Empirically, this is supported by computer simulation models on scenarios with and without human-made greenhouse gases showing an eerily realistic model of the currently warming climate\autocite{model}. It is thus fair to conclude that the factors of recent climate change includes \CO pollution from industrial activities, that rising pollution enhances the greenhouse effect, which in turn causes global warming.
+
+Largely speaking, factors controlling short term climates are similar to the components that govern long term climates. In both cases, the global temperature is assumed to be dependent on the concentration of atmospheric \CO and its greenhouse warming effects; the high volatility in year-to-year temperatures is also a common denominator both timescales\autocite{vol}. This demonstrates the ability for humans to control the climate directly through \CO concentrations, for the better or for the worse. But there are also differences. By definition, the long term weathering stabilizer acts in timescales of millions of years, while our \CO emission are having impacts in the centuries. It is therefore impossible for us to wait for the natural climate balancing feedback loop to save us from the extreme climate change we are experiencing. Moreover, the rate of climate change today well exceeds those even deemed extreme in the past\autocite{rate}. Unlike in the long term, it has the potential to create a positive feedback loop of higher temperatures leading to increased natural \CO emissions and melting arctic sea ice, all of which further increases warming\autocite{loop}. 
+
+
+The conclusion is that we would need to collectively and swiftly take action against climate change: through the reduction of our greenhouse gas emissions and the switch to greener energy sources. For in the short term, only we can reverse what we had created.
+
+% 2)
+
+% we don't need a conclusion
+	
+\newpage
+\printbibliography
+
+
+\end{document}

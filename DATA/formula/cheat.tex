@@ -1,0 +1,933 @@
+\documentclass[8pt, a4paper]{extarticle}
+\usepackage[utf8]{inputenc}
+
+\usepackage[margin=0.45in]{geometry}
+
+\usepackage{parskip}
+\setlength{\parskip}{0.15\baselineskip}
+
+\usepackage{float}
+
+\usepackage{multicol}
+\setlength{\columnseprule}{0.4pt}
+
+\usepackage{mathtools}
+%\usepackage[1,2]{pagesel}
+\DeclareMathOperator{\SE}{\operatorname{SE}}
+
+% no space enum
+\usepackage{enumitem}
+\newenvironment{flushenum}{
+    \begin{enumerate}[leftmargin=*]
+    }{\end{enumerate}}
+
+\AtBeginDocument{\setlength\abovedisplayskip{6pt}}
+\AtBeginDocument{\setlength\belowdisplayskip{6pt}}
+\begin{document}
+\pagestyle{empty}
+
+    % TITLE
+%    \begin{quote}
+%        \centering
+%        DATA ANALYSIS FORMULAS
+%    \end{quote}
+
+
+    % Content
+    \begin{multicols*}{3}
+
+
+        \section{Study Design}
+        \underline{Principles of good study design}: draw unbiased conclusions and provide precise estimates.
+
+        \begin{flushenum}
+            \item Study units, cases, subjects, units where data are obtained. One observation per unit.
+            \item Response/Dependent variable, variables of interest that are dependent
+            \item Explanatory/Independent variables, variables used to explain and predict the response variables
+            \item Confounding variables, variables related/causes both the response and explanatory variables. We wish to control or eliminate them.
+        \end{flushenum}
+
+        \subsection{Validity and biases}
+        Bias is a lack of accuracy. A biased study includes variables not accounted for that influences the response variable.
+
+        \underline{Principles to minimize biases}
+        \begin{flushenum}
+            \item Comparison, comparing with a control group, placebo, current best treatment, natural groups
+            \item Control, restrictions/limits, protocols being systematic/consistent, blinding (single and double), eliminate or holding constant confounding variables
+            \item Randomization, randomize representative subjects, randomize subject assigned to subject groups
+        \end{flushenum}
+
+        Confounding factors (lurking variables when unobserved) are related to treatment group, causation with outcome. It is the reason that correlation does not imply causation.
+
+        \underline{To reduce confounding}, make the subject groups similar in respect to the variables
+        \begin{flushenum}
+            \item Random subject groups, fair distribution of characteristics
+            \item Randomization of treatment order
+            \item Restriction on experimenters
+            \item Blocking, creating small mini-experiments of common characteristics
+        \end{flushenum}
+
+        Block when you can, randomize otherwise.
+
+        \subsection{Precision}
+        A precise study has close and more confident estimates with small error.
+
+        \underline{To maximize precision}
+        \begin{flushenum}
+            \item Blocking/Stratification, divide study units into blocks of similar characteristics (confounding variables). Randomize treatments within block.
+            \item Replication, increasing total subjects sampled, or repeating measures within study groups. Not repeatability or reliability. Increases degree of freedom, allows more complicated models
+            \item Balance, equally sized study groups, to minimize SE with similar sample sizes
+        \end{flushenum}
+
+        Matched pair, twins study are extreme levels of blocking.
+
+        \subsection{Study types}
+        Observation studies have data collected through observations. Subjects decide the group they are in. Cannot generate a causal link. Evidence by observation.
+
+        \underline{Observation studies problems}
+        \begin{flushenum}
+            \item Selection bias, surveys may be selection biased, or self-selection of subjects
+            \item Reporting bias, groups are biased in responding/ reporting
+            \item Confounding factors not accounted
+        \end{flushenum}
+
+        Designed experiments have the experimenter deliberately impose treatment to study groups. The experimenter decides the group subjects are in. Can prove causation. Evidence by design.
+
+        Designed experiments can better randomize, block, to reduce biases and confounding variables.
+
+        A completely randomize design has no matching, usually done with mechanical or computer randomizers.
+
+        \section{Exploratory Data Analysis}
+        Used to: Discover important data features, Improve understanding of underlying population, Transform data into information.
+
+        \begin{flushenum}
+            \item Display/Graph sample data
+            \item Summarize distribution of sample data
+            \item Describe stats, graph information, and summarize
+            \item Conjecture about the population
+        \end{flushenum}
+
+        \subsection{Variable types}
+        \underline{Hierarchy of information (Least to Most info)}
+        \begin{flushenum}
+            \item Categorical nominal, groups
+            \item Categorical ordinal, ordered groups
+            \item Numerical discrete, scale component
+            \item Numerical continuous, most informative
+        \end{flushenum}
+
+        \underline{Questions we can ask}
+        \begin{flushenum}
+            \item Categorical: Category, mode, association
+            \item Numeric: Mean, variance, min, max, median, outliers
+        \end{flushenum}
+
+        \underline{Distribution features}
+        \begin{description}
+            \item[Shape] Symmetrical, skewed, (right tail is positive skewness) or unimodal, multimodal
+            \item[Center] mean, median
+            \item[Spread] variance, IQR
+            \item[Unusual] outliers, groupings
+            \item[Relationships] numeric correlations, categorical associations
+        \end{description}
+
+        To describe some data points, consider its shape, center, spread and outliers.
+
+        \subsection{Graphical displays}
+        \begin{tabular}{|c|c|p{4.25cm}|}
+            \hline
+            N & C & Displays \\
+            \hline
+            \hline
+            1 & 0 & Dotplot, histogram, boxplot \\
+            \hline
+            0 & 1 & Table (with \%) or barchart \\
+            \hline
+            \hline
+            2 & 0 & Scatterplot \\
+            \hline
+            1 & 1 & Comparative dotplot, boxplot \\
+            \hline
+            0 & 2 & Contingency tables (with \%) or comparative bar charts \\
+            \hline
+            \hline
+            3 & 0 & Surface Plot \\
+            \hline
+            2 & 1 & Grouped Scatterplot \\
+            \hline
+            1 & 2 & Interaction plot \\
+            \hline
+            0 & 3 & Cross tabulation or comparative bar chart \\
+            \hline
+        \end{tabular}
+
+        \subsection{Categorical Variables}
+        Figures: tables or barplots.
+
+        Simpson's paradox: a phenomenon where the trend exhibited within each group changes when combining all groups. Caused by imbalanced group sizes, where the most frequently sampled values get over-proportionally valued.
+
+        \subsection{Numerical Variables}
+        Figures: dotplots for individual data, boxplot to summarize, comparative boxplot for comparisons, histograms for large dataset.
+        \begin{flushenum}
+            \item Histogram, divide range into bins, height of each bin is the number of data points within the range
+            \item Boxplot, five number summary of quartiles. Outliers are $1.5\text{IQR}$ above $Q_3$ or below $Q_1$ and represented by crosses
+        \end{flushenum}
+
+        \underline{Center}
+        \begin{flushenum}
+            \item Mean, The statistical average
+            \[
+            \mu = \bar x = \frac{1}{x} \sum x_i
+            \]
+            \item Order statistic, The observations sorted by value. $x_{(i)}$ is the $i$th ordered statistics.
+            \item Quartiles, Lower quartile is $x_{(\frac{n+1}{4})}$, upper quartile is $x_{(\frac{3(n+1)}{4})}$. Median is $x_{(\frac{n+1}{2})}$. Use linear interpolation if the index is fractional.
+        \end{flushenum}
+
+        \underline{Spread}
+        \begin{flushenum}
+            \item Range, Difference between largest and smallest value. Sensitive/Include to outliers
+            \item IQR, Middle 50\% of data:
+            \[
+            IQR = Q_3 - Q_1
+            \]
+            Used when dataset is skewed
+            \item Std Dev, Measures the consistency that observations are to the mean, the expected deviation of observation to mean. The sample standard deviation is
+            \[
+            \hat \sigma = s = \sqrt{\frac{1}{n-1} \times \sum (x_{i} - \bar x)^2}
+            \]
+            \item Outliers, Check if: a legit data value, entry mistake, or belonging in another population group. Quantitatively, outlier if observation is 1.5 IQR from $Q_1$ or $Q_3$.
+        \end{flushenum}
+
+        Chebyshev's inequality: for most distributions, at least 75\% of data points are within 2SD. Normal distributions with the 68-95-99.7 rule. Squaring std dev to get variance.
+
+        Use medians and IQR when dataset is skewed/non-normal.
+
+        \subsection{Several numerical}
+        Figures: scatterplots or dotplots on differences for paired data.
+
+        Correlation is the strength (magnitude) and direction (sign) of a linear relationship between two random variables:
+        \[
+        r = \frac{1}{n-1} \sum \frac{x-\bar x}{s_x} \frac{y - \bar y}{s_y}
+        \]
+
+        \underline{Correlation Attributes}
+        \begin{flushenum}
+            \item From $-1$ to $1$, with $-1$ and $1$ indicating perfect correlation
+            \item Positive indicating positive correlation
+            \item 0 implies no linear association
+            \item Affected by outliers and unitless
+        \end{flushenum}
+        Correlation $r$ must be used in conjunction with a scatterplot, for it can lie about the plot shape.
+
+        We can also compare means (or medians) between two groups, or the ratio between their variances (or IQRs).
+
+        The covariance is unstandardized correlation:
+        \[
+        \operatorname{Cov}(X,Y) = s_x s_y r = E[XY] - E[X]E[Y]
+        \]
+
+        \section{Randomness models}
+        Studying how sample statistics are generated by hypothetical parent populations.
+
+        \underline{Random Distributions}
+        \begin{description}
+            \item[Empirical distribution] Created by the samples we see, observed distribution
+            \item[Hypothetical distribution] Probability model that generates empirical distribution
+        \end{description}
+
+        Random process: an event where a single trial outcome is unpredictable.
+
+        Regression to the mean: averages of random processes becomes predictable over many trials.
+
+        Probability of an event is the relative frequency of its occurrence in an infinite sequence of trials. Denoted as $\operatorname{Pr}(E)$
+
+        In experimental data, randomness arise from: assigning subjects to treatments, sampling of subjects, measurement errors.
+
+        \subsection{Random variables}
+        A numeric variable with value determined by the outcome of a random process. Has an unknown value before the random process (population), and observed value after (sample). Observation is realization of the random variable.
+
+        %Capital letters are random variables, lowercase letters are observations, realizations, and samples.
+
+        A random variable is completely specified by its probability distribution: summarizing probabilities associated with all possible outcomes.
+
+        Discrete: has countably many possible outcomes. Values represent counts.
+
+        Discrete probability distribution defined by a probability mass function. The pmf cannot be negative, and the sum of probabilities across the event space is 1.
+
+        Continuous: Any value in an interval. Values represent measurements.
+
+        Continuous probability distribution defined by probability density function. The area under the pdf between two values is the probability of a sample to be within the interval. The pdf cannot be negative, and the area under the graph is 1.
+
+        The cumulative mass (density) function is
+        \[
+        F(x) = \operatorname{Pr}(X \leq x)
+        \]
+        and the interval probabilities are (disc. cont.)
+        \[
+        \operatorname{Pr}(a \leq X \leq b) = F(b) - F(a-1) = F(b) - F(a)
+        \]
+
+        \subsection{Distribution properties}
+
+        The mean (expected value) is
+        \[
+        E[X] = \sum x_i f(x_i) = \int x f(x) \, dx
+        \]
+        where
+        \begin{flushenum}
+            \item Does not have to be observable
+            \item Point of symmetry with symmetrical distribution
+            \item $E[aX + bY] = aE[X] + bE[Y]$
+        \end{flushenum}
+
+        The $p$th percentile of the distribution is the $x$ where $p$\% of population falls below this value:
+        \[
+        \operatorname{Pr}(X \leq x) = p
+        \]
+        The median is the 50th percentile.
+
+        The variance is
+        \[
+        \sigma^2 = \sum f(x)(x-\mu)^2 = \int f(x)(x-\mu)^2\, dx
+        \]
+        where
+        \begin{flushenum}
+            \item $\sigma^2 = E[x^2] - \mu^2$
+            \item The variance must be positive
+            \item $V[aX+b] = a^2 V[X]$
+            \item If $X$ and $Y$ are independent
+            \[
+            V[aX+bY] = a^2V[X] + b^2V[Y]
+            \]
+            Otherwise
+            \[
+            V[X+Y] = V[X] + V[Y] + 2 \operatorname{Cov}(X,Y)
+            \]
+        \end{flushenum}
+
+        The standardized random variable has a mean of $0$, and standard deviation of $1$.
+        \[
+        Z = \frac{X-\mu}{\sigma}
+        \]
+
+        \subsection{IIDRVS}
+        The sum of a series of independent, identically distributed random variables (IIDRVS) on $X$
+        \[
+        S_n = \sum X
+        \]
+        then
+        \[
+        E[S_n] = n E[X] \qquad V[S_n] = n V[X]
+        \]
+
+        The central limit theorem states that the sum of a large number of IIRDRVS is approximately normal
+        \[
+        S_n \sim N(n\mu, \sqrt{n} \sigma)
+        \]
+
+        The sampling distribution of sample means is
+        \[
+        \overline{X} = \frac{1}{n} S_n
+        \]
+        \[
+        E[\overline{X}] = E[X] \qquad V[\overline{X}] = \frac{1}{n} V[X]
+        \]
+
+        \subsection{Independent events}
+        Independent events are unrelated events. Events $A$ and $B$ are independent when
+        \[
+        \operatorname{Pr}(A \cap B) = \operatorname{Pr}(A) \operatorname{Pr}(B)
+        \]
+
+        Independent events implies that
+        \[
+        \operatorname{Pr}(A|B) = \frac{\operatorname{Pr}(A \cap B)}{\operatorname{Pr}(B)} = \operatorname{Pr}(A)
+        \]
+
+        Two events are positively associated if observing one event increases the probability of seeing another
+        \[
+        \operatorname{Pr}(A|B) > \operatorname{Pr}(A)
+        \]
+        and negatively associated when the probability decreases.
+
+        \section{Probability distributions}
+        Uniform distribution has equal probabilities.
+
+        A normal distribution is
+        \[
+        X \sim N(\mu, \sigma)
+        \]
+
+        \begin{flushenum}
+            \item Bell shaped, extends indefinitely towards both directions
+            \item Symmetrical around mean, median equal to mean and mode
+            \item Inflection point at $\pm \sigma$
+            \item Sum of independent normal variables is normal
+        \end{flushenum}
+
+        The standardized normal distribution denotes the number of std dev away from the mean:
+        \[
+        Z \sim N(0, 1)
+        \]
+        where for any $X \sim N(\mu, \sigma)$
+        \[
+        \operatorname{Pr}(X \leq x) = \operatorname{Pr}(Z \leq \frac{x - \mu}{\sigma})
+        \]
+
+        A Bernoulli trial is a random process where outcome is either success or failure. The parameter $p$ is the probability of success.
+
+        A binomial distribution is the sum of $n$ Bernoulli trials. It requires:
+        \begin{flushenum}
+            \item Fixed number of trials
+            \item Independent trials
+            \item Constant probability of trial's success
+        \end{flushenum}
+
+        \underline{Binomial properties}
+        \[
+        X \sim Bi(n, p)
+        \]
+        \[
+        \mu = np \qquad \sigma = \sqrt{np(1-p)}
+        \]
+
+        Adding independent binomials with same success prob ($X \sim Bi(n, p), Y \sim Bi(m, p)$)
+        \[
+            X+Y \sim Bi(n+m, p)
+        \]
+
+        Normal approximations for binomial distribution requires the expected successes and failures to equal or greater than 5.
+
+        Continuity corrections account for rounding in a continuous approximation of a discrete one. We take the values $X\pm 0.5$ instead, depending on the scenario.
+
+        \subsection{Normality Tests}
+        Qualitatively use the 68-95-99.7 rule.
+
+        \underline{Normal probability plots}: empirical cdf plot of the samples with a scaled y-axis. If the distribution is normal, the scaled cdf should be a straight line. If the distribution is right skewed, there is a hill on the left; if it is left skewed, there is a hill on the right. A probability plot is a QQ plot with its axis flipped.
+
+        \underline{QQ plot (normal scores plot)} plots the samples against the normal scores:
+        \begin{flushenum}
+            \item Compute the ordered statistics
+            \item Find the empirical cdf with the formula
+            \[
+            F(x_{(i)}) = \frac{i}{n+1}
+            \]
+            there will be a total of $n+1$ steps
+            \item Use the inverse z-table to find the z-value corresponding to the probabilities. These are the normal scores
+            \item Plot the points $(z_i, x_i)$ with the ordered statistics
+        \end{flushenum}
+
+        %\newpage
+
+        If the data is normally distributed, the QQ plot forms a line with equation
+        \[
+        x_i = \sigma z_i + \mu
+        \]
+
+        Quantitative normality checks are better because it is easier to check if points are close to a line.
+
+        \section{Statistical Modeling}
+        Data consists of signal, noise, and dirt.
+        \begin{description}
+            \item[Signals] are relationship explaining variables
+            \item[Noise] are random variations
+            \item[Dirt] are mistakes
+        \end{description}
+
+        Statistical models have the form
+        \[
+        y_i = f(x_i) + e_i \qquad e_i \sim N(0, \sigma=s_e)
+        \]
+        the signal part is deterministic and explained, the noise part is random and unexplained.
+
+        \underline{Stages of statistical modeling}
+        \begin{flushenum}
+            \item Formulate model
+            \item Estimate parameters
+            \item Check model assumptions
+            \item Estimate quantities of interest and inference
+        \end{flushenum}
+
+        \subsection{Modeling process}
+        Predicted values: $\hat y$ are values predicted from the deterministic equations. Observed values: $y$ are sampled statistics. Estimated error is the residual between the observed and predicted values: $\hat e = y - \hat y$
+
+
+        Error: the underlying model error. Residuals: error within a specific sample.
+
+        Residual standard deviation to estimate the population error standard deviation $s_{\hat e} \approx s_{e}$.
+        \[
+        s_r = s_{\hat e} = \sqrt{\frac{\sum (\hat e_i)^2}{n - \nu}}
+        \]
+        where $\nu$ is the number of estimated parameters in our deterministic equation.
+
+        Extrapolation is an act of faith. Interpolation is acceptable. Model performance is based on the residual standard deviation (smaller the better).
+
+        \underline{Model assumptions}
+        \begin{flushenum}
+            \item Normal (probability plot), random, and independent (study design) errors/residuals. Zero mean and constant std dev (residual vs fitted)
+            \item Suitable deterministic part. Same residual distribution throughout fitted values.
+        \end{flushenum}
+
+        Least squared model guarantees zero residual means.
+
+        \underline{Model Types}
+        \begin{flushenum}
+            \item Null model, use the sample mean. The residual standard deviation is the sample standard deviation:
+            \[
+            y_i = \bar x + e_i, e_i \sim N(0, \sigma)
+            \]
+            \item Numeric, use a polynomial fit
+            \[
+            y_i = \alpha + \beta x_i + \dots + e_i, e_i \sim N(0, \sigma)
+            \]
+            \item Categorical, Apply grouped fits, an index for each category fit
+            \[
+            y_{ij} = f_j(x_{ij}) + e_{ij}, e_ij \sim N(0, \sigma)
+            \]
+        \end{flushenum}
+
+        We wish to get estimates and predictions out of our models, and decide the simplest and most appropriate model.
+
+        \section{Sampling Distribution}
+        Models the distribution of inferred population parameters from all samples.
+
+        The sampling distribution of sample means $\overline{X}$ is an estimator for the population mean
+        \[
+        \overline{X} \sim N(\mu, \frac{\sigma}{\sqrt{n}})
+        \]
+        from CLT, $\overline X$ is normal when the sample size is large or $X$ is normal.
+
+        The law of large numbers: the sample mean is a better estimate to the population mean as the sample size increases. This is due to the decreasing sampling distribution std dev.
+
+        \underline{Sampling Terms}
+        \begin{flushenum}
+            \item Parameters are summary measures of the population (means)
+            \item Statistics are summary measures of the sample data (sample means)
+            \item Estimators are random variables containing all estimates of a parameter ($\overline X$)
+            \item Estimate a realization of an estimator ($\bar x$)
+        \end{flushenum}
+
+        Sampling variability: a parameter that measures the spread of the sampling distribution. Standard error: the estimated sampling variability using the sample std dev:
+        \[
+        \SE = \frac{s}{\sqrt{n}}
+        \]
+
+        $\hat P$ is the estimator for proportions, a random variable of all sample proportions of size $n$. Its distribution is approximately normal with normal approximation conditions
+        \[
+        \hat P \sim N(p, \sqrt{\frac{p(1-p)}{n}})
+        \]
+
+        \subsection{Probability Interval}
+        The interval with $p$\% probability that the sample mean will fall within. (Knowing pop mean)
+
+        Knowing population standard deviation, this is
+        \[
+        \mu \pm z \sigma_{\overline{X}}
+        \]
+
+        Not knowing population standard deviation, this is
+        \[
+        \mu \pm t_{n-1} \SE(\overline X)
+        \]
+
+        Proportions is identical after normal approximations, using a $Z$ distribution instead.
+
+        \subsection{Prediction Interval}
+        The interval where one realization from the population is likely to be observed.
+
+        Knowing population std dev, this is
+        \[
+        \bar x \pm z \sigma \sqrt{1+\frac{1}{n}}
+        \]
+        due to the sampling variance of the sample mean.
+
+        Not knowing the population std dev, we need
+        \[
+        \bar x \pm t_{n-1} s \sqrt{1+\frac{1}{n}}
+        \]
+
+        Proportions is identical after normal approximations, using a $Z$ distribution instead.
+
+        \section{Confidence Interval}
+        Inference is the use of sample data to infer population parameters.
+
+        Against a population parameter, a point estimate is the best guess using a point, an interval estimate is the best interval guess.
+
+        CI provides a range of plausible parameters
+        \[
+        \operatorname{CI} = \text{estimate} \pm \text{distribution} \times \text{variability}
+        \]
+        \begin{flushenum}
+            \item Distribution refers to the confidence level and distribution of sampling distribution
+            \item Variability is the sampling variability
+            \item Margin of error is the half-width of the CI. It's the furthest a plausible parameter can be from the sample mean.
+        \end{flushenum}
+
+        Increasing confidence level increases the CI range. Increasing sample size decreases the CI range.
+
+        CIs are realizations of random intervals with $p$\% chance of capturing the mean.
+
+        Knowing population std dev, it is
+        \[
+         \operatorname{CI} = \bar x \pm z \sigma_{\overline{X}}
+        \]
+
+        With unknown population std dev, it is
+        \[
+        \operatorname{CI} =  \bar x \pm t_{n-1} SE
+        \]
+
+        Same with proportions after normal approximations, with a z-distribution.
+
+        CI is exact when the sampling distribution is normal. Either way, if there are no strong pop skew, t-dist produce conservative estimates due to: CLT, law of large numbers. It fails with outliers or skewness when sample size is small.
+
+
+        \underline{T-distribution assumptions/rules}
+        \begin{itemize}
+            \item Exact when population is normal
+            \item When sample size less than 15, use t only when data is normal
+            \item When sample size is at least 15, use t unless outliers or major skewness
+            \item For larger sample size ($\geq40$), t is fine even for skewed populations
+        \end{itemize}
+
+        The t-distribution $t_{\nu}$ is symmetrical, zero mean, bell shaped, but more spread out than a normal distribution. As $\nu \to \infty$, the distribution approaches normal.
+
+        \underline{Confidence Interval assumptions}
+        \begin{itemize}
+            \item Random and independent samples
+            \item Normal population when sample size is small
+        \end{itemize}
+
+        \subsection{Sample size}
+        To compute the sample size required to get a certain MOE, invert the algebra and solve for $n$ with known population std dev.
+
+        With known approximate population proportions, we do the same algebra on the conservative proportion (closest to $0.5$). Without any estimates, produce a conservative sample size by using $p=0.5$ and solve for $n$, to maximize the possible CI.
+
+        \section{Hypothesis Testing}
+        H-test tests the hypothesis that our sample population has parameters conforming to the null or alternative hypothesis.
+
+        \underline{H-test Terminologies}
+        \begin{flushenum}
+            \item Null hypothesis is the current best hyp
+            \item Alternative hyp is the hyp we are testing
+            \item One tail tests for one-sided inequalities; two tail tests for general inequalities
+            \item Test statistic is the standardized estimate under $H_0$
+            \item P-value is the level of extremeness observed under $H_0$
+            \item Critical value is the standardized significance level
+        \end{flushenum}
+
+        \underline{H-test Process}
+        \begin{enumerate}
+            \item State hypothesis in terms of the parameter, state the significance level $\alpha$
+            \item Assume null hypothesis, compute SE of sampling distribution
+            \item Compute test statistics, find p-value
+            \item Reject or retain $H_0$
+            \item State conclusion in terms of the problem
+        \end{enumerate}
+
+        The test statistic is
+        \[
+        z = \frac{\bar x - \mu}{\sigma_{\overline{X}}} \qquad t_\nu = \frac{\bar x - \mu}{SE}
+        \]
+        In one tail tests, the p-value is the probability of getting the sample mean or more extreme. In two tail tests, multiply the one-tail prob by 2.
+
+        If the p-value is less than $\alpha$, or if the test-statistic is more extreme than our critical value (one-tail), we reject $H_0$. Otherwise, retain $H_0$.
+
+        \underline{H-test decisions}
+        \begin{flushenum}
+            \item True positive, correctly rejecting $H_0$, its probability is the statistical power
+            \item True negative, correctly retaining $H_0$
+            \item False positive, Type I error, incorrectly rejecting $H_0$, with probability of $\alpha$
+            \item False negative, Type II error, incorrectly retaining $H_0$, with probability of $\beta$
+        \end{flushenum}
+
+        Trade-off between Type I and Type II errors. Changing $\alpha$ to decrease one will increase another. Increasing sample size reduces both errors.
+
+        Statistical significance is not actual importance, as it depends on $\alpha$ and true mean. Large p-value does not imply that $H_1$ must be false.
+
+        \underline{Statistical Power}
+
+        The probability to reject $H_0$ when $H_0$ is false.
+        % $Power = Pr(\text{Reject} \, H_{0} \,| H_{1} \, is \, true)$
+        % Factors affecting: 1. Sample size (post); 2. Std (neg); 3. Sample size (neg); 4. Significance level (post).
+        Factors increasing: Increasing sample size, $\alpha$, mean difference; Decreasing estimator std dev.
+
+        One-tailed tests have higher power than equivalent two-tailed tests.
+
+        Power curve graphs power against differences between population means. Bottom point is $\alpha$. Symmetric implies a 2-sided test.
+
+
+        \underline{H-test Assumptions}
+        \begin{flushenum}
+            \item Random and independent samples
+            \item Normal sampling distributions
+        \end{flushenum}
+
+        \underline{H-test report}
+        \begin{flushenum}
+            \item Study type, sample size
+            \item Significance, p-value, test stat and dist.
+            \item Rejection or retaining $H_0$
+            \item CI or point estimate of the true mean
+            \item Conclusion in context of the study
+        \end{flushenum}
+
+
+        For paired data, conduct the same inference on the sample differences. Often, $H_0$ is that the difference is zero.
+
+        For proportions, find $\SE$ from $H_0$ proportions and use $H_0$ proportions for normality assumptions.  We can also use the exact binomial distribution to do h-test, for the normal approximation doesn't account for continuity corrections. This error is worse in approximating true p-values with more extreme $p$ and smaller samples.
+
+        For skewed data, use a sign-test on the median. Convert the hypothesis on medians $m$ to a proportions hypothesis:
+        \begin{align*}
+            H_0: m = v &, H_1: m > v \\\to H_0: p = 0.5&, H_1: p>0.5
+        \end{align*}
+        where $p$ is the sample proportions greater than $v$, and conduct h-test on the proportions.
+
+        %\section{H-test on 2 populations}
+        \section{Comparative Inference}
+        For paired and dependent samples, conduct inference on the sample differences (to eliminate confounding variables).
+
+        For two independent populations, assume
+        \begin{flushenum}
+            \item Independent samples and populations (Study design), Similar sample sizes.
+            \item Normal sampling dist (Separate probability plots)
+            \item Equal/unequal variances
+        \end{flushenum}
+
+         %1. Independent observations and populations (Study design); 2. Normality of sample means (normal pops or large sample size) (Prob plots for both groups); 3. Unequal/ equal variances ($0.5 < (\frac{s_1}{s_2})^2 < 2$).
+
+        \underline{Equal variances}
+
+        Assumption is  $0.5 < (\frac{s_1}{s_2})^2 < 2$.
+        %0.5 less $(\frac{s_{1}}{s_{2}})^2$ less 2
+
+        Inference uses the pooled SD (from $s_r$ in modeling)
+        \begin{align*}
+        s_p &= \sqrt{\frac{s_{1}^2 (n_{1} - 1) + s_{2}^2 (n_{2} - 1)} {n_{1} + n_{2} - 2}}\\
+        \SE(\bar X_{1} - \bar X_{2}) &= s_p \sqrt{\frac{1}{n_{1}} + \frac{1}{n_{2}}}
+        \end{align*}
+        The distribution is $t_{n_1 + n_2 - 2}$ for both CI and h-test test statistics.
+
+        \underline{Unequal variances/Known population std dev}
+        \[
+        \SE(\bar X_{1} - \bar X_{2}) = \sqrt{\frac{s_{1}^2}{n_{1}} + \frac{s_{2}^2}{n_{2}}}
+        \]
+        The distribution is $t_{\min(n_1 -1 , n_2 -1)}$ or $z$ for both CI and h-test. The $t_\nu$ distribution is a conservative approximation.
+
+        Use combined sample sizes in normal approximation assumptions identical to 1-sample t.
+
+        \underline{Two proportions, Assumptions}
+        \begin{flushenum}
+            \item Independent, random samples
+            \item Binomial distributions, normal approximations (large samples)
+        \end{flushenum}
+        The distribution and test-statistic is $Z$.
+
+        For confidence intervals,
+        \[
+        \SE(\hat{P_{1}} - \hat{P_{2}}) = \sqrt{\frac{\hat{p}_1 (1 - \hat{p}_{1})}{n_{1}} + \frac{\hat{p}_{2} (1 - \hat{p}_{2})}{n_{2}}}
+        \]
+        For H-Test, where $H_0: p_1 = p_2 = p_0$
+        \begin{align*}
+            \hat{p}_{0} &= \frac{p_{1} n_{1} + p_{2} n_{2}}{n_{1} + n_{2}}\\
+            \SE(\hat{P_{1}} - \hat{P_{2}}) &= \sqrt{\hat{p_{0}} (1 - \hat{p_{0}}) (\frac{1}{n_{1}} + \frac{1}{n_{2}})}
+        \end{align*}
+
+        %Use pooling to find $p_{0}$ = $\frac{p_{1} n_{1} + p_{2} n_{2}}{n_{1} + n_{2}}$
+
+        %Then, $SE = \sqrt{p_{0} (1 - p_{0}) (\frac{1}{n_{1}} + \frac{1}{n_{2}})}$
+
+        \section{ANOVA}
+        \underline{One-way ANOVA}\\
+        The comparison between single mean model and separate means model.
+
+        \underline{Assumptions}
+        \begin{flushenum}
+            \item Normality of separate residuals (prob plot)
+            \item Independent samples within and between groups (study design)
+            \item Constant residual variances (res vs fitted)
+        \end{flushenum}
+
+        Constant residual requires $0.5 < \frac{\max s}{\min s} < 2$.
+
+        Explained variability is between group variability. Unexplained variability is within group variability.
+        \[
+        H_0: \mu_1 = \mu_2 = \dots, H_1: \text{At least 1 $\mu$ different}
+        \]
+
+        %For H-test, $H_{0}: \mu_{1} = \mu_{2} = ... = \mu_{n}$ and $H_{1}$: At least 1 $\mu$ different ($H_{0}$ is the Total row on table, rest is $H_{1}$). j: different group, i: element in each group, n: number of observations, k: number of treatments/params
+
+        %All columns must add up.
+        Total row is $H_0$, Error row is $H_1$.
+
+        $j$ are group indexes, $i$ are element indexes. $n$ is total samples, $k$ is number of groups.
+        %\begin{center}
+        \begin{tabular}{|c|c|l|}
+            \hline
+            Source & DF & Sum of Squared\\
+            \hline
+            Group & $k - 1$ &  $SS_g = \sum n_{j} (\bar y_{j} - \bar{\bar{y}})^2$ \\
+            Error & $n - k$ & $SS_e = \sum (y_{ij} - \bar y_{j})^2 $  \\
+            Total & $n - 1$ & $ SS_g + SS_e = \sum (y_{ij} - \bar{\bar{y}})^2 $ \\
+            \hline
+        \end{tabular}
+        %\end{center}
+        $MS = SS/df$, $f = \frac{MS_g}{MS_e}$, $R^2 = \frac{SS_g}{SS_t}$
+
+        Model residual std dev are $s_r = \sqrt{MS}$. Error row for separate means, total for single mean.
+
+        Test-statistic dist is $f \sim F_{k-1,n-k}$. $f = t_\nu^2$ from an equal-variance 2-sample t test-stat.
+
+        \underline{Fisher Intervals}\\
+        The pooled std dev is $s_p = \sqrt{MS_e}$. Use the Error degrees of freedom.
+
+
+
+        %\underline{Fisher's CI}: 2 CI are used: 1 for pairwise comparison, 1 for the population parameter (of each group). The $df_{error}$ is always the df of $MS_{error}$
+        %For population parameter (of each group):
+        %\[
+        %    s_{pooled} = MS_{Error}
+        %\]
+        The separate group population mean CI is
+        \[
+        CI(\overline{X}_{j}) = \bar{x}_j \pm t_{df_e}\frac{s_p}{\sqrt{n_{j}}}
+        \]
+        The group pairwise mean CI is
+        \[
+        CI(\overline{X}_{j} - \overline{X}_{k}) = \bar x_{j} - \bar x_{k} \pm t_{df_e} s_p \sqrt{1/n_{j} + 1/n_{k}}
+        \]
+
+        \underline{Fisher Individual Test}\\
+        %$s_{pooled}$ is given as above.
+        Fisher intervals sets the individual confidence level, the CL for each pairwise CI. Higher Type I errors. Lower SCL.
+
+        Tukey intervals sets the simultaneous confidence level, the CL for all simultaneous pairwise CI. Higher Type II errors. Higher individual CI.
+
+        \underline{Tukey intervals have the benefits of}
+        % Differences compared to Fisher (Higher CL = Lower Type-1 error rate):
+        \begin{flushenum}
+            \item Guaranteed SCL, accounting all pairs and invariant to group numbers
+            \item More conservative intervals
+            \item More appropriate with $>2$ populations
+            \item Consistent with one-way ANOVA
+        \end{flushenum}
+
+        Tukey same as Fisher with two groups.
+
+        \underline{LSD Test}\\
+        If the pairwise CI doesn't contain $0$, the groups are significantly different.
+
+        % \[
+        %     SE(estimator) =  s_{pooled} \sqrt{\frac{1}{n_{j1}} + \frac{1}{n_{j2}}}
+        % \]
+        % \[
+        %     CI(\mu_{j1} - \mu_{j2}) = (\hat{\mu}_{j1} - \hat{\mu}_{j2}) \pm t_{df_{error}} \times SE(estimator)
+        % \]
+        For balanced groups, the least significant different is $t_\nu SE$. Two means are significantly different if their sample means differ by more than LSD.
+        %For treatment with same samples size (balanced), let the Least Significant Difference be the pairwise $t_{df} SE$. Two means are significantly different if they differ by more than $LSD$.
+        % If the difference in means $>=$ LSD, significant.
+
+        \underline{Summary diagram}\\
+        Sort the group means ascending, draw underlines connecting none significantly different groups.
+
+        % \underline{Tukey's Interval}: CI for each groups, so that the simultaneous CL $95\%$ is chosen.
+
+        \section{Linear Regression}
+        Models a linear relationship between two continuous numeric variables. A type of ANOVA.
+
+        Simple linear regression tests the model
+        \[
+        y_i = \alpha + \beta x_i + e_i \qquad e_i \sim N(0, \sigma)
+        \]
+
+        \underline{Assumptions}
+        \begin{flushenum}
+            \item Normal, equal variant residuals around line (res vs fit)
+            \item Independent residuals (study design)
+            \item Linear relationship (scatterplot)
+        \end{flushenum}
+
+        The regression line is
+        \begin{align*}
+            E(\hat Y | x) &= \hat \alpha + \hat \beta x\\
+            \hat \beta &= r \frac{s_y}{s_x}\\
+            \hat \alpha &= \bar y - \hat\beta \bar x
+        \end{align*}
+
+        Line always crosses $(\bar x, \bar y)$. $SS_e$ is minimized.
+
+        ANOVA table has $df_g = 1$ and $df_e = n-2$. The model residual $s_r = \sqrt{MS_e}$ is the error spread around the line. $R^2 = r^2$.
+
+        \underline{Parameter/Response Inference}\\
+        Both $\alpha, \beta \sim t_{n-2}$. Used for h-test and CI.
+
+        The null model is no linear relationship. Alternative is that $H_0$ is false. F-ratio tests for significant linear trends.
+        \[
+            H_0: \beta = \rho = 0, H_1: H_0 \,\text{false}
+        \]
+
+        The CI and PI on responses are ($s_r \gg \SE(f)$)
+        \begin{align*}
+            \SE(fit) &= \sqrt{\frac{s_r^2}{n} + (x-\bar x)^2 \SE(\hat \beta)^2}\\
+            CI &= \hat \alpha + x \hat \beta + t_{n-2} \SE(fit)\\
+            PI &= \hat \alpha + x \hat \beta + t_{n-2} \sqrt{s_r^2 + \SE(fit)^2}
+        \end{align*}
+
+        \underline{Correctness}\\
+        The lower the $s_r$ the better, the higher the $R^2$ the better the model.
+
+        Outliers have high standardized residuals when their $y$ is far from line, they have leverage when their $x$ is away from $\bar x$.
+        They influence both model correctness and regression coefficients. Report both the analysis with and without the outliers.
+
+        Equal variant 2-sample 2-tail t, ANOVA, and regression produce identical: $s_r$, p-value and conclusion, error df, group mean CI and PI.
+
+        \section{$\chi^2$ Test}
+        The $\chi^2$ test tests for association between two categorical variables.
+
+        $H_0$ is that the two variables are independent. $H_1$ is that $H_0$ is false
+
+        Assuming $H_0$, the expected probability of each cell is the product of its row and column proportions:
+        \[
+        X_{ij} \sim B(n, p), p = \frac{cr}{n^2}, E[X_{ij}] = np = \frac{cr}{n}
+        \]
+
+        The test statistic is
+        \[
+        U = \sum \frac{(x_{ij} - E[x_{ij}])^2}{E[x_{ij}]} \quad U \sim \chi^2_{(r-1)(c-1)}
+        \]
+
+        The summation fraction is each cell's contribution to chi-squared. The expected counts should add to the row and column counts, with identical proportions.
+
+        \underline{Associations}\\
+        Cells or lines of cells with large contributions have large differences between expected and observed counts. The direction of difference can identify trends and associations. Ignore $\leq 1$ differences.
+
+        %Include cell association in H-test conclusions.
+        The chi-squared test produces a normally approximated chi-squared test-statistic.
+
+        2-sample 2-tail proportion h-test produces same results as 2x2 chi-squared tests. Same p-value, for sample statistics, $z^2 = U$.
+
+        \underline{Assumptions}
+        \begin{flushenum}
+            \item Expected counts all $\geq 1$
+            \item At least 80\% of cells expected counts $\geq 5$
+            \item Independent samples within cells
+        \end{flushenum}
+        If assumption fails, merge similar rows or columns til it succeeds.
+        %Assumptions include: all expected frequencies $>$ 1; at least 80\% of cells has $\geq 5$ expected frequencies. If the assumptions fail, merge two similar columns or rows such that it holds again.
+
+
+
+        \underline{Goodness of Fit}\\
+        Tests if observed data fit expected proportions.
+
+        $H_0$ is all expected proportion. $H_{1}$ is that $H_0$ is false.
+
+        The test-statistic $U$ is computed with the squared residuals against expected proportion counts. The distribution is $\chi^2_{n-1}$.
+
+        Association is deduced by the direction of cell differences.
+
+        %Find $U^2$ as above, then P-value with $df_{e} = \text{num. groups} - 1$. Compared P-value with $\alpha$ for sig. association and the directional difference between observed and predicted for association direction. Include CONTEXT in conclusion.
+
+
+    \end{multicols*}
+\end{document}

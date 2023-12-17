@@ -1,0 +1,186 @@
+\documentclass{article}
+
+\usepackage{parskip}
+\usepackage{geometry}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subfig}
+
+
+
+\begin{document}
+
+\section*{Question 1}
+
+\paragraph{(a)} Non-action video games provides a better control than doing nothing in comparison with playing action video games. For the experiment focuses on the vision effects of playing different types of video games, this control helps to eliminate the confounding variable between playing video games in general and eye-sight improvements, improving validity and reducing biases.
+
+\paragraph{(b)}
+Figure
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{ass2/action}
+    \label{fig:action}
+\end{figure}
+
+\paragraph{(c)}
+% THIS IS 99 words
+\begin{itemize}
+    \item Both samples are relatively normal without skewness, no visible outliers.
+    \item The AVG subject group has a higher mean contrast sensitivity (of $1.62$) compared to the control group who played NAVG (of $1.38$), suggesting that playing AVG likely results in higher contrast sensitivity than playing NAVG
+    \item The AVG subject group has a higher standard deviation in contrast sensitivity (of $0.24$) compared to the NAVG group (of $0.16$), suggesting that the effects of AVG is more variant than NAVG
+    \item The small sample size reduces the strength of this conclusion and any apparent relationships
+\end{itemize}
+
+\paragraph{(d)}
+Group 1 played action typed video games; Group 2 played non action typed video games.
+
+\[
+    \bar x_1 = 1.62 \qquad s_1 = 0.2425 \qquad \bar x_2 = 1.3782 \qquad s_2 = 0.1603
+\]
+\[
+    n_1 = n_2 = 11
+\]
+
+Because the variances are not close enough:
+\[
+    \left(\frac{0.2425}{0.1603}\right)^2 = 2.2885 > 2
+\]
+Using non-pooled variances:
+\begin{align*}
+    SE &= \sqrt{ \frac{0.2425^2}{11} + \frac{0.1603^2}{11} }\\
+    &= 0.0876\\
+    t_{\min(11-1, 11-1)}(0.975) &= 2.228139\\
+    CI(\overline{X}_1 - \overline{X}_2) &= (1.62 - 1.3782) \pm 2.228139 \times 0.0876\\
+    &\approx (0.0465, 0.4371)
+\end{align*}
+%\begin{align*}
+%    s_p &= \sqrt{\frac{(11-1)(0.2425)^2+(11-1)(0.1603)^2}{11+11-2} }\\
+%    &= 0.205551\\
+%    SE &= s_p \sqrt{\frac{1}{11} + \frac{1}{11}}\\
+%    &= 0.0876\\
+%    t_{11+11-2}(0.975) &= 2.0860\\
+%    CI(\overline{X}_1 - \overline{X}_2) &= (1.62 - 1.3782) \pm 2.0860 \times 0.0876\\
+%    &\approx (0.059, 0.425)
+%\end{align*}
+
+\newpage
+\paragraph{(e)}
+Assumptions are
+\begin{itemize}
+    %\item That the sample sizes between two groups are relatively close. This is equal at $n=11$ in this case
+    \item The sample is random and independently sampled within each video-game group, and the samples are independent between the two groups of action and non-action typed video-games. The study described that samples are randomly chosen and assigned to each group, suggesting that this is the case.
+    \item The population variance in contrast sensitivity is not equal for both the action and non-action typed group. This is supported by
+    \[
+        \left(\frac{0.2425}{0.1603}\right)^2 = 2.2885 > 2
+    \]
+    \item Both population contrast sensitivities are normally distributed. This is supported by the following probability plots with the data points situated between the outer error boundaries
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.85\linewidth]{ass2/screenshot001}
+        \label{fig:screenshot001}
+    \end{figure}
+\end{itemize}
+
+
+\paragraph{(f)}
+The hypothesis test would be significant, for the null hypothesis mean of 0 is not within our 95\% confidence interval $(0.0465, 0.4371)$, so a zero difference from $H_0$ is not a plausible population parameter. Hence we will reject $H_0$, and our test statistic would be significant at the equivalent two tail $0.05$ significance level.
+
+\paragraph{(g)}
+The study does provide evidence for a casual relationship between type of video games played with contrast sensitivity among healthy young adults:
+\begin{itemize}
+    \item The study is a designed study, with proper comparison groups, randomizations in sampling, and correct blocking of age and health (both potential confounding variables)
+    \item There is statistical significance (p value $< 0.05$) that the young adults who played action type video games averaged higher contrast sensitivity than the equivalent non action type group, with a 95\% confidence that the action-typed games players to have a higher $(0.0465, 0.4371)$ degrees of contrast sensitivity than non-action-typed games players, on average
+\end{itemize}
+
+\newpage
+\section*{Question 2}
+
+\paragraph{(a)}
+Assuming normal approximation of the population distribution, for $np = 613 > 5$ and $n(1-p) = 125 > 5$:
+\begin{align*}
+    \hat p &= 613/738\\
+    &= 0.8306\\
+    SE &= \sqrt{\frac{(0.8306)(1-0.8306)}{738}}\\
+    &= 0.013807\\
+    z_{0.975} &= 1.96\\
+    CI(\hat P) &= 0.8306 \pm 1.96 \times 0.013807\\
+    &\approx (0.804, 0.858)
+\end{align*}
+
+Exactly, it is
+\[
+    CI(\hat P) = (0.802, 0.857)
+\]
+from minitab.
+
+\paragraph{(b)}
+No, it would not be reasonable. The statement that most Indigenous Australians do not support the voice corresponds to a population parameter $p<0.5$. But given the sample data and a confidence level of 95\%, none of that range is within the confidence interval which is completely above $0.5$. Any population proportions less than $0.5$ is not a plausible proportion. It seems like a majority of Indigenous Australians support the voice, with the proportion likely to be in the range of $(0.802, 0.857)$.
+
+\paragraph{(c)}
+Telephone polls on registered adult phone numbers not associated with Indigenous Australian adults, with the sample size split into all states and age groups weighted by population within the states and age groups.
+
+\paragraph{(d)}
+The null hypothesis is that there is a 50/50 split in the support of an Indigenous voice in the Victorian Non-indigenous population. The alternative hypothesis is that there is a majority, higher than 50/50, of support for such a voice. For the parameter $p$ being the proportions of support in the voting population,
+\[
+    H_0: p = 0.5 \qquad H_1: p > 0.5
+\]
+using a significance level of $\alpha = 0.05$.
+
+Assuming a normal approximation for the proportions estimator, for $np = 29.5 > 5$ and $n(1-p) = 29.5 > 5$. The sd of estimator is
+\begin{align*}
+    sd(\text{estimator}) &= \sqrt{ \frac{(0.5)(1-0.5)}{59} }\\
+    &= 0.0651\\
+\end{align*}
+
+The test statistic, with approximate distribution under $H_0$ is
+\begin{align*}
+    \hat p &= \frac{39}{59}\\
+    &= 0.661\\
+    z &= \frac{0.661-0.5}{0.0651}\\
+    &= 2.473\\
+    Z &\sim N(0, 1)
+\end{align*}
+
+And the p-value under a one-sided test is
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{ass2/pvalue}
+    \label{fig:pvalue}
+\end{figure}
+\begin{align*}
+    \text{p-value} &= 1-0.993301\\
+    &= 0.0067
+\end{align*}
+
+We reject the null hypothesis for the p-value is less than the significance level.
+
+With the given 59 samples of decided non-indigenous Victorian voters, we conclude that there exists statistical significance (p-value $= 0.0067$, $z = 2.473$, $\alpha = 0.05$) that a larger than majority of the non-Indigenous Victorian population supports an Indigenous voice in the Australian parliament. The point estimate of the supportive proportions is about $66.1\%$.
+
+\paragraph{(e)}
+Under the belief of a close to $50\%$ proportion, with $p=0.5$, we require at least 1027 samples.
+\begin{align*}
+    MOE &\leq z_{0.9} \sqrt{ \frac{(0.5)(0.5)}{n} }\\
+    n &\geq \frac{(0.5)(0.5)}{\left(\frac{0.02}{1.28155}\right)^2}\\
+    &\geq 1026.48\\
+    &\geq 1027
+\end{align*}
+
+\newpage
+\section*{Question 3}
+\paragraph{(a)}
+A matched pair design increase validity and precision, reduces biases of the study; due to the blocking of similar study units, most confounding variables within the pair will be eliminated, such as: age, gender, region, and education. It also reduces the noise caused by the confounding variables. This lets the adolescent's migration background to be the only explanatory variable for ones' wellbeing when compared within the block.
+
+\paragraph{(b)}
+Define the paired mean population difference of mental wellbeing scores between similar adolescent migrants and non-migrants to be $\mu_d$. The null hypothesis is that this difference is zero, in that the mental wellbeing of migrant adolescents is equal to that of non-migrant adolescents. The alternative hypothesis is that this difference is non-zero, where there is a difference between the migrant and non-migrant adolescents' mental wellbeing.
+\[
+    H_0: \mu_d = 0 \qquad H_1: \mu_d \neq 0
+\]
+
+\paragraph{(c)}
+The degrees of freedom should be the number of matched pairs minus one, or
+\[
+    \nu = 479 - 1 = 478
+\]
+
+\end{document}

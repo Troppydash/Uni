@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--katex cdn-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css"
+          integrity="sha384-MlJdn/WNKDGXveldHDdyRP1R4CTHr3FeuDNfhsLPYrq2t0UBkUdK2jyTnXPEK1NQ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.js"
+            integrity="sha384-VQ8d8WVFw0yHhCk5E8I86oOhv48xLpnDZx5T9GogA/Y84DcCKWXDmSDfn13bzFZY"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js" integrity="sha384-RTN08a0AXIioPBcVosEqPUfKK+rPp+h1x/izR7xMkdMyuwkcZCWdxO+RSwIFtJXN"  crossorigin="anonymous"></script>
+
+    <!--kalam fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <!-- custom cdn & polyfill global-->
+    {{head}}
+
+
+    <!--custom styles-->
+    <style>
+
+        :root {
+            --wb-blue: #0055ff;
+            --wb-red: red;
+            --wb-black: black;
+            --wb-white: white;
+            --wb-green: green;
+        }
+
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            margin-bottom: 50vh;
+        }
+
+        body {
+            margin: 0.5rem;
+            overflow-x: auto;
+            overflow-y: auto;
+
+            width: calc(100vw - 2rem);
+
+            background-color: var(--wb-white);
+            color: var(--wb-black);
+
+            font-family: Helvetica, 'Kalam', cursive;
+            line-height: 1.5;
+        }
+
+        #root {
+            display: flex;
+            flex-wrap: nowrap;
+            flex-direction: column;
+
+            max-width: 200%;
+            width: max-content;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+
+        #root > * {
+            margin: 0 0.5rem;
+        }
+
+        h1 {
+            width: 100%;
+            /*text-decoration: underline red;*/
+            color: var(--wb-blue);
+            font-size: 2.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .H1-section {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .H2-section {
+            /*min-width: 500px;*/
+            padding: 0 2rem 0 0;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: stretch;
+        }
+
+        .H2-section p,
+        .H2-section ol,
+        .H2-section ul {
+            width: min-content;
+            min-width: 500px;
+        }
+
+        .H2 {
+            font-size: 1.5rem;
+            color: var(--wb-green);
+            margin: 0;
+        }
+
+        .H2-section h3 {
+            font-size: 1.25rem;
+            color: var(--wb-red);
+            margin: 0.5rem 0;
+        }
+
+        .H2-section h4 {
+            margin: 0.5rem 0;
+            text-decoration: underline black;
+        }
+
+        .H2-section p {
+            margin: 0.5rem 0;
+        }
+
+        .H2-section table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .H2-section table thead tr {
+            border-bottom: 1px solid black;
+        }
+
+        .H2-section table thead th + th {
+            border-left: 1px solid black;
+        }
+
+        .H2-section table tbody td + td {
+            border-left: 1px solid black;
+        }
+
+        .H2-section table tbody td {
+            vertical-align: top;
+        }
+
+        .H2-section table td, .section table th {
+            padding: 0.25rem 0.5rem;
+        }
+
+        .katex-display {
+            margin: 0.75rem 0;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 1rem 0;
+        }
+
+        ul {
+            margin-top: 0;
+        }
+
+        @media only screen and (max-width: 1024px) {
+            html, body {
+                margin: 0 0.25rem 1.25rem;
+                width: calc(100vw - 3rem);
+            }
+
+            body {
+                overflow-x: hidden;
+                max-width: 100%;
+            }
+
+            #root {
+                margin: 0;
+                max-width: 100%;
+            }
+
+            #root > * {
+                margin: 0 0.25rem;
+            }
+
+            .H1-section {
+                margin-right: 0;
+                width: 100% !important;
+            }
+
+            .H2-section {
+                width: 100%;
+                padding: 0;
+            }
+        }
+    </style>
+    <style>
+        /* Dynamic Graphs */
+        .dynamic-graph {
+            font-family: Roboto, "sans-serif";
+        }
+
+        .dynamic-graph canvas {
+            border: 0.1rem solid black;
+        }
+
+        .dynamic-graph div.rangeContainer label {
+            display: inline-block;
+            margin-right: 1rem;
+        }
+
+        .dynamic-graph div.rangeContainer,
+        .dynamic-graph div.variablesContainer {
+            margin-top: 0.5rem;
+        }
+
+        .dynamic-graph div.variablesContainer > div {
+            margin: 1rem 0;
+        }
+
+        .dynamic-graph div.variablesContainer > div > div {
+            display: flex;
+            align-items: center;
+        }
+
+        .dynamic-graph div.variablesContainer label {
+            font-size: 1.25rem;
+            font-weight: bold;
+            min-width: 200px;
+            display: block;
+        }
+
+        .dynamic-graph div.variablesContainer label:before {
+            content: 'Variable: ';
+        }
+
+        .dynamic-graph div.variablesContainer span {
+            display: inline-block;
+            margin-left: 1rem;
+        }
+    </style>
+    <style>
+        /*span.mord > span.mord.mathnormal {*/
+        /*    opacity: 0;*/
+        /*}*/
+    </style>
+</head>
+<body>
+<div id="root">
+    {{body}}
+</div>
+
+<script>
+    const inlines = document.querySelectorAll('span.katex-code-inline');
+    for (let i = 0; i < inlines.length; i++) {
+        katex.render(inlines[i].textContent, inlines[i], {
+            displayMode: false,
+            output: 'html',
+            throwOnError: false
+        });
+    }
+
+    const displays = document.querySelectorAll('span.katex-code-disp');
+    for (let i = 0; i < displays.length; i++) {
+        katex.render(displays[i].textContent, displays[i], {
+            displayMode: true,
+            output: 'html',
+            throwOnError: false
+        });
+    }
+</script>
+<script>
+    {{scripts}}
+</script>
+</body>
+</html>

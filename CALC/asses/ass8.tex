@@ -1,0 +1,424 @@
+\documentclass[11pt]{article}
+
+\usepackage{geometry}
+\usepackage{parskip}
+\usepackage{mathtools}
+\usepackage{fancyhdr}
+
+\DeclareMathOperator{\arsinh}{arsinh}
+\DeclareMathOperator{\arcosh}{arcosh}
+
+\newcommand{\eq}[1]{\begin{align*}#1\end{align*}}
+
+\usepackage{titlesec}
+\usepackage{float}
+
+
+\newcommand{\secmark}{}
+\newenvironment{advanced}
+{\renewcommand{\secmark}{*}}
+{}
+
+\titleformat{\section}
+{\large\bfseries} % Format of the title
+{\thesection\secmark} % Label
+{1em} % Separation between label and title body
+% (default = horizontal space, display = vertical space)
+{} % Code preceding the title
+\usepackage{graphicx}
+
+
+
+
+\begin{document}
+
+\pagestyle{fancy}
+
+\fancyhead[LO, LE]{Tianrui Qi / 1473217}
+\fancyhead[RO, RE]{Page \thepage}
+\fancyfoot{}
+
+\newpage
+
+
+\section{Wronskian}
+Consider the contrapositive: if the quotient is a constant function on the interval, then for all $x_1 \in (a,b)$, the Wronskian is zero.
+
+Consider the function
+\[
+f(x) = \varphi_2(x) / \varphi_1(x)
+\]
+As $\varphi_1$ is not always zero on the domain, there exists a subset interval $I \subset (a,b)$ where $\varphi_1 \neq 0$. Hence on this sub-domain, the derivative of the function is found by the quotient rule for the differential equation solutions (the numerator and denominator)  are always twice differentiable, continuous, and the denominator being non-zero:
+\begin{align*}
+    f'(x) &= \frac{\varphi_2'(x) \varphi_1(x) - \varphi_2(x) \varphi_1'(x)}{\varphi_1(x)^2}\\
+    &= \frac{W(\varphi_1, \varphi_2)(x)}{\varphi_1(x)^2}
+\end{align*}
+
+If the quotient $f(x) = c$ is a constant $c$ within $x \in I$, then its derivative is always zero, implying that the numerator is also zero
+\[
+    \forall x \in I, f(x) = c \implies f'(x) = 0 \implies W(\varphi_1, \varphi_2)(x) = 0
+\]
+
+By the properties of the Wronskian function on solutions of second order differential equations, the function being zero at one $x \in I$ implies that it is always zero, particularly on the domain $(a,b)$.
+
+Hence by contrapositive, if there exists a point $x_1 \in (a,b), W(x_1) \neq 0$, then the quotient $f(x)$ must not be a constant in the open interval.
+
+\newpage
+\section{Inhomogeneous second order equation}
+
+To find a specific solution, guess
+\[
+    f(x) = u(x) e^{-2x}
+\]
+for some function $u(x)$.
+
+Then
+\begin{align*}
+   f'(x) &= u' e^{-2x} - 2 u e^{-2x}\\
+   f''(x) &= u''e^{-2x} - 2 u' e^{-2x} - 2 u' e^{-2x} + 4ue^{-2x}
+\end{align*}
+
+So if $f(x)$ were to be a solution for the differential equation
+\begin{align*}
+    f'' - f' - 2f &= e^{-2x} ((u'' - 2u' - 2u' + 4u) - (u' - 2u) - (2u))\\
+    &= e^{-2x} (u''- 5u' + 4u)\\
+    &= e^{-2x} x^2
+\end{align*}
+
+Hence $u$ must solve
+\[
+    u'' - 5u' + 4u = x^2
+\]
+
+Consider the guess $u(x) = ax^2 + bx + c$, then
+\begin{align*}
+    u'(x) &= 2ax + b\\
+    u''(x) &= 2a
+\end{align*}
+with
+\begin{align*}
+    u'' - 5u' + 4u &= (2a) - (10ax + 5b) + (4ax^2 + 4bx + 4c)\\
+    &= 4ax^2 + (4b-10a)x + (2a-5b+4c)\\
+    &= x^2
+\end{align*}
+therefore, matching the powers
+\begin{align*}
+    4a &= 1\\
+    a &= 1/4\\
+    4b-10a &= 0\\
+    4b &= 10/4\\
+    b &= 10/16\\
+    2a-5b+4c &= 0\\
+    1/2-50/16+4c &= 0\\
+    4c &= 42/16\\
+    c &= 42/64
+\end{align*}
+
+Thus we have a specific solution
+\begin{align*}
+    u(x) &= \frac{1}{4} x^2 + \frac{10}{16} x + 42/64\\
+    f(x) &= \left({1\over 4} x^2 + \frac{10}{16}x + 42/64\right) e^{-2x}
+\end{align*}
+
+To find the homogeneous solution, we can solve the transformed equation through substituting
+\[
+    y = u(x) e^{x/2}
+\]
+with $u$ solving
+\begin{align*}
+    u'' + \frac{4b-a^2}{4} u &= 0\\
+    u'' - \frac{9}{4} u &= 0
+\end{align*}
+
+By the theorem of homogeneous differential equations, the class of solutions is
+\begin{align*}
+    u &= c_1 \cosh(\sqrt{9/4} x) + c_2 \sinh(\sqrt{9/4} x)\\
+    &= c_1 \cosh (\frac{3}{2} x) + c_2 \sinh(\frac{3}{2} x)
+\end{align*}
+with some constants $c_1$ and $c_2$. And thus for the homogeneous case
+\[
+    y = e^{x/2} \left( c_1 \cosh (\frac{3}{2} x) + c_2 \sinh(\frac{3}{2} x) \right)
+\]
+
+The general solution for the inhomogeneous case is the sum of the specific and homogeneous solution, for some constants $c_1$ and $c_2$
+\[
+    y = e^{x/2} \left( c_1 \cosh (\frac{3}{2} x) + c_2 \sinh(\frac{3}{2} x) \right) +  \left({1\over 4} x^2 + \frac{10}{16} x + \frac{42}{64}\right) e^{-2x}
+\]
+
+\newpage
+\section{Hyperbolic Functions}
+\paragraph{(i)}
+
+Substitute $x = \sinh u$, then $dx = \cosh u \, du$,
+\begin{align*}
+    \int \frac{1}{x \sqrt{1+x^2}} \, dx &= \int \frac{1}{\sinh u \sqrt{1+\sinh^2 u}} \cosh u \, du\\
+    &= \int \frac{\cosh u}{\sinh u \cosh u}\, du \qquad (\text{for} \,\,1+\sinh^2 x = \cosh^2 x)\\
+    &= \int \frac{1}{\sinh u} \, du\\
+    &= \int \frac{2}{e^u - e^{-u}} \, du \qquad (\text{from hyperbolic sin exp identity})\\
+    &= \int \frac{2e^u}{e^{2u}-1} \, du
+\end{align*}
+Let $k = e^{u}$, then $dk = e^{x} du$
+\begin{align*}
+    &= \int \frac{2}{k^2-1}\, dk\\
+    &= \int \frac{2}{(k-1)(k+1)}\, dk\\
+    &= \int \frac{1}{k-1} \, dk - \int \frac{1}{k+1}\, dk \qquad (\text{by partial fractions})\\
+    &= \ln |k-1| - \ln |k+1| + C
+\end{align*}
+
+By substitution, and the logarithm identities of the area hyperbolic functions
+\[
+    \arsinh x = \ln (x + \sqrt{x^2+1})
+\]
+the integral is
+\begin{align*}
+    \int \frac{1}{x \sqrt{1+x^2}} \, dx&= \ln |e^u - 1| - \ln |e^u + 1| + C\\
+    &= \ln |x + \sqrt{x^2+1}-1| - \ln|x + \sqrt{x^2+1}+1| + C
+\end{align*}
+
+\paragraph{(ii)}
+Substitute $x = \cosh u$, then $dx = \sinh u \, du$. This substitution holds only for $x\geq 1$ for the domain of $\cosh$.
+\begin{align*}
+    \int \frac{dx}{x^2\sqrt{x^2-1}} &=  \int \frac{\sinh u}{\cosh^2 u \sqrt{\cosh^2 u - 1}} \, du\\
+    &= \int \frac{1}{\cosh^2 u} \, du \qquad (\text{for} \,\, \cosh^2 u - 1 = \sinh^2 u)
+\end{align*}
+
+Notice that by the hyperbolic identity
+\begin{align*}
+    \tanh'x &= \frac{\sinh'x \cosh x - \sinh x \cosh'x}{\cosh^2 x}\\
+    &= \frac{\cosh^2 x - \sinh^2 x}{\cosh^2 x}\\
+    &= \frac{1}{\cosh^2 x}
+\end{align*}
+
+The integral must be
+\begin{align*}
+    \int \frac{dx}{x^2\sqrt{x^2-1}}&= \tanh u + C\\
+    &= \tanh (\arcosh x) + C\\
+    &= \frac{\sinh(\arcosh x)}{x} + C\\
+    &= \frac{\sqrt{x^2-1}}{x} +C\qquad (\text{for} \,\, \sinh x = \sqrt{\cosh^2 x - 1})
+\end{align*}
+for only when $x \geq 1$ due to the substitution.
+
+As the original integral is defined for all $x^2 \geq 1$ meaning that $x \geq 1 \lor x \leq -1$. Consider when $x \leq -1$, with the substitution of $x = -\cosh u$, $dx = -\sinh u \, du$:
+\begin{align*}
+    \int \frac{dx}{x^2\sqrt{x^2-1}} &=  \int \frac{-\sinh u}{\cosh^2 u \sqrt{\cosh^2 u - 1}} \, du\\
+    &= -\int \frac{1}{\cosh^2 u} \, du \qquad (\text{for} \,\, \cosh^2 u - 1 = \sinh^2 u)\\
+    &= -\tanh u + C\\
+    &= -\tanh(\arcosh (-x)) + C\\
+    &= -\frac{\sinh(\arcosh(-x))}{-x} + C\\
+    &= \frac{\sqrt{x^2-1}}{x} + C
+\end{align*}
+by the same theorems.
+
+This implies that for the respective domain, the integral is always
+\[
+    \int \frac{dx}{x^2\sqrt{x^2-1}} = \frac{\sqrt{x^2-1}}{x} + C
+\]
+
+\newpage
+\section{Complex Functions}
+
+Notice that
+\[
+    f(i) = \left(\frac{1}{i}\right)^2 = 1/-1 = -1
+\]
+
+Consider the limit
+\[
+    \lim_{z \to i} f(z)
+\]
+
+Let $\varepsilon > 0$, then
+\eq{
+    |f(z) - (-1)| &= |\frac{1}{z^2} + 1|\\
+    &= |\frac{z^2+1}{z^2}|\\
+    &= |\frac{(z+i)(z-i)}{z^2}|\\
+    &= |z-i| |\frac{z+i}{z^2}|  \qquad (\text{by the distributive modulus property})\\
+}
+
+Suppose we limit $|z-i| < 1/2$, then because by the triangle inequality, and that z cannot be zero for $|0-i| = 1 \not\leq 1/2$,
+\eq{
+    1 = |i+z-z| &\leq |-z+i| + |z| = |z-i| + |z|\\
+    |z| &\geq 1 - |z-i|\\
+    |z| &\geq 1/2\\
+    |z|^2 &\geq 1/4 \qquad (\text{for both sides are positive})\\
+    1/|z|^2 &\leq 4 \qquad (\text{for both sides are positive and $z$ is non-zero})
+}
+
+Therefore,
+\eq{
+    |\frac{z+i}{z^2}| &= |z+i| \frac{1}{|z|^2}\qquad  (\text{ because $|z^2| = |z|^2$}) \\
+    &\leq 4|z+i|\\
+    &\leq 4|z-i+2i|\\
+    &\leq 4(|z-i|+|2i|) \qquad (\text{by the triangle inequality})\\
+    &\leq 4(1/2 + 2)\\
+    &= 10
+}
+
+So
+\eq{
+    |f(z)-(-1)| \leq 10|z-i| < \varepsilon
+}
+Then let $\delta = \min(1/2, \varepsilon/10) > 0$, so that
+\[
+    \forall z, |z-i| < \delta \implies |f(z) - (-1)| < \varepsilon
+\]
+Therefore the limit is
+\[
+    \lim_{z\to i} f(z) = -1 = f(i)
+\]
+and thus $f(z)$ is continuous at $i$.
+
+\newpage
+\section{Initial Value Problem}
+Consider the function
+\[
+    g(x) = c_1 f_1(x) + c_2 f_2(x)
+\]
+and select $c_1$ and $c_2$ such that
+\eq{
+    g(x_0) &= c_1 f_1(x_0) + c_2 f_2(x_0) = 0\\
+    g'(x_0) &= c_1 f_1'(x_0) + c_2 f_2'(x_0) = y_1
+}
+
+This is possible because said system of equations both is linear
+\[
+    \begin{bmatrix}
+        f_1(x_0) & f_2(x_0)\\
+        f_1'(x_0) & f_2'(x_0)
+    \end{bmatrix}
+    \begin{bmatrix}
+        c_1\\
+        c_2
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        0\\
+        y_1
+    \end{bmatrix}
+\]
+and that the matrix is invertible, as it has a non-zero determinant for the Wronkian between fundamental solutions is always non-zero
+\[
+    \det  \begin{bmatrix}
+        f_1(x_0) & f_2(x_0)\\
+        f_1'(x_0) & f_2'(x_0)
+    \end{bmatrix} = W(f_1, f_2)(x_0) \neq 0
+\]
+
+Therefore $g(x)$ will be a solution to the IVP. By the uniqueness of IVP of second order homogeneous equations, any potential solution $\varphi(x)$ of the IVP must equal $g(x)$, with it being a linear combination as well
+\[
+    \varphi(x) = g(x) = c_1 f_1(x) + c_2 f_2(x)
+\]
+
+\newpage
+\begin{advanced}
+\setcounter{section}{0}
+\section{Geometry of hyperbolic and trig functions}
+\end{advanced}
+
+\paragraph{(i)}
+Hyperbolic sector $S(x)$ as the red area and hyperbolic branch $H$ as the blue unit hyperbola.
+\begin{figure}[H]
+
+    \centering
+    \includegraphics[width=1\linewidth]{../../../../../Downloads/diagram-20231013}
+
+    \label{fig:diagram-20231013}
+\end{figure}
+
+\paragraph{(ii)}
+Consider the substitution $t = \cosh x$, then $dt = \sinh x \, dx$, this holds for all $t \geq 1$ which is the case of this integral
+\eq{
+    \int \sqrt{t^2 - 1} \, dt &= \int \sqrt{\cosh^2 x - 1} \, \sinh x \, dx\\
+    &= \int \sinh^2 x \, dx \qquad (\text{for $\cosh^2 x - \sinh^2 x = 1$})\\
+    &= \int \frac{\cosh 2x}{2} \, dx - \int 1/2 \, dx \qquad (\text{for $\sinh^2x = \frac{\cosh 2x - 1}{2}$ })\\
+    &= \frac{1}{4} \sinh 2x - \frac{1}{2} x
+}
+Reverting the substitution, we have that
+\eq{
+     \int \sqrt{t^2 - 1} \, dt &= \frac{1}{4} \sinh(2\arcosh t) - \frac{1}{2} \arcosh t
+}
+and by the fundamental theorem of calculus, and $\arcosh 1 = 0$,
+\eq{
+    \int_1^{\cosh x} \sqrt{t^2 - 1} \, dt &= (\frac{1}{4} \sinh 2x - \frac{1}{2} x) - (\frac{1}{4} \sinh 0 - \frac{1}{2} 0)\\
+    &= \frac{1}{4} \sinh 2x - \frac{x}{2}\\
+    &= \frac{\sinh x \cosh x}{2} - \frac{x}{2} \qquad (\text{for $\sinh 2x = 2\sinh x \cosh x$})
+}
+
+\paragraph{(iii)}
+Geometrically, the branch $H$ is the top right quadrant of the unit hyperbola
+\[
+    x^2 - y^2 = 1
+\]
+which as a function of $x$, is
+\[
+    y = \sqrt{x^2 - 1}
+\]
+
+Hence by integration from $1$ to $\cosh x$, we are computing the area under the hyperbola til $\cosh x$, which is precisely the $x$ coordinate of $P(x)$. This integral therefore calculates the area under the unit hyperbola from $1$ to the point $P(x)$.
+
+The right-hand side is the difference between the area of a triangle formed by the x-axis to $P(x)$ using the base  $\cosh x$ and height $\sinh x$, with the expression $x/2$ as the area  the sector $S(x)$ at $P(x)$. This difference is intuitively the area under the hyperbola to $P(x)$, and the identity correctly verifies that that is the case.
+
+The identity geometrically states that the triangle of $P(x)$ with the x-axis subtracting the sector area $A(x)$ is the area under the hyperbola to $P(x)$.
+
+\paragraph{(i)}
+In the first quadrant, the sector $S(x)$ at $P(x)$ composes of both the triangle between the x-axis and $P(x)$, and the area under the circle from $P(x)$ to $1$.
+
+The triangle has area
+\[
+    \frac{\sin x \cos x}{2}
+\]
+for it has a base of $\cos x$ and a height of $\sin x$.
+
+The equation of the unit circle is
+\[
+    y = \sqrt{1-x^2}
+\]
+with the area from the x coordinate of $P(x)$, which is $\cos x$, to $1$ being
+\eq{
+    \int_{\cos x}^1 \sqrt{1-x^2} \, dx
+}
+
+By substituting $x = \cos u$, $dx = -\sin u \, du$,
+\eq{
+    \int \sqrt{1- x^2}\, dx &= \int \sqrt{1-\cos^2 u}(-\sin u) \, du\\
+    &= -\int \sin^2 u \, du \qquad (\text{for $\sin^2 u + \cos^2 u = 1$} )\\
+    &= -\int \frac{1}{2} \, du + \int \frac{\cos 2x}{2} \, du \qquad (\text{by the double angle formula})\\
+    &= -\frac{u}{2} + \frac{\sin 2u}{4}\\
+    &= -\frac{\arccos x}{2} + \frac{\sin(2\arccos x)}{4}
+}
+
+Using the fundamental theorem of calculus, and that $\arccos 1 = 0$, the definite integral is
+\eq{
+    \int_{\cos x}^1 \sqrt{1-x^2} \, dx &= (-0/2 + \sin(0)/4) - (-\frac{x}{2} + \frac{\sin(2x)}{4})\\
+    &= \frac{x}{2} - \frac{\sin(2x)}{4}\\
+    &= \frac{x}{2} - \frac{\sin x \cos x}{2} \qquad (\text{for $\sin 2x = 2 \sin x \cos x$})
+}
+
+The sector area, which is the sum of the triangle and integral, is therefore
+\eq{
+    S(x) &= \frac{\sin x \cos x}{2} + \left( \frac{x}{2} - \frac{\sin x \cos x}{2} \right)\\
+    &= \frac{x}{2}
+}
+This generalizes to all quadrants, for the sector area increases at the same rate around the circle and is continuous between the sector transitions. The first quadrant area formula will therefore also apply to the other 3 quadrants.
+
+\newpage
+\paragraph{(ii)}
+Figure with the sector set $S(x)$ as the red section, and the circle set $C$ being the blue unit circle.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{../../../../../Downloads/diagram-20231014}
+    \label{fig:diagram-20231014}
+\end{figure}
+
+Geometrically, the statement that the sector area is
+\[
+    A(x) = \frac{x}{2} = \frac{x}{2\pi} \pi
+\]
+is saying that the sector of angle $x$ covers $\frac{x}{2\pi}$ of the circle (the area of the unit circle is $\pi$). This is expected for the sector of angle $x$ has exactly $\frac{x}{2\pi}$ fraction of the unit circle's circumference (which is $2\pi$), and thus should cover the same proportion of the circle area.
+
+\paragraph{(iii)}
+Indeed it does.
+
+
+
+\end{document}

@@ -1,0 +1,783 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{parskip}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage{amsthm}
+
+\begin{document}
+\section{Sets}
+A collection of objects.
+
+Operations
+\begin{itemize}
+	\item Subsets
+	\item Proper subsets
+	\item Membership
+	\item Union
+	\item Intersection
+	\item Difference
+	\item Power set
+	\item Universal complement
+	\item Cartesian product
+	\[
+		A \times B = \{ (a, b) \colon a \in A, b \in B \}
+	\]
+\end{itemize}
+
+Theorems
+\begin{itemize}
+	\item The empty set is a subset of every set.
+	\item De morgan's laws
+	\begin{align*}
+		(A \cup B)^c &= A^c \cap B^c\\
+		(A \cap B)^c &= A^c \cup B^c
+	\end{align*}
+\end{itemize}
+
+\newpage
+\section{Functions}
+A function from domain $A$ to codomain $B$ is
+\[
+	f \colon A \to B
+\]
+
+Properties
+\begin{itemize}
+	\item A function is a subset of $A \times B$, where for all domain elements, there exists exactly a pair with first entry that element --- each input is mapped to only one output.
+	
+	\item An injective function is one where codomain elements (in the image) are mapped from unique domain elements.
+	\[
+		f(a_1) = f(a_2) \implies a_1 = a_2
+	\]
+	
+	\item A subjective function is one where the entire codomain is mapped to.
+	\[
+		\forall b \in B, \exists a \in A, f(a) = b
+	\]
+	
+	\item A bijective function is injective and surjective. It is a one to one mapping from domain to the codomain.
+	
+	\item The domain and codomain are included in the definition and uniqueness of a function.
+\end{itemize}
+
+
+
+\newpage
+\section{Logic}
+Proposition is a statement that is either true or false.
+Quantifiers includes the for all and there exists symbol.
+
+Operations
+\begin{itemize}
+	\item OR gate
+	\item AND gate
+	\item Implication, $p \implies q \equiv \lnot p \lor q$
+	\item Negation
+	\item Logical equivalence (relational and truth table)
+\end{itemize}
+
+Theorems
+\begin{itemize}
+	\item De morgan's laws for logic
+	\begin{align*}
+		\lnot (p \lor q) &\equiv \lnot p \land \lnot q\\
+		\lnot (p \land q) &\equiv \not p \lor \lnot q
+	\end{align*}
+	\item De morgan's laws for quantifiers
+	\begin{align*}
+		\lnot (\forall x \in A, p(x)) &\equiv \exists x \in A, \lnot p(x)\\
+		\lnot (\exists x \in A, p(x)) &\equiv \forall x \in A, \lnot p(x)\\
+	\end{align*}
+\end{itemize}
+
+Proof by induction allows the proving of a proposition $P(n)$ on $n \in \mathbb{N}$, by asserting $P(1)$, and that $P(n) \implies P(n+1)$.
+
+\newpage
+\section{Matrices}
+A matrix is a rectangular array of numbers from a field.
+
+Operations
+\begin{itemize}
+	\item Indexing
+	\item Addition
+	\item Scalar multiplication
+	\item Matrix multiplication
+	\item Transposition
+	\item Inverse and invertible iff $\exists B$, $AB = BA = I$, then $B = A^{-1}$. This is unique
+	\item Singular matrices are not invertible.
+\end{itemize}
+
+Properties
+\begin{itemize}
+	\item Square matrix
+	\item Row, Column matrix,
+	\item Diagonal matrix,
+	\item Zero matrix
+	\item Identity matrix
+\end{itemize}
+
+Theorems
+\begin{itemize}
+	\item Null factor law, that $AB = 0$ does not imply $A$ or $B$ are zero.
+	\item $(AB)^T = B^T A^T$
+	\item $AC=BC$ and $C \neq 0$ does not imply $A = B$ for $C$ may not be invertible.
+	\item $(AB)^{-1} = B^{-1} A^{-1}$
+	\item If $A$ has a row/column of all zeros, it is not invertible.
+\end{itemize}
+
+\newpage
+\section{Linear Systems}
+A linear system of equation can be written in the form $Ax = b$.
+
+Row operations on a matrix include: swapping two rows, multiplying a row by a non-zero scalar, and adding a scaled multiple of another row to a row.
+
+Every row operation can be represented by a left multiplication by an elementary matrix $E$, constructed by applying the same row operation on an identity matrix. $B = EA$ if the result of the row operation of $E$ applied on $A$ is $B$.
+ 
+Row equivalent matrices $A \sim B$ implies that there exists a series of row operations from $A$ to $B$.
+
+Properties
+\begin{itemize}
+	\item Elementary matrices are invertible via the matrix representation of the inverse row operation.
+	\item Row equivalent matrices $A \sim B$ implies an invertible matrix $E$, $B = EA$
+	\item Every invertible matrix is the product of a series of elementary row matrices.
+\end{itemize}
+
+A matrix is in REF if: all zero rows are at the bottom, the leading entry in a row is further to the right and all above leading entries, every entry below a leading entry is zero.
+
+\newpage
+\section{Gaussian Elimination}
+Gaussian is an algorithm to put a matrix into REF.
+
+To solve a linear system $Ax = b$ for $x$, run GE on the augmented matrix to get $[A'|b'] = [EA|Eb]$ and solve for $A' x = b'$, the solution space for the two augmented matrices are identical.
+
+An inconsistent system has zero solutions, with the pivot for the augment matrix at the last column.
+
+A consistent system has one or infinite solutions.
+
+
+\newpage
+\section{RREF}
+A matrix in RREF is in REF, with leading entries being 1s, and each column with a leading entry has all other entries zero. Any matrix has a unique RREF.
+
+Properties
+\begin{itemize}
+	\item A square matrix with RREF as the identity matrix must be invertible, and if the RREF is not the identity, the matrix is not invertible.
+\end{itemize}
+
+Theorems
+\begin{itemize}
+	\item A square matrix's inverse $A^{-1}$ is found by putting $[A|I]$ into RREF $[EA|E]$, if $EA \neq I$, $A$ is not invertible; else, $A^{-1} = E$.
+	\item If $AB = I$, then $AB = BA = I$ and therefore $A^{-1} = B$.
+	\item A square matrix $A$ is invertible iff $A \sim I$.
+	\item $A \sim R \sim B$, where $R$ is in RREF iff $A \sim B$.
+	\item Any invertible matrix is row equivalent to all invertible matrices of the same size.
+	\item $A \sim B$ implies that $\operatorname{rank} A = \operatorname{rank} B$.
+\end{itemize}
+
+\newpage
+\section{Rank and Determinant}
+Define the determinant of a square matrix by
+\begin{itemize}
+	\item $\det I = 1$
+	\item Swapping two rows in $A$ to form $B$, then $\det A = -\det B$.
+	\item Determinants are linear in the first row
+\end{itemize}
+
+
+The rank of a matrix is the number of non-zero rows in its RREF.
+
+
+Properties
+\begin{itemize}
+	\item Determinants are linear in every row
+	\item If $A$ has two equal rows, $\det A = 0$
+	\item $\det kA = k^n \det A$
+	\item the third kind of row operation does not change the determinant
+	\item If $A$ has a row of zeros, $\det A = 0 $
+	\item If $A$ is triangular, $\det A$ is the product of the diagonal elements.
+	\item $\det A = 0$ iff $A$ is singular.
+	\item $\det AB = \det A \det B = \det BA$
+	\item $\det A^T = \det A$
+	\item The determinant function is unique and always exists.
+	\item Row operations on a matrix do not change its rank. Multiplying a matrix by an elementary (invertible) matrix does not change its rank.
+\end{itemize}
+
+The cofactor expansion technique satisfies the axioms of the determinant.
+
+\newpage
+\section{Fields}
+A set of scalar with two binary operations satisfying
+\begin{itemize}
+	\item Addition is commutative, associative, has identity and inverse.
+	\item Multiplication is commutative, associative, has identity and inverse
+	\item Distributivity property
+\end{itemize} 
+
+The additive and multiplicative identity (is unique overall) and inverse (is unique for a given element).
+
+A subfield is a field that is a subset of a field with its original binary operations.
+
+Finite fields are set of integers ($p$ integers for prime $p$) under modulo $p$.
+
+Properties
+\begin{itemize}
+	\item $0 \times x = 0$
+	\item $(-1) \times x = -x$
+\end{itemize}
+
+\newpage
+\section{Vector spaces}
+A vector space over a field is a set of vectors with two binary operations
+\begin{itemize}
+	\item Vector addition is associative, commutative, has identity, has inverse.
+	\item Scalar multiplication is distributive $k(u+v) = ku + kv$, $(a+b)u = au + bu$, associative, and has scalar identity.
+\end{itemize}
+
+
+\newpage
+\section{Subspaces}
+A subspace of a vector space is a subset that is also a vector space with the binary operations from the original vector space.
+
+Theorems
+\begin{itemize}
+	\item $W \leq V$, then $0_V \in W$.
+	\item The subspace theorem states that a subset $W \subseteq V$ is a subspace iff: $W$ is not empty, $W$ is closed under addition, $W$ is closed under multiplication.
+\end{itemize}
+
+Properties
+\begin{itemize}
+	\item The solution space of $Ax = 0$ for $x$ is a subspace.
+\end{itemize}
+
+
+\newpage
+\subsection{Span and Linear dependence}
+The span of a set $S = \{s_1, \dots \}$ is the set
+of all linear combinations of elements in $S$. Define $\operatorname{span} \{\} = \{ 0 \}$.
+
+A linear combination is the sum of all scalar scaled vectors in a set.
+
+A linearly independent set implies that every element in its span is a unique linear combination of vectors in $S$. Namely,
+\begin{itemize}
+	\item A set $S$ is linearly dependent iff there exists
+	\[
+		0 = a_1 u_1 + \dots
+	\]
+	where some $a_i \neq 0$.
+	\item A set $S$ is linearly independent iff
+	\[
+		0 = a_1 u_1 + \dots
+	\]
+	implies $\forall a_i = 0$.
+\end{itemize}
+
+
+Properties
+\begin{itemize}
+	\item $S \subseteq \operatorname{span} S$
+	\item $0 \in \operatorname{span} S$
+\end{itemize}
+
+A spanning set $S$ over a vector space indicates $\operatorname{span} S = V$.
+
+Theorems
+\begin{itemize}
+	\item For $S \subseteq V$ a vector space, $\operatorname{span} S \leq V$.
+	\item $S$ is linearly dependent iff $\exists u \in S$, where $u \in \operatorname{span}(S \setminus \{u\})$.
+\end{itemize}
+
+\newpage
+\section{Bases and Dimensions}
+A basis for a vector space is a linearly independent subset that spans the vector space.
+
+The dimension of a vector space is the size of any of its basis.
+
+Properties
+\begin{itemize}
+	\item All vectors in a vector space can be written as a unique linear combination of the basis set.
+\end{itemize}
+
+Theorems
+\begin{itemize}
+	\item For a basis $B$ of $V$. Let $S \subseteq V$. If $|S| > |B|$, then $S$ is linearly dependent. If $|S| < n$, then $S$ cannot span $V$. If $S$ is a basis for $V$, $|S| = |B|$.
+	\item Every vector space has a basis
+\end{itemize}
+
+\newpage
+\section{Coordinates}
+Define coordinates for $u \in V$ under a finite ordered basis $B$ by
+\[
+	[u]_B = \begin{bmatrix}
+		a_1 \\ \vdots
+	\end{bmatrix}
+\]
+when
+\[
+	u = a_1 b_1 + \dots
+\]
+
+Properties
+\begin{itemize}
+	\item The coordinate transformation is an invertible linear transformation, so
+	\begin{align*}
+		[u+v] &= [u] + [v]\\
+		[au] &= a[u]
+	\end{align*}
+	\item Let $S \subseteq V$ and $T = [S]_B$, $B$ be a basis for $V$. Then: $S$ is a spanning set for $V$ iff $T$ is a spanning set for the coordinate space; $S$ is linearly independent iff $T$ is linearly independent.
+\end{itemize}
+
+\newpage
+\section{Row and Column space}
+The solution space of a matrix is the set of column matrices $x$ that are mapped to the zero column matrix.
+
+The row space of a matrix is the span of its rows.
+
+The column space of a matrix is the span of its columns.
+
+Properties, let $R$ be the REF of $A$.
+\begin{itemize}
+	\item For $A \sim B$, then $A$ and $B$ have equal row space.
+	\item The non-zero rows in $R$ forms a basis for the row space of $A$.
+	\item The pivot columns of $R$ in $A$ forms a basis for the column space of $A$.
+	\item The non pivot columns are linear combinations of the pivot columns to its left.
+	\item $\operatorname{rank} A = \operatorname{rank} A^T$
+\end{itemize}
+
+The row rank is the dimension of the row space. The column rank is the dimension of the column space. The row rank equals the column rank equals the rank.
+
+\newpage
+\section{Finite vector space algorithms}
+
+\paragraph{Linear independence and spanning sets}
+A set $S$ is linearly independent iff the matrix $A$ with columns the set vectors under a basis has $\operatorname{rank} A = |S|$. The set is a spanning set iff $\operatorname{rank} A = \dim V$.
+
+\paragraph{Basis for subset span}
+A subset of $S$ that is a basis for the span of $S$ is the pivot columns of the matrix where the columns are coordinate matrices of set elements.
+
+\paragraph{Linear combination}
+To find a linear combination of $u$ in the span of a set $S$, find the pivot columns of $A = [[u_1] \dots [u]]$. If the last column of $A$ is a pivot column, then $u$ is not in the span, otherwise, the coefficients are the entries in the last column.
+
+\paragraph{Extending a basis}
+To extend a basis for a subspace to a vector space, construct $A$ to have the columns of the coordinate matrices of subspace basis vectors AND a vector space basis vectors. The pivot column indices of $A$ correspond to the new basis for the vector space with the subspace basis being a subset.
+
+\newpage
+\section{Linear error correcting codes}
+
+\newpage
+\section{Linear transformation}
+
+
+\newpage
+\section{Matrix representation of linear transformations}
+
+\newpage
+\section{Change of basis}
+
+\newpage
+\section{Eigenvalues and eigenvectors}
+
+\newpage
+\section{Eigenspaces}
+
+\newpage
+\section{Diagonalization}
+
+
+\newpage
+\section{Conditions for diagonalization}
+
+\newpage
+\section{Matrix power and the CH theorem}
+
+\newpage
+\section{Geometry in Euclidean space}
+
+
+% #1, because haven't revised this part
+\newpage
+\section{Inner product}
+Restrict all fields to the reals and complex for inner products.
+
+An inner product is a binary function from the vector space to the field (using complex here), with the properties:
+\begin{itemize}
+	\item $\langle u, v \rangle = \langle v, u \rangle^*$
+	\item $\langle \alpha u, v \rangle = \alpha \langle u, v \rangle$
+	\item $\langle u + v, w \rangle = \langle u, w \rangle + \langle v, w \rangle$
+	\item $\langle u, u\rangle \geq 0$, and that $\langle u, u \rangle = 0 \implies u = 0$
+\end{itemize}
+
+An inner product space is a vector space combined with a fixed inner product.
+
+Properties
+\begin{itemize}
+	\item $\langle u, u\rangle \in \mathbb{R}$
+	\item $\langle u, \alpha v \rangle = \alpha^* \langle u, v\rangle$.
+	\item $\langle 0, u\rangle = 0$
+\end{itemize}
+
+Define the length of a vector to be
+\[
+	||u|| = \sqrt{\langle u, u \rangle}
+\]
+
+The distance between two vectors is
+\[
+	d(u, v) = ||u - v|| = ||v - u||
+\]
+
+The angle between two vectors (for a real inner product space) is
+\[
+	\cos \theta = \frac{\langle u, v \rangle}{||u|| ||v||}
+\]
+where $ 0 \leq \theta \leq \pi$.
+
+Properties
+\begin{itemize}
+	\item Two vectors are orthogonal iff $\langle u, v \rangle = 0$.
+	\item A unit vector has $||u|| = 1$.
+	\item $\langle u, v + w\rangle = \langle u, w\rangle + \langle v, w\rangle$.
+\end{itemize}
+
+Theorems
+\begin{itemize}
+	\item $||\alpha u || = |\alpha| ||u||$
+	\item If the vectors are orthogonal, $||u+v||^2 = ||u||^2 + ||v||^2$, in general
+	\[
+		||u+v||^2 = ||u||^2 + ||v||^2 + 2 Re(\langle u, v\rangle)
+	\]
+	\item Cauchy-Schkwartz Inequality states
+	\[
+		|\langle u, v \rangle | \leq ||u|| ||v||
+	\]
+	with equality iff $u = kv$.
+	\item Triangle Inequality, where
+	\[
+		||u+v|| \leq ||u|| + ||v||
+	\]
+\end{itemize}
+
+Identities
+\begin{itemize}
+	\item $u-v$ is orthogonal against $u+v$ iff $||u|| = ||v||$.
+	\item $||x+y||^2 + ||x-y||^2 = 2||x||^2 + 2||y||^2$
+	\item 
+\end{itemize}
+
+
+
+\newpage
+\section{Orthonormal basis}
+For a basis $B$, the matrix representation of an inner product under this basis is $M$ where: $M_{ij} = \langle b_i, b_j \rangle$. Hence
+\[
+	\langle u, v \rangle = [u]^T M [v]^*
+\]
+still holds.
+
+Properties
+\begin{itemize}
+	\item A matrix can only be an inner product representation if it is positive definite.
+	\item The matrix representation of any inner product under one of its orthonormal basis is the identity matrix.
+	\item A matrix is symmetric iff $A^T = A$
+	\item A matrix is Hermitian iff $M = M^\dagger$
+	\item A matrix is positive definite iff it is Hermitian and for all non-zero $x$, $x^T M x^* > 0$
+\end{itemize}
+
+A set is orthogonal iff all elements are orthogonal with each other.
+
+A set is orthonormal iff $\langle b_i, b_j \rangle = \delta_{ij}$ with $\delta_{ij}$ being the Kronecker delta. This set must not contain the zero vector.
+
+An orthonormal basis is a basis that is orthonormal.
+
+Theorems
+\begin{itemize}
+	\item If a set $S$ is orthogonal and without the zero vector, $S$ is linearly independent
+	\item Under an orthonormal basis $B$, the vector $u$ can be written as a linear combination by
+	\[
+		u = \sum_i \langle u, b_i\rangle b_i
+	\]
+\end{itemize}
+
+\newpage
+\section{GS Orthogonalization and Orthogonal projection}
+
+The Gram Schmidt orthogonalization converts a basis to an orthonormal basis.
+
+Properties
+\begin{itemize}
+	\item Any finite dimensional inner product space has an orthonormal basis.
+\end{itemize}
+
+Let the orthogonal complement of a subspace $W$ be another subspace
+\[
+	W^\perp = \{u \colon \forall w \in W, \langle u, w \rangle = 0\}
+\]
+
+Define the orthogonal projection onto a subspace $W$ by
+\[
+	\operatorname{proj}_W(u) = \sum_i \langle u, w_i \rangle w_i
+\]
+where $B = {w_i}$ is any orthonormal basis for $W$.
+
+Properties
+\begin{itemize}
+	\item All vectors in $W^\perp$ are orthogonal to all vectors in $W$
+	\item $W \cap W^\perp = \{0\}$
+	\item The projection transformation is a linear transformation. Its image is $W$.
+	\item Not all infinite dimensional inner product spaces have an orthonormal basis.
+	\item When applying GS to a linearly dependent set, we will get some zero vectors. The set of non-zero vectors forms an orthonormal basis for the vector space that is the span of the original set.
+\end{itemize}
+
+Theorems
+\begin{itemize}
+	\item For a subspace $W$, the projection the vector $u$ onto $W$ is the closest vector on $W$ to $u$. Where
+	\[
+		\forall w \in W, ||u - \operatorname{proj}_W(u)|| \leq ||u - w||
+	\]
+\end{itemize}
+
+Theorems
+\begin{itemize}
+	\item For a subspace $W$, every vector $u$ can be decomposed into $u = w + w'$ where $u \in W$ and $u' \in W^\perp$, uniquely. Namely, for an orthonormal basis of $W$, 
+	\[
+		w = \sum_i \langle u, b_i \rangle b_i
+	\]
+	\item 
+\end{itemize}
+
+\newpage
+\section{Least squares approximation}
+Least squares approximation find a line $y=a+bx$ where the square error is minimized against a set of data points
+\[
+	(x_1, y_1), (x_2, y_2), \dots
+\]
+with the individual square error defined as
+\[
+	\delta_i^2 = (y_i - (a+bx_i))^2
+\]
+
+Notice the total squared errors is (with the $\mathbb{R}^n$ real dot product)
+\[
+	E = \sum_i \delta_i^2 = ||y - Au||^2
+\]
+with
+\begin{align*}
+	y &= (y_1, y_2, \dots)\\
+	A &= \begin{bmatrix}
+		1 & x_1\\
+		2 & x_2\\
+		\vdots &
+	\end{bmatrix}\\
+	u &= (a, b)
+\end{align*}
+
+Minimizing $E$ is then equivalent to finding the closest point on the set of $W = \{Au \colon u = (a, b)\}$ to $y$. This point must be the orthogonal projection onto the set
+\[
+	Au = \operatorname{proj}_W(y)
+\]
+
+Then to solve for $u$, notice that
+\begin{align*}
+	\forall w = Av \in W, \langle w, y - Au \rangle &= 0\\
+		w^T (y - Au) &= 0\\
+		(Av)^T (y - Au) &=0\\
+		v^T A^T (y-Au) &= 0\\
+		A^T (y - Au) &= 0\\
+		A^T y &= A^T A u
+\end{align*}
+
+The coefficient $u$ is then
+\[
+	u = (A^T A)^{-1} A^T y
+\]
+
+If the matrix $(A^T A)$ is not invertible, then there must be multiple $u$ that minimizes $E$.
+
+To find a polynomial of degree $k$ ($y = a_i x^i$) that minimizes $E$ for $n$ data points, let
+\begin{align*}
+	y &= (y_1, y_2, \dots)\\
+	A &= \begin{bmatrix}
+		1 & x_1^1 & x_1^2 & \dots\\
+		1 & x_2^1 & x_2^2 & \dots \\
+		\vdots & & & 
+	\end{bmatrix}\\
+	u &= (a_1, a_2, \dots)
+\end{align*}
+
+Then everything else to find $u$ is as normal, ie, solve for $u$ in
+\[
+	A^T A u = A^T y
+\]
+
+
+For 3-d vectors $u, v$, the area of the parallelogram formed is
+\[
+	A = ||u||||v|| \sin \theta = ||u \times v||
+\]
+
+For 2-d vectors $u, v$, the same area is
+\[
+	A = \det [u, v]
+\]
+
+The volume of the parallelepiped given by 3-d $u, v, w$ is
+\[
+	V = |(u \times v) \cdot w| = | \det [u; v; w] |
+\]
+
+
+\newpage
+\section{Orthogonal diagonalization and Real symmetric matrices}
+A matrix $Q$ is orthogonal iff $Q^T Q = I$.
+
+A matrix is orthogonally diagonalizable iff there exists orthogonal $Q$ and diagonal $D$ such that
+\[
+	M = Q D Q^T
+\]
+
+Properties
+\begin{itemize}
+	\item $Q^{-1} = Q^T$ and are both orthogonal
+	\item $\det Q = \pm 1$
+	\item If $A$ and $B$ are orthogonal, $AB$ is also orthogonal
+	\item Transition matrices between orthonormal basis under the dot product are orthogonal.
+\end{itemize}
+
+Theorems
+\begin{itemize}
+	\item A matrix $Q$ is orthogonal iff: the rows and columns of $Q$ forms an orthonormal basis under the real dot product; the dot product is preserved under the matrix
+	\begin{align*}
+		||Qu|| &= ||u||\\
+		\langle Qu, Qv \rangle &= \langle u, v\rangle
+	\end{align*}
+	\item A real matrix is orthogonally diagonalizable iff there exists an orthonormal eigenbasis under the real dot product..
+\end{itemize}
+
+Orthgonality Theorems
+\begin{itemize}
+	\item A real symmetric matrix is always orthogonally diagonalizable, and vice versa actually.
+	\item Real symmetric matrices have full real eigenvalues, and eigenvectors of different eigenvalues are orthogonal against the dot product.
+\end{itemize}
+
+Procedure to orthgonally diagonalize a real symmetric matrix
+\begin{enumerate}
+	\item Find all eigenvalues
+	\item Find basis for all eigenspaces, run GS orthgonalization on each eigenspace to obtain an orthonormal basis for each eigenspace (with the real dot product).
+	\item The union of the orthonormal eigenspace basis is an orthonormal eigenbasis. Let the columns of $Q$ be the vectors in that basis, and $D$ have diagonal entries corresponding to the eigenvalues. Then
+	\[
+		A = Q D Q^T
+	\]
+\end{enumerate}
+
+\newpage
+\section{Spectral theorem}
+A symmetric linear transformation is one where
+\[
+	\langle T u, v \rangle = \langle u, T v \rangle
+\]
+under any inner product.
+
+Properties
+\begin{itemize}
+	\item Under any orthonormal basis, $T$ is symmetric iff $[T]$ is real symmetric.
+	\item If $T$ is symmetric, then there exists an orthonormal eigenbasis for $T$ under any finite dimensional inner product space.
+	\item Therefore any real symmetric matrix implies a symmetric linear transformation under some inner product space, which creates an orthonormal basis of eigenvectors, which after coordinates forms an orthonormal eigenbasis for the real symmetric matrix.
+\end{itemize}
+
+Diagonalizing conic sections can remove the cross terms in the expression. In general, any conic equation is
+\[
+	X^T A X = [c]
+\]
+for $X = \begin{bmatrix}
+	x\\y
+\end{bmatrix}$ and $A$ is a real symmetric matrix containing coefficients.
+
+Because $A$ is orthogonally diagonalizable, then
+\begin{align*}
+	X^T A X &= d\\
+	X^T Q D Q^T X &= d\\
+	(Q^T X)^T D Q^T X &= d
+\end{align*}
+where $Q^T = P_{SB}$ for the orthonormal eigenbasis $B$ from $A$.
+
+Therefore let $X' = Q^TX = P_{BS} X$, notice that $X'$ is $X$ under the new orthonormal eigenbasis $B$. So
+\begin{align*}
+	X'^T D X' &= d
+\end{align*}
+
+Because $D$ is diagonal, there are no cross terms between variables in $X'$ after expansion.
+
+
+\newpage
+\section{Unitary diagonalization}
+
+A unitary matrix is a complex matrix where $U^\dagger U = I$.
+
+Properties
+\begin{itemize}
+	\item $U^\dagger = U^{-1}$ and are both unitary
+	\item $AB$ is unitary for unitary matrices $A, B$.
+	\item $|\det U| = 1$
+\end{itemize}
+
+Theorems
+\begin{itemize}
+	\item A matrix is unitary iff: the rows and columns of $U$ forms an orthonormal basis under the complex dot product; the complex dot product is preserved under the matrix, $||U v|| = ||v||$ and $\langle U u, U v \rangle  = \langle u, v \rangle$.
+	\item The transition matrix between orthonormal basis under any inner product space is unitary.
+\end{itemize}
+
+A matrix is unitarily diagonalizable iff there exists a unitary matrix $U$ and diagonal matrix $D$ where
+\[
+	A = U D U^\dagger
+\]
+
+A self adjoint linear transformation has
+\[
+	\langle T u, v \rangle = \langle u, T v\rangle
+\]
+
+Properties
+\begin{itemize}
+	\item A self-adjoint linear transformation under any orthonormal basis is Hermitian, and all Hermitian matrices are self-adjoint linear transformations under some basis and inner product space.
+	\item Hermitian matrices have a full set of real eigenvalues
+	\item Eigenvectors of a Hermitian matrix with different eigenvalues must be orthogonal under the complex dot product.
+\end{itemize}
+
+Diagonalizability theorems
+\begin{itemize}
+	\item A matrix is unitarily diagonalizable iff there exists an orthonormal eigenbasis under the complex dot product.
+	\item Any Hermitian matrix are unitarily diagonalizable
+	\item NOT ALL unitarily diagonalizable matrices are Hermitian.
+\end{itemize}
+
+The procedure for unitarily diagonalizing a Hermitian matrix is the same as the case for the real symmetric, but use the complex dot product for GS orthogonalization instead.
+
+For both symmetric and self-adjoint linear transformations
+\begin{itemize}
+	\item All its eigenvalues are real.
+	\item For eigenvectors of the linear transformation with different eigenvalues, they must be orthogonal under the inner product.
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

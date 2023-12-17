@@ -1,0 +1,131 @@
+\documentclass{article}
+
+\usepackage{mathtools}
+\usepackage{geometry}
+\usepackage{parskip}
+\usepackage{graphicx}
+\usepackage{float}
+
+\begin{document}
+
+\section*{Question 1}
+
+\paragraph{(a)} Does mobile phone usage affect young adult brain's memory functions?
+
+\paragraph{(b)} The response variable is the score (out of 100) on a 30 minute memory test taken by the subject. It is a discrete numeric data. The primary explanatory variable is the average hours of non-essential mobile phone usages per day across a month, grouped between low (less than 1 hour), medium (1 hour to 2 hours), and high (more than 2 hours). It is an ordered categorical statistic.
+
+\paragraph{(c)}
+\begin{description}
+    \item[Randomization] The study would randomly sample young adults through both online surveys and in public at concentrated areas. It will also randomize the assigning of subjects into the study groups (of low, medium and high mobile phone usages) through a computer randomizer. This will generally to reduce the impacts of confounding variables.
+    \item[Control] The study will enact control through restrictions based on age (say from $18$ to $30$), as to reduce the effects of confounding variables underlying age and brain memory functions. A sufficient protocol to reduce bias could be to conduct the memory tests in the morning starting at the same time for the same duration. Blinding is not possible for the tests are objective, and the subjects clearly knowing their experimental groups. With capacity, we may perform blocking on the subject genders. This helps to eliminate the confounding impacts of gender.
+    \item[Replication] To increase replication, the study aims to sample around $500$ to $1000$ subjects to ensure a sufficient numbers subjects as to drown out the unaccounted confounding variables. It is also possible to perform another memory test in conjunction with the existing morning test, but in the afternoon, to increase precision through repetition in measurements.
+\end{description}
+
+
+\newpage
+\section*{Question 2}
+
+\paragraph{(a)} Figure
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{ass1/dotplottime}
+    \label{fig:dotplottime}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{ass1/sumstatstime}
+    \label{fig:sumstatstime}
+\end{figure}
+
+
+\paragraph{(b)}
+\begin{itemize}
+    \item The distribution is positively skewed with a tail to the right. Its shape resembles a skewed bell curve.
+    \item The median of the distribution is $142$ seconds, with the mean larger at $171.9$ seconds.
+    \item The spread, using the IQR, is quite large at $137.87$ seconds. When measuring in standard deviations, the data points are on average $106.25$ seconds away from the mean.
+    \item The outliers in this dataset would lie below $142 - 1.5 \times 137.87 = -64.805$ or above $142 + 1.5 \times 137.87 = 348.805$. There are $4$ outliers around the $350$ range, $2$ around the $370$ range, $5$ around the $420$ range, $3$ around the $540$ range, and $3$ around the $590$ range. Overall, the dataset contains quite a lot of outliers.
+\end{itemize}
+
+\paragraph{(c)}
+The lower scoring times are all completed on puzzle types of 2 and 3, namely the alphabetical and numeric Sudoku puzzles. Moreover, all the subjects with such times have had previous experience with Sudoku.
+
+\newpage
+\section*{Question 3}
+
+\paragraph{(a)}
+Barring some minuscule differences in the coloring of the papers, this was a fair comparison between Sudoku puzzles of different symbol types. The reasoning behind is the identical placements of the 6 symbols on the starting tiles between each puzzle types, and a one-to-one mapping of symbols between the puzzles: the beta on puzzle 1 is equivalent to the number 2 in puzzle 3. This ensures that the puzzles are only different by the symbols presented, not in the difficulty inherent of the puzzle.
+
+\paragraph{(b)} Figure
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{ass1/timepuzzle}
+    \label{fig:timepuzzle}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{ass1/timepuzzlestats}
+    \label{fig:timepuzzlestats}
+\end{figure}
+
+\paragraph{(c)}
+% 149 words currently
+From the boxplots, we can see various outliers to the right as well as some skewness for each puzzle (puzzle 3 and 4 seems positively skewed). This indicates that we should use the medians for a less-biased comparison of the distributions.
+
+Statistically, we can see that puzzle 3 had the least median time taken of ($84$ seconds), and puzzle 1 took the longest median time to complete ($227$ seconds), with puzzle 2 being second place ($122$ seconds) and puzzle 4 being third place ($170.5$ seconds). This order is also exhibited throughout the entire 5 number summaries.
+
+Since the data originated from a designed study and the puzzles only differed in symbol types, the data supports the idea that the symbols in these Sudoku puzzle affects the time taken to successfully complete it for students in this class. Numbers lead to the fastest times and Greek letters to the slowest.
+
+\newpage
+\section*{Question 4}
+
+\paragraph{(a)}
+% TODO: IS THIS A SIGNFICANT DIFFERENCE? YES
+%Judging by the relatively small differences between the observed and expected counts (computed through row and column percentages) in the table cells, there seems to be no significant association between the puzzle types assigned and the Sudoku experiences of the subjects.
+
+%The randomization was adequate for the group sizes of all four puzzles are relatively equal at around $59$ to $68$. The lack of significant associations also indicates that a representative proportion of subjects with no Sudoku experiences were assigned to each puzzle type from to randomization.
+
+If there were completely no association between the assigned puzzle types and Sudoku experiences of the subjects, we should observe the same percentage of less experienced subjects ($23.05\%$) across all puzzles. While puzzle 2 and 4 track close to that proportion, puzzle 1 had an excess proportion of less experienced subjects (of $28.36\%$) while puzzle 3 had a deficit of such subjects (of $15.25\%$). This may suggest a weak association between puzzle types and subject experiences, hinting at an inadequate randomization process.
+
+The randomization may also be inadequate for the number of subjects across each puzzle types is not even. We observe that only $21.93\%$ of subjects were allocated to puzzle 3. Ideally, the percentages across each puzzle type should receive $25\%$ to ensure balance. A more complete analysis on the significances of such deviations should leverage the Chi-squared test.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{ass1/chitable}
+    \label{fig:chitable}
+\end{figure}
+
+
+\newpage
+\paragraph{(b)}
+From the figure, there is a weak relationship between the hours of sleep the subjects had last night and their time taken to complete a Sudoku puzzle. The respective $r$ value is negative but small at $-0.259$, indicating that higher hours of sleep is weakly associated with faster puzzle completions.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{ass1/sleep}
+    \label{fig:sleep}
+\end{figure}
+
+
+\newpage
+\section*{Question 5}
+
+\paragraph{(a)}
+\begin{description}
+    \item[Pro] The graph has a clear title that includes both the primary explanatory variable (surgery types) and the response variable (regret rates).
+    \item[Con] The pie chart is wrongly used to display unrelated regret percentages between the studies of different populations; the sum of the percentages in the slices adds to $103\%$, a pie chart should have its slices add to $100\%$.
+    \item[Con] There are no units under the labels of each slice, allowing the reader to misinterpret the units as potentially cases. For instance, it should read ``Bowel 32\%'' instead.
+\end{description}
+
+\paragraph{(b)} Figure
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{ass1/regretbar}
+    \label{fig:regretbar}
+\end{figure}
+
+
+\end{document}

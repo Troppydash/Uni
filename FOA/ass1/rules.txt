@@ -1,0 +1,37 @@
+No malloc
+No FS
+
+Stage 1
+replace longint_t
+Array size must be INTSIZE
+Only storage positive numbers
+
+Rewrite doplus #done
+zero_vars #done
+do_assign #done
+
+#done
+check INTSIZE overflow when inputting constants, and addition, print error and exit when it happens,
+return EXIT_FAILURE
+# THIS RULE IS FUCKING STUPID, WILL ASK?
+
+Stage 2
+Multiplication,
+Use FFT
+Commas in output values, every 3 digits from right
+# done
+
+
+Stage 3
+exp
+with repeat mult
+# done
+
+Stage 4
+Integer division, not using repeated subtractions
+
+
+
+Asking
+Are the code enclosed in #ifdef marked for style
+Comment style

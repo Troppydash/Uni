@@ -1,0 +1,2874 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{parskip}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage{amsthm}
+
+\title{MAST10022}
+\author{Professor: Lawrence Reeves}
+\date{}
+
+
+% commands
+\newcommand{\set}[1]{\{#1\}}
+\newcommand{\given}{\, | \,}
+\newcommand{\real}{\mathbb{R}}
+\newcommand{\nat}{\mathbb{N}}
+\newcommand{\inv}[1]{{#1}^{-1}}
+\newcommand{\rank}[1]{\text{rank}\, #1}
+
+\usepackage{tcolorbox}
+\usepackage{amssymb}
+\tcbuselibrary{theorems}
+\newtcbtheorem
+[auto counter, number within = section]% init options
+{theorems}% name
+{Theorem}% title
+{%
+	colback=green!5,
+	colframe=green!60!black,
+	fonttitle=\bfseries,
+	sharp corners
+}% options
+{def}% prefix
+
+\newtcbtheorem
+[auto counter, number within = section]% init options
+{lemmas}% name
+{Lemma}% title
+{%
+	colback=red!5,
+	colframe=red!60!black,
+	fonttitle=\bfseries,
+	sharp corners
+}% options
+{def}% prefix
+
+\newtcbtheorem
+[auto counter, number within = section]% init options
+{algor}% name
+{Algorithm}% title
+{%
+	colback=green!5,
+	colframe=green!70!black,
+	fonttitle=\bfseries,
+	sharp corners
+}% options
+{def}% prefix
+
+\newtcbtheorem
+[auto counter, number within = section]% init options
+{defn}% name
+{Definition}% title
+{%
+	colback=red!5,
+	colframe=red!70!black,
+	fonttitle=\bfseries,
+	sharp corners
+}% options
+{def}% prefix
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+
+\DeclareMathOperator{\spann}{span}
+\newcommand{\coord}[2]{[#1]_{#2}}
+
+\usepackage{mathtools}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+
+\DeclareMathOperator{\rowspace}{rowspace}
+\DeclareMathOperator{\colspace}{colspace}
+\DeclareMathOperator{\im}{im}
+
+
+\begin{document}
+
+\maketitle
+\newpage
+
+\tableofcontents
+
+\newpage
+
+The study of abstract vector spaces.
+
+\section{Set, Lecture 1}
+Set is a collection of objects (not an axiomatic definition).
+
+Not all sets defined in languages exist.
+
+$A \subseteq B$ means that $A$ is the subset of $B$. It indicates that every element in $A$ is in $B$.
+
+$A \subset B$ means that $A$ is a proper subset of $B$, means that $A$ is a subset of $B$ but not equal to $B$.
+
+Types of sets:
+\begin{align*}
+	\mathbb{N} &= \set{1, 2, 3, 4, \dots}\\
+	&= \set{m \in \mathbb{Z} \given m \geq 1}\\
+	\mathbb{Z} &= \set{\dots, -1, 0, 1, \dots}
+\end{align*}
+
+Note that $\mathbb{N} \subseteq \mathbb{Z}$.
+
+The set of rationals is defined to be
+\[
+	\mathbb{Q} = \set{\frac{m}{n} \given m, n \in \mathbb{Z}, n \neq 0}
+\]
+
+$\mathbb{R}$ and $\mathbb{C}$ also exists.
+
+Member of operator $\in$ indicates an element is a member of a set.
+
+Some examples:
+\begin{align*}
+	7 &\in \set{7, 2, \set{3}}\\
+	7 &\not\subset \set{7, 2, \set{3}}\\
+	3 &\notin \set{7, 2, \set{3}}\\
+	\set{3} &\in \set{7, 2, \set{3}}\\
+	\set{\set{3}} &\subset \set{7, 2, \set{3}}
+\end{align*}
+
+The empty set $\emptyset$ is the set containing no elements, $\emptyset = \set{}$. Or, $x \not\in \emptyset$.
+
+\begin{lemma}
+	The empty set $\emptyset$ is a subset of every set.
+\end{lemma}
+\begin{proof}
+	To show that given an set $B$, if $x \in \emptyset$, then $x \in B$.
+	Using the proof by contradiction. Assuming that the statement is false, there exists $x \in \emptyset$ where $x \not\in B$. But no element $x$ exists, therefore a contradiction, hence the original statement, that the empty set is a subset of every set, is true.
+\end{proof}
+
+\subsection{Set operations}
+The union operator $A \cup B$ is the set of all things in either $A$ and $B$.
+
+The intersection operator $A \cap B$ is the set of all things in both $A$ and $B$.
+
+The difference operator $A - B$ is the set of all things in $A$ but not in $B$.
+
+The power set $P(A)$ is the set of all subsets of $A$.
+
+The complement of $B^c$ is $A - B$.
+
+De Morgan's law:
+\begin{align*}
+	(A \cup B)^c &= A^c \cap B^c\\
+	(A \cap B)^c &= A^c \cup B^c
+\end{align*}
+
+The Cartesian product $A \times B$ is the set of all ordered-pairs where
+\[
+	\set{(a, b) \given a \in A, b \in B}
+\]
+
+Note that $A \times B \neq B \times A$.
+
+For a product of three sets $A$, $B$, $C$, one can define it as $A \times B \times C$, or it can be defined as $(A\times B) \times C$.
+
+\section{Functions, Lecture 2}
+A function $f$ is defined as
+\[
+	f: A \to B
+\]
+where $A$ is the domain, and $B$ is the codomain.
+
+The axiomatic definition of the function is: let $A$ and $B$ be two sets, the function from $A$ to $B$ is a subset of $f \subseteq A\times B$ with the property that, for all $a \in A$, there is exactly one element that has $a$ as the first entry in the ordered pairs $f$.
+
+A function $f: A \to B$ is injective if all elements in the domain is mapped to different elements in the codomain. Where
+\[
+	f(a_1) = f(a_2) \Rightarrow a_1 = a_2
+\]
+
+It is surjective if and only if all elements in the codomain are mapped from at least one element in the domain:
+\[
+	\forall b \in B \,\exists a \in A \,st\, f(a) = b
+\]
+
+A function is bijective if and only if it is both injective and surjective. It is an one-to-one correspondence from the domain to the codomain.
+
+The domain and codomain are included in the definition of the function.
+
+\section{Logic}
+A proposition is a statement that is either true or false
+
+The operator $p \lor q$ is the OR gate or the union operator.
+
+The operator $p \land q$ is the AND gate or the intersection operator.
+
+The implication operator $p \Rightarrow q$ is like the subset operator. It is only false if $p$ is true and $q$ is false. It is equivalent to the statement
+\[
+	p \Rightarrow q \equiv \lnot p \lor q
+\] 
+
+The unary negation operator $\lnot p$ is the NOT gate or the complement operator.
+
+Logically equivalent statements $p \equiv q$ is like the equals operator. It is true when $p$ and $q$ are both true, and false when $p$ and $q$ are not the same truthiness.
+
+\begin{lemma}
+	Given any statements $p$ and $q$, the following equivalent statements holds.
+	\begin{align*}
+		\lnot (p \lor q) &\equiv \lnot p \land \lnot q\\
+		\lnot (p \land q) &\equiv \lnot p \lor \lnot q\\
+	\end{align*}
+\end{lemma}
+
+\subsection{Quantifiers}
+Quantifiers includes the for all and there exists symbols. The symbol $\forall$ is the for all symbol; the symbol $\exists$ is the there exist symbol.
+
+Quantifiers are evaluated from left to right.
+
+Negations of quantifiers includes the lemmas
+\begin{align*}
+	\lnot (\forall x \in A, p(x)) &\equiv \exists x \in A, \lnot p(x)\\
+	\lnot (\exists x \in A, p(x)) &\equiv \forall x \in A, \lnot p(x)
+\end{align*}
+
+\subsection{Proof by induction}
+Let $P(n)$ be a proposition that depends on $n \in \nat$. In order to establish that $\forall n \in \nat, P(n)$, it is sufficient to show that: $P(1)$ is true, and that $\forall n \in \nat, P(n) \Rightarrow P(n+1)$.
+
+\newpage
+\section{Matrices}
+
+A matrix is a rectangular array of numbers from a field $\mathbb{F}$. The field, for now, represents the set $\mathbb{Q}, \mathbb{R}, \mathbb{C}$. The matrix with size $m \times n$ is an array with $m$ rows and $n$ columns, and is in the set of matrices $M_{m,n} (\mathbb{F})$.
+
+The indexing notation $A^i{}_j$ means the entry from the $i$th row and $j$th column.
+
+A square matrix is a matrix with the same amount of rows and columns.
+
+A row matrix has only one row. A column matrix has only one column.
+
+A diagonal matrix is one where the only non-zero entries are on the diagonal. It implies that $A^i{}_j = 0$ if $i \neq j$.
+
+A zero matrix is a matrix of some size with all zero entries. $\forall i,j, A^i{}_j = 0$.
+
+An identity matrix is a square matrix that has ones on the diagonal and zeros everywhere else
+\[
+	I^i{}_j = \delta^i{}_j
+\]
+
+\subsection{Matrix operations}
+
+Given two matrices of the same size $A$ and $B$ in $M_{m,n}$, the sum of the matrix is also a member of this set, and that
+\begin{align*}
+	A + B &\in M_{m,n}\\
+	(A + B)^i{}_j &= A^i{}_j + B^i{}_j
+\end{align*}
+
+Scalar multiplication of the matrix $A$ with a scalar $k$ in the field $\mathbb{F}$ is defined to be
+\begin{align*}
+	kA &\in M_{m,n} \\
+	(kA)^i{}_j &= k A^i{}_j
+\end{align*}
+
+Multiplying matrices of $A \in M_{m, n}$, and $B \in M_{n, p}$, their product is
+\begin{align*}
+	AB &\in M_{m, p}\\
+	(AB)^i{}_j &= A^i{}_k B^k{}_j
+\end{align*}
+The $ij$ th entry is the dot product between the $i$th row in $A$ and the $j$th column in $B$.
+
+Matrix multiplication is not commutative, $AB \neq BA$, in general. For example:
+\[
+	(A + B)^2 = A^2 + AB + BA + B^2
+\]
+
+The null factor law, if $AB = 0$, it does not imply that $A$ or $B$ is zero.
+
+Matrix transposition is an unary operation. Give $A \in M_{m,n}$, the transpose of $A$ is
+\begin{align*}
+	A^T &\in M_{n, m}\\
+	(A^T)^i{}_j &= A^j{}_i
+\end{align*}
+
+\begin{lemma}
+	Suppose that $A$ and $B$ are matrices that can be multiplied. Then the following statement holds
+	\[
+		(AB)^T = B^T A^T
+	\]
+\end{lemma}
+\begin{proof}
+	Simply show that the $i,j$ the entry on LHS and RHS are the same. Do it yourself.
+\end{proof}
+
+Also, not that if $AC = BC$, and $C \neq 0$, it does not imply that $A = B$. This is because $C$ might not have an inverse.
+
+\newpage
+\subsection{Matrix Inverses}
+For a square matrix $A \in M_{n,n}$, we say that $A$ is invertible iff $\exists B\in M_{n, n}$ such that $AB = BA = I_n$, then it is defined that $B$ is the inverse of $A$ and is denoted by $A^{-1}$. The inverse of a matrix is unique.
+
+It can be proven that matrix inverse multiplication is commutative.
+
+A singular matrix is not invertible.
+
+\subsection{Properties of the Inverse}
+\begin{lemma}
+	If $A$ and $B$ are matrices of the same size and both invertible, their product is also invertible with the identity of:
+	\[
+		(AB)^{-1} = B^{-1} A^{-1}
+	\]
+\end{lemma}
+\begin{proof}
+	Simply check that the inverse $B^{-1} A^{-1}$ satisfies the defining property of the inverse matrix.
+\end{proof}
+
+
+\begin{lemma}
+	Let $A \in M_{n,n}$. If $A$ has a row with all zeros, it is not invertible. The same applies if $A$ has a column of all zeros.
+\end{lemma}
+\begin{proof}
+	In the lecture notes.
+\end{proof}
+
+\subsection{Linear Systems}
+We can always represent a linear system of equation involving a matrix multiplication, namely:
+\[
+	Ax = b
+\]
+
+Note that if $A$ is invertible, then there is an unique $x$ that solves this equation.
+
+For an arbitrary linear system of equation, namely $Ax=b$, where $A \in M_{m, n}$, we can still attempt to solve it. If $E \in M_{m,m}$ and is invertible, then
+\[
+	Ax=b \equiv (EA)x = Eb \equiv A'x = C'
+\]
+The strategy is to choose $E$ to make the RHS simpler. This is Gaussian Elimination (we don't usually need to find the matrix $E$).
+
+\subsection{Row operations}
+Let $A\in M_{m,n}$ be any matrix, there are three operations that can be taken to reduce the matrix (applying $E$).
+
+A row operation is one of the following: swapping two rows of $A$, multiply a row in $A$ by a non-zero scalar, replace a row in $A$ by itself plus another row in $A$.
+
+\newpage
+\section{Row operations}
+They involve: swapping two rows, multiplying a row by a non-zero scalar, and adding a multiple of another row on a row.
+
+Each row operation can be represented by a matrix computed using the row operation on an identity matrix. This matrix representing a row operation is called an elementary matrix.
+
+\begin{lemma}
+	Let $A,B \in M_{m,n}$, suppose that $B$ is obtained from $A$ by applying a single row operation $\rho$, let $E$ represent the matrix obtained from applying $\rho$ on an identity matrix $I_m$. This implies that $B=EA$.
+\end{lemma}
+
+\begin{proof}
+	See notes L, simply prove this by proving it for every type of row operation.
+\end{proof}
+
+\begin{corollary}
+	Elementary matrices are always invertible.
+\end{corollary}
+
+\begin{proof}
+	Let $\rho$ be a row operation, let $\omega$ be the inverse row operation. This implies that $E_\omega E_\rho = I$ and vice versa, hence there always exists an inverse.
+\end{proof}
+
+Combining elementary matrices will always produce an invertible matrix.
+
+Two matrices are row equivalent if you can get from one to another with a series of row operations. If $A$ and $B$ is row equivalent, then $A\sim B$
+
+\begin{lemma}
+	If the matrices $A$ and $B$ are row equivalent, then there exists a matrix $E$ that is invertible where $B = EA$.
+\end{lemma}
+
+\begin{proof}
+	There is a sequence of row ops $\rho_i$ that converts $A$ to $B$. Then $A_1 = E_{\rho_1} A_0$ and $A_2 = E_{\rho_2} A_1$ and so on til $E_{\rho_n} A_{n-1} = A_n = B$ which is equivalent to
+	\[
+		E_{\rho_n} E_{\rho_{n-1}} \dots E_{\rho_2} E_{\rho_1}A = EA = B
+	\]	
+	 As each of the $E_\rho$ are invertible, the product $E$ is also invertible.
+\end{proof}
+
+The converse is also true, that every invertible matrix can be the result of the product of a series of elementary row matrices.
+
+\subsection{Row Echelon Form}
+The matrix $A$ is in row echelon form if and only if the following conditions are satisfied: all all-zero rows are at the bottom (below all non-zero rows), the leading entry in a row is further to the right than all the leading entries in the row above, every entry below a leading entry is zero.
+
+
+\newpage
+\section{Gaussian Elimination}
+The algorithm is the following. Starting with a matrix $A$, to put $A$ in REF using only row operations.
+
+Start with the left most column that is not all zeros, if needed, use a row swap to make the top entry in the column non-zero. For all rows below that pivot, subtract that row by a multiple of the pivot row til the leading entry on the column is zero.
+Repeat for the next non all zero column excluding the row that was pivoted. When we run out of matrix, the matrix will be in row echelon form.
+
+\subsection{Solving a linear system}
+For a linear system $Ax=b$, to solve for $x$, simply run Gaussian elimination on the augmented matrix $[A|b]$. This results in $[A'|b'] = [EA|Eb]$. We can then solve for $A'x=B'$ using back substitution starting from the last row and substitute for every row above it.
+
+If the pivot in the last row is in the last column, the system of linear equation is not solvable, that it is inconsistent.
+
+If the last row is all zeros, the matrix will have infinite solutions (requires a free variable or parameter). When doing back sub, choose the pivot entry in the above rows to be the LHS of the equation, and set free variables to other non-pivot variables. 
+
+In general for a linear system, its a row echelon form tells us the number of solutions it has. If there exists a row in the REF that has the pivot entry in the last column, the equation has no solutions, the system is inconsistent; if there are $r$ all zero rows and $n$ total rows, the equation has $n-r$ parameters for its solutions, this system is called a consistent system. 
+
+The rank of a matrix is the number of non zero rows in its row echelon form.
+
+\newpage
+\section{Reduced Row Echelon Form}
+A reduced row echelon form (RREF) has the structure: it is in row echelon form, all the leading entries are 1s, each column with a leading entry has all other entries to be zero.
+it is also unique (there exists only one RREF for a given matrix that is row equivalent to the matrix).
+
+If a square matrix is in RREF, either it is the identity matrix, or it has at least one row of zeros. Then if the RREF is not the identity matrix, then the matrix is not invertible (it is singular).
+
+To put any matrix $A$ into RREF. First put $A$ into REF. Then multiply each non-zero row by the reciprocal of the leading entry. Lastly use the 3rd kind of row operation to make zero all entries above all leading entry. This is completed from the bottom row up.
+
+\subsection{Calculating the inverse matrix}
+Assuming the matrix $A$ is square (all non-square matrices are singular). To find the inverse $A^{-1}$ (if it exists), form the augmented matrix $[A|I]$, and put it into RREF $[A'|B]$. If $A' = I$, then $A$ is invertible, here $B = A^{-1}$. Otherwise, if $A' \neq I$, then $A$ is singular.
+
+\begin{theorem}
+	For matrices $A,B$, if $AB=I$, then $A$ is invertible with $A^{-1} = B$.
+\end{theorem}
+\begin{proof}
+	Let $R$ be the RREF of $A$, this means that
+	\begin{align*}
+		EA &= R\\
+		A &= E^{-1}R
+	\end{align*}
+
+	Therefore
+	\begin{align*}
+		AB &= I\\
+		E^{-1} R B &= I\\
+		RB &= E
+	\end{align*}
+
+	The square matrix $R$ is either the identity $I$ or has a row of zeros. First assume that it has a row of zeros, this means that $E$ also has a row of zeros and is not invertible, but $E$ is invertible for it consists of row operations.
+	
+	This means that $R = I$, and that
+	\[
+		B = E
+	\]
+	
+	hence
+	\begin{align*}
+		EA &= R\\
+		BA &= I
+	\end{align*}
+
+	Because $BA = AB = I$, $A$ is invertible with $A^{-1} = B$.
+\end{proof}
+
+\begin{theorem}
+	For some square matrix $A$, the matrix is invertible iff $A \sim I$.
+\end{theorem}
+
+\begin{proof}
+First show that if $A \sim I$ implies that $A$ is invertible. Therefore there exists some $E$ such that $EA = I$. As $E$ is invertible
+\[
+	A = E^{-1},
+\]
+and because $E^{-1}$ is invertible, $A$ is also invertible.
+
+Now assume that $A$ is invertible with $B$. Consider the RREF of $A$, $R$, where $A \sim R$. Therefore there exist a matrix $E$ where $EA = R$. As both $E$ and $A$ are invertible, $R$ is also invertible. An invertible matrix in RREF must be the identity $I$, so $R=I$, and therefore $A \sim I$.
+
+\end{proof}
+
+If $A$ is invertible, then $A$ (and $\inv A$) is a product of elementary matrices. Prove is in lecture note 7.
+
+\newpage
+\section{Rank and Determinant}
+The RREF of any matrix is unique. Meaning that if $A\sim R_1$ and $A\sim R_2$, where both $R_1, R_2$ are in RREF, then $R_1 = R_2$.
+
+Any invertible matrices is row equivalent to all invertible matrices of the same size.
+
+Define the rank of a matrix $A\in M_{m,n}$ to be the number of non-zero rows in its RREF. Notation is $\rank A$.
+
+Two row equivalent matrix have the same rank.
+
+The determinant of a square matrix $A$ have the following properties:
+\begin{enumerate}
+	\item $\det I = 1$
+	\item Swapping two rows in $A$ to form $B$, $\det A = -\det B$
+	\item Determinants are linear in the first row (and every row because of property 2)
+\end{enumerate}
+
+\subsection{More determinant properties}
+If $A$ has two equal rows, $\det A = 0$.
+
+Note that $\det (kA) = k^n \det A$. This is because every row ($n$ total rows) are multiplied by $k$.
+
+The third kind of row operation, adding a row by a multiple of another row, does not change the determinant.
+
+If $A$ has a row of zeros, then $\det A = 0$.
+
+If a matrix $A$ is in triangular form (lower or upper triangular), $\det A = \sum_{i} A_ii$.
+
+For a matrix $A$, $\det A = 0$ iff $A$ is singular.
+
+For matrices $A,B$, $\det AB = \det A \det B$. Because multiplication in the field is commutative, $\det AB = \det BA$.
+
+For a matrix $A$, $\det A^T = \det A$.
+
+Determinants are unique and the function always exists.
+
+\subsection{Cofactor expansion}
+Let $A$ be a matrix of size 2 or more. Fix row $i$, then 
+\[
+	\det A = \sum_j (-1)^{i+j} a_{ij} \det A(i, j)
+\]
+where $A(i, j)$ equals the matrix with the ith row, jth column removed in $A$. This inductive definition satisfied the property 1, 2, 3 for determinants.
+
+Note that this cofactor expansion works by expanding down the column as well.
+
+The following notations are identical, $\det A = | A | $.
+
+
+\newpage
+\section{Fields}
+A field defines scalars for use in a vector space. It is defined to be a set $\mathbb{F}$ together with two binary operations $+$ and $\times$.
+
+A binary operation in a field is a function $f : \mathbb{F} \times \mathbb{F} \rightarrow \mathbb{F}$.
+
+\paragraph{Field Axioms}
+\begin{itemize}
+	\item Addition is commutative (A1), associative (A2), has identity (A3), has inverse (A4)
+	\item Multiplication is commutative (M1), associative (M2), has identity (M3), has inverse (M4)
+	\item Distributivity property (D)
+\end{itemize}
+
+A set that satisfies (A1, A2, A3, A4) is an abelian group.
+ 
+There is a unique additive and multiplicative inverse and identity.
+
+\paragraph{Examples} The rationals, reals, and complex numbers are all fields. The natural numbers, integers are not fields.
+
+Let the field $\mathbb{Q}[\sqrt{2}] = \set{x + y\sqrt{2} \given x, y \in \mathbb{Q}}$, notice that $\mathbb{Q} \subseteq \mathbb{R}$.
+
+A subfield $E$ of $F$ has elements subset of the elements in $F$, with the binary operations $+$ $\times$ still the same from $F$.
+
+Finite fields can be the set of $p$ (where $p$ is prime) integers under modulo $p$. For $p = 2$, the field $\mathbb{Z}^2$ contains $\set{0, 1}$ and $+$ with $\times$ are under $(\text{mod}\, p)$.
+
+\begin{proof}
+	To show that for any field $\mathbb{F}$, that
+	\[
+		\forall x \in \mathbb{F}, 0 \times x = 0
+	\]
+	
+	Consider the expression $0 \times x$, notice
+	\begin{align*}
+		0 \times x &= (0 + 0) \times x\\
+				   &= x \times (0 + 0)\\
+				   &= x \times 0 + x \times 0\\
+	    -(0 \times x) + (0 \times x) &= -(0 \times x) + 0 \times x + x \times 0\\
+	    0 &= 0 + x \times 0\\
+	    0 &= x \times 0\\
+	\end{align*}
+\end{proof}
+
+\begin{proof}
+	To show that
+	\[
+		\forall x\in\mathbb{F}, (-1) \times x = -x
+	\]
+	
+	Consider
+	\begin{align*}
+		(-1) \times x + 1 &= (-1) x + 1 x\\
+		&= (1+ -1) x\\
+		&= 0 x\\
+		&= 0
+	\end{align*}
+	
+	Therefore,
+	\begin{align*}
+		(-1) x + x &= 0\\
+		(-1) x + x - x &= 0 + -x\\
+		(-1) x + 0 &= -x\\
+		(-1) x &= -x
+	\end{align*}
+\end{proof}
+
+\newpage
+\section{Vector Spaces}
+Should be able to add vectors, multiply vectors by a scalar.
+
+\paragraph{Definition} Let $\mathbb{F}$ be a field. A vector space over $\mathbb{F}$ consists of a set $V$, and two binary operations $+ : V \times V \to V$ (vector addition) and $\times : \mathbb{F} \times V \to V$ (scalar multiplication). The axioms of a vector space are:
+\begin{enumerate}
+	\item Vector additions associativity, commutative, identity $\vec{0}$, and invertible $-v$.
+	\item Scalar multiplication distribute laws: $k(u+v) = ku + kv$ and $(a+b)u = au + bu$, associative law $(ab)u = a(bu)$, and identity $1$.
+\end{enumerate}
+
+A vector in a vector space is defined to be an element in the set $V$.
+
+Examples of vector spaces
+\begin{itemize}
+	\item Let $V = \mathbb{R}^2$, $\mathbb{F} = \mathbb{R}$, and addition and scalar multiplications as usual in $\mathbb{R}$.
+	\item $\mathbb{R}^n$ for $n \in \mathbb{N}$.
+	\item $\mathbb{C}^n$
+	\item Let $V = \mathbb{F}_2^n$, $\mathbb{F} = \mathbb{F}_2$
+	\item Let $V = M_{m,n} (\mathbb{F})$, $\mathbb{F} = \mathbb{F}$, with usual matrix addition and scalar multiplication of matrices.
+	\item Let $V = \mathbb{F}[x]$, $\mathbb{F} = \mathbb{F}$, with usual polynomial addition and scalar multiplication for polynomials.
+	\item Let $V = F(S, \mathbb{F})$, $\mathbb{F} = \mathbb{F}$.
+\end{itemize}
+
+\newpage
+\section{Subspaces}
+\paragraph{Definition} A subspace $W$ of a vector space $V$ is a subset $W \subseteq V$ that itself is a vector space with the binary operations defined on $V$.
+
+The operations on $W$ is a restricted operations of those on $V$. Subspaces are denoted by $W \leq V$. Subspaces are also vector spaces, so all theorems on vector spaces applies to subspaces.
+
+A subset of a vector space may not be a subspace. To show that a subset fails to be a subspace:
+\begin{lemma}
+	Let $V$ be a vector space and suppose $W \subseteq V$. If $W$ is a subspace, then $0_V \in W$. And therefore, if $0_V \notin W$, then $W$ is not a subspace.
+\end{lemma}
+
+The subspace theorem allows us to quickly check if a subset of $V$ is a subspace
+\begin{theorem}
+	Let $V$ be a vector space over $\mathbb{F}$, a subset $W \subseteq V$ is a subspace iff: $W$ is non-empty, closed under vector addition, closed under scalar multiplication.
+\end{theorem}
+
+Consider the solution space of a homogeneous linear system
+\begin{lemma}
+	For field $\mathbb{F}$ and matrix $A \in M_{m,n} \mathbb{F}$, the solution space (or null space)
+	\[
+		\set{AX=0 \given X\in M_{n,1} \mathbb{F}}
+	\]
+	is a subspace of $M_{m,n} \mathbb{F}$
+\end{lemma}
+
+Note that restricting a function can only restrict its domain, for subspaces we are hoping that its codomain will also be restricted.
+
+\newpage
+\section{Span and Linear Dependence}
+Let $V$ be a vector space over some field, given a subset of vectors $S\subseteq V$, the span of the set $S$ is
+\[
+	\spann(S) = \set{a_1 u_1 + \dots + a_k u_k \given k \in \mathbb{N}, a_i \in \mathbb{F}, u_i \in S}
+\]
+When $S = \emptyset$, define $\spann(S) = \spann(\emptyset) = \set{\emptyset}$.
+
+Observations:
+\begin{itemize}
+	\item $S \subseteq \spann(S)$
+	\item $\vec{0} \in \spann{S}$
+\end{itemize}
+
+A linear combination is all of the sums of the scaled vectors in a set.
+
+A spanning set $S$ over the vector space $V$ indicates that $\spann(S) = V$. This is also denoted by the span $S$ over $V$.
+
+To prove that a span $S$ is a spanning set, prove that for any vector in $V$, there exists coefficients such that the linear combination equals the vector. This is done by showing the matrix formed by the vectors in $S$ is consistent. More formally,
+
+Given $W \leq V$ and $S \subseteq V$. $S$ is a spanning set for $W$ iff $\spann(S) = W$.
+
+Note that $S$ is a spanning set for $\spann(S)$.
+
+Additionally,
+\begin{lemma}
+	Let $V$ be a vector space, and $S \subseteq V$.
+	\begin{enumerate}
+		\item $\spann(S)$ is a subspace of $V$
+		\item For any subspace $W \leq V$, if $S \subseteq W$, then $\spann(S) \subseteq W$ and $\spann(S) \leq W$.
+	\end{enumerate}
+\end{lemma}
+
+\subsection{Linear dependence}
+For some subset $S \subseteq V$ for a vector space $V$, the set is linearly dependent iff every element in $\spann(S)$ is a unique linear combination of vectors in $S$. Particularly when applied to the zero vector, the set is linearly dependent when
+\[
+	\vec{0} = a_1 u_1 + \dots + a_k u_k
+\]
+where $u_i \in S$ and $a_i \in \mathbb{F}$, with $\exists a_i \neq 0$.
+
+A set is linearly independent when its not linearly dependent, or the statement
+\[
+	\vec{0} = a_1 u_1 + \dots + a_k u_k
+\]
+holds implies that $\forall i, a_i = 0$.
+
+\begin{lemma}
+	The set $S$ is linearly dependent iff there exists a vector $u \in S$, such that $u \in \spann(S \setminus \set{u})$
+\end{lemma}
+
+\begin{proof}
+	In the notes, but whatever.
+	
+	If $\exists u \in S$, $u \in \spann(S\setminus\set{u})$. Then
+	\[
+		u = a_1 v_1 + \dots + a_k v_k
+	\]
+	for $\forall a_i \in \mathbb{F}$ and distinct $\forall v_i \in S\setminus\set{u}$.
+	Therefore 
+	\[
+		\vec{0} = (-1) u + a_1 v_1 + \dots + a_k v_k
+	\]
+	and the coefficient on $u$ is non-zero, so $S$ is linearly dependent.
+	
+	Now if $S$ is linearly dependent, then consider
+	\[
+		a_1 u_1 + \dots + a_j u_j + \dots + a_k u_k = \vec{0}
+	\]
+	with $a_j \neq 0$, this will exist due to the definition of linearly dependence.
+	Then
+	\begin{align*}
+		-a_j u_j &= a_1 u_1 + \dots + a_k u_k\\
+		u_j &= \frac{-a_1}{a_j} + \dots \frac{-a_k}{a_j} u_k
+	\end{align*}
+	the division on the RHS is possible for $a_j$ is non-zero. Hence $u_j \in \spann(S\setminus\set{u})$, as all the $u_i$ on the RHS are members of $S$ but not $u$.
+\end{proof}
+
+
+\newpage
+\section{Bases and Dimensions}
+Bases is the plural of basis.
+
+Given a vector space $V$, a basis $B$ is a subset $B \subseteq V$ such that it is spans $V$ and is linearly independent.
+
+Standard bases are assumed to be the bases when no other bases are stated for a vector space.
+
+\begin{theorem}
+	For a basis $B = \set{b_1, b_2, ...}$ for a vector space $V$, all vectors $u \in V$ can be written as an unique linear combination of vectors in the basis:
+	\[
+		u = a_1 b_1 + \dots
+	\]
+	for a unique set of $a_i \in \mathbb{F}$ (that is if $u = c_1 b_1 + \dots$, then $c_1 = a_1$.)
+\end{theorem}
+
+\begin{proof}
+	In the notes
+\end{proof}
+
+Define $\exists!$ meaning a unique existence.
+
+
+\subsection{Dimensions}
+The dimension of a vector space is the size of any one of its basis. More formally,
+\begin{theorem}
+	Let $B = \set{b_1, \dots, b_n}$ be a basis for some vector space $V$. Consider $S \subseteq V$,
+	\begin{enumerate}
+		\item If $|S| > n$, then $S$ is linearly dependent.
+		\item If $|S| < n$, then $S$ cannot span $V$.
+		\item If $S$ is a basis for $V$, then $|S| = n$.
+	\end{enumerate}
+
+	Therefore every basis of a finite dimensional vector space has the same size.
+\end{theorem}
+
+A vector space is finitely dimensional if any of its basis has finite size, and is infinitely dimensional if any of its basis has infinite size. The notation for dimensions is
+\[
+	\dim V = n
+\]
+if the basis of $V$ has $n$ elements.
+
+\begin{theorem}
+	Every vector space has a basis
+\end{theorem}
+
+
+
+
+\newpage
+\section{Coordinates}
+To define coordinates, let $V$ be a vector space with $B$ being its finite dimensional ordered basis, where $\dim V = n$. For any vector $u \in V$,
+\[
+	u = \alpha^i b_i
+\]
+the set of $\alpha^i$ forms the coordinate column matrix of $u$, that is
+\[
+	\coord{u}{B} = \begin{bmatrix}
+		\alpha^1\\
+		\alpha^2\\
+		\vdots
+	\end{bmatrix} 
+\]
+where $\coord{u}{B}$ is the coordinate matrix of $u$ under basis $B$.
+
+\begin{lemma}
+	The map from the vector space to the coordinate space is a linear transformation (homomorphism) and bijective (invertible linear transformation), in that $\forall u, v \in V$ under a basis $B$
+	\begin{align*}
+		\coord{u+v}{B} &= \coord{u}{B} + \coord{v}{B}\\
+		\forall \alpha \in \mathbb{F}, \coord{\alpha u}{B} &= \alpha \coord{u}{B}
+	\end{align*}
+\end{lemma}
+
+\begin{lemma}
+	Let $V$ be an n-dimensional vector space, and $B$ be a basis for $V$. For $S \subseteq V$, define $T \subseteq M_{n,1}$ where $T = \set{\coord{u}{B} \given u \in S}$, then
+	\begin{itemize}
+		\item $S$ is a spanning set for $V$ iff $T$ is a spanning set for $M_{n,1}$
+		\item $S$ is linearly independent iff $T$ is linearly independent
+	\end{itemize}
+\end{lemma}
+
+\begin{proof}
+	To prove 1, notice that: $S$ linearly independent iff $u=a^i u_i=0$ means all $a^i=0$. The statement ($u=a^i u_i=0$) is equivalent to
+	\begin{align*}
+		[a^i u_i] &= [0]\\
+		a^i [u_i] &= 0_{M}
+	\end{align*}
+	But the statement $a^i [u_i] = 0$ implying $a^i=0$ is true iff $T$ is linearly independent.
+	
+	To prove statement 2, refer to the notes.
+\end{proof}
+
+
+\newpage
+\section{Row and Column space}
+For a matrix $A \in M_{m,n}$, associate three vector spaces with $A$.
+
+The solution space (null space) of $A$ is the set of solutions $X$ that maps to the zero vector:
+\[
+	\ker A = \set{X \in M_{1,n} \given AX=0}	
+\] 
+
+The row space of $A$ is the span of the rows in $A$. Define $r_i = (a_{i1}, \dots, a_{in}) \in \mathbb{F}^n$, then
+\[
+	\rowspace A = \spann(\set{r_i, \dots, r_m}) \leq \mathbb{F}^n
+\]
+the rowspace is homomorphic to the row matrix $M_{1,n}$.
+
+The column space of a matrix $A$ is the span of the columns in $A$, define $c_i = \set{a_{1i}, \dots, a_{mi}}$ namely
+\[
+	\colspace A = \spann(\set{c_i, \dots, c_n}) \leq \mathbb{F}^m
+\]
+the column space is homomorphic to the column matrix $M_{m, 1}$.
+
+The row and column spaces are useful for linking coordinate spaces to matrices.
+
+\begin{lemmas}{Properties of row and column spaces}{}
+	Let $A$ be a matrix, suppose $R \sim A$ and is in REF. Then,
+	\begin{enumerate}
+		\item $\rowspace A = \rowspace R$, this also holds if $R \sim A$. 
+		\item The non-zero rows of $R$ forms a basis for $\rowspace A$.
+		\item The pivot columns of $A$ forms a basis for $\colspace A$. The pivot columns are columns that contains a pivot entry in $R$.
+		\item Derived from 3, the non-pivot columns are linear combinations of the pivot columns to its left.
+	\end{enumerate}	
+\end{lemmas}
+
+\begin{proof}
+	In notes. Essentially, 1 is proven by showing that the row space of $R$ is a subset of the row space of $A$ for all rows in $R$ are linear combinations of rows in $A$.
+	
+	2 is proven by noticing that rows in $R$ spans row space of $R$, which is equal to row space of $A$. To show rows in $R$ is LID, simply assume the opposite: do the row operations on the first row that leads to zeroing the first row (possible because there exists a non-trivial zero linear combination if its LD), but this zeroed matrix must have same rank as $R$ (row equivalence), yet it doesn't for it has one less rank.
+	
+	3 is proven by the thought that the null spaces of two row equivalent matrices are the same, meaning linear combination of columns are related for columns in $A$ and columns in $R$. Because the pivot columns in $R$ is LID, then the pivot columns in $A$ is also LID. And because the pivot columns in $R$ linearly combines to non-pivot columns, so does the columns in $A$.
+	
+	4 is similar to 3, but because it is easy to see that in $R$, it is also true in $A$.
+\end{proof}
+
+Define the dimensions for the row space to be the row rank, and the dimensions for the column space to be the column rank. The rank, row rank, and column rank are always equal. This follows from the lemma.
+
+Also, from the equivalence in the rank, row rank, and column rank
+\[
+	\rank A = \rank A^T
+\]
+For the rank of $A$ equals the rank of the column space of $A$, which because the columns are rows in $A^T$, it is also the row space of $A^T$. The rank of this \``row'' space in $A^T$ is therefore equal to the rank of the column space, so
+\[
+	\rank A = \dim \colspace A = \dim \rowspace A^T = \rank A^T
+\] 
+
+\newpage
+\section{Finite vector space algorithms}
+
+\begin{algor}{Proving linearly independent and spanning sets}{}
+	For a vector space $V$ with a basis $B$, let $S \subseteq V = \set{u_1, \dots u_k}$, then $S$ is linearly independent iff
+	\[
+		A =  [\coord{u_1}{B} \dots \coord{u_k}{B}]
+	\]
+	and $\rank A = k$.
+	
+	Also, $S$ is a spanning set iff $\rank A = n$, where $n$ is the dimension of $V$.
+\end{algor}
+
+
+\begin{algor}{Creating a basis for the span of a subset}{}
+	For a vector space $V$ with a basis $B$, let $S \subseteq V = \set{u_1, \dots u_k}$.
+	
+	To get a subset of $S$ that is a basis for $\spann{S}$, let 
+	\[
+		A =  [\coord{u_1}{B} \dots \coord{u_k}{B}]
+	\]
+	 
+	 If $R$ is the REF of $A$, then the pivot columns of $A$ forms the basis for $\spann{S}$. This is because those columns are basis of the column space of $A$, which is equal to the span of $S$.
+\end{algor}
+
+\begin{algor}{Vector to its linear combination in a span}{}
+	Let $u \in \spann{S}$ for some set $S \subseteq V = \set{u_1 \dots u_k}$ in a vector space $V$. To find the linear combination of vectors in $S$ that equals $u$, consider
+	\[
+		A = [\coord{u_1}{B} \dots \coord{u_k}{B} \coord{u}{B}]
+	\]
+	and put $A$ into RREF. If there is a pivot in the last column, then $u$ is not in the span. Otherwise, the coefficients are the entries in the last column of the RREF of $A$.
+\end{algor}
+
+\begin{algor}{Find a superset of a linearly independent set that is a basis}{}
+	Let $V$ be a vector space and $B$ be its basis, and if $W \leq V$ is a subspace and has a basis $\set{w_1, \dots, w_m}$. Then given a linearly independent subset $S = \set{u_1, \dots, u_k}$ of $W$.
+	
+	To extend $S$ to form a basis of $W$, form the matrix
+	\[
+		A = [\coord{u_1}{B} \dots \coord{u_k}{B} \coord{w_1}{B} \dots \coord{w_m}{B}]
+	\]
+	Consider the row echelon form of $A$. The pivot columns corresponding to $u_i$ and $w_i$ are taken as the basis vectors for $W$.
+	
+\end{algor}
+
+
+\newpage
+\section{Linear error correcting codes}
+Note that this section is incomplete.
+%TODO
+
+Linear codes are an application of linear algebra. They can encode messages into a form that are resistant to errors, often bit flips during storage or transmission.
+
+Define an alphabet $A$ to be a set of possible encoded digits. Let a code $C$ over the alphabet be a subset of the vector space $A^n$ (a vector space of n-tuples of letter from $A$). The natural number $n$ is the length of the code. Elements of a code are named codewords.
+
+\begin{defn}{Linear Codes}{}
+	Linear codes are a restricted set of codes. Namely, a linear code $C$ of length $n$ and rank $k$ is a k-dimensional subspace of $\mathbb{F_p}^n$, where $p$ is some prime number. The code is called a binary linear code when $p = 2$.
+\end{defn}
+
+Practically, a linear code of length $n$ and rank $k$ is used to encode messages of size $k$ into codewords of size $n$. The linear code is a k-dimensional vector space of all possible codewords ($k$ basis vectors), each member codeword of size $n$.
+
+\begin{defn}{Check Matrix}{}
+	A check matrix $H \in M_{n-k, k}$ is a linear map from the linear code $C$ to its column space. It is defined to be, for a code $C$, such that $C$ is the solution space of $H$. That is, for all $c \in C$, $Hc = 0$.
+\end{defn}
+
+For all check matrices $H$, its solution space $C$ has a basis with $k$ elements. The linear combination of these basis vectors forms codewords with $k$ parameters (representing the message size, called information bits) and $n-k$ parity bits, or check bits. The information bits are the indices of the non-pivot columns in the REF of $H$, and the check bits are at indices of the pivot columns in $H$.
+
+The generator matrix $G$ is formed by joining the basis vectors of $C$. To encode a word $w$ to its codeword $c$, it is
+\[
+	c = Gw
+\]
+After transmission, maybe with some errors flipping/changing the codeword to $c'$, we can check for, or even correct errors that occurred. By definition, a received codeword is error-free if
+\[
+	Hc' = 0
+\]
+then we can recover the original message by solving for $w$ in $Gw = c'$.
+
+Else we have some errors. Let $e$ be the error in $Hc' = e$. If we are able to fix this error, the vector $e$ would be a linear combination of the columns in $H$, say $e = a^i H_i$. Hence
+\begin{align*}
+	Hc' &= a^i H_i\\
+	H(c' - a^i) &= 0
+\end{align*}
+where $a^i$ is a column vector containing all of linear constants. The correct codeword is therefore $c' - a^i$, and we can recover the origin message by solving for $w$ in $Gw = c'-a^i$.
+
+\subsection{Hamming distance}
+We define the distance between codewords using the hamming distance. The hamming distance between two codewords $u$, $v$, is denoted by $d(u, v)$, represents the number of bit differences between the two vectors.
+
+The idea is that when we receive a non-codeword, we assume the original message is the codeword closest (by hamming distance) to the non-codeword.
+
+For a code $C$, the minimum distance $d_m$ is the smallest hamming distance between any two codewords in $C$,
+\[
+	d_m = \min \set{d(u, v) \given u, v \in C}
+\]
+
+The following important lemma holds,
+\begin{lemmas}{Minimum distance theorem}{}
+	For a code $C$ with minimum distance $d_m$, it can detect a maximum of $d_m - 1$ errors and can correct a maximum of $\floor*{\frac{d_m - 1}{2}}$ errors. 	
+\end{lemmas}
+The proof of the lemma should be obvious; it simply follows the nearest neighbor principal, that the original codeword is the codeword closest to the received codeword.
+
+Define the weight of a codeword $w(u)$ to be its hamming distance to the zero vector, that is
+\[
+	w(u) = d(u, 0)
+\]
+This is also the number of non-zero coordinates.
+
+\begin{lemmas}{Linear Code weight theorem}{}
+	For a linear code, the minimum weight of its codewords is equal to the minimum distance of the code.
+\end{lemmas}
+
+To compute the minimum weight (also the minimum distance) of a linear code from its check matrix, we have another theorem
+\begin{lemmas}{}{}
+	For a check matrix $H$ of a linear code $C$, the minimum weight of the linear code is the smallest number of columns in $H$ needed to be linearly dependent.
+\end{lemmas}
+
+
+%
+%
+%Linear codes serve to minimize and correct error in the transmission of data.
+%
+%The code is the message transformed through the linear code. The codeword is a single word transformed under the linear code.
+%
+%Define a linear code $C$ of length $n$ and rank $k$ is a k-dimensional subspace of $\mathbb{F_p}^n$, where $p$ is some fixed prime (often $n=2$). Notice that $n$ is the length of a codeword and $k$ is the length of a message.
+%
+%A check matrix of $C$ is a matrix $H$ where $H \in M_{n-k,n}(\mathbb{F_p}^n)$ and $HC=0$. Note that $k$ is the dimension the solution space of $H$.
+%
+%The elements in the code space $C$ are the bits to send. For a message $v = \set{v_1, \dots, v_k}$, the code word $u$ is
+%\[
+%	u = v_1 b_1 + \dots v_k b_k
+%\]
+%
+%Then if $Hu=0$ (assuming $u$ is a column matrix), then no errors occurred.
+%
+%Otherwise, if
+%\[
+%	Hu = H (00\dots1\dots)
+%\]
+%then we know an error occurred on the index where 1 is on the RHS. The most probable intended codeword is
+%\[
+%	w = u - (00\dots1\dots)
+%\]
+%
+%The measurements for a given linear code and checking matrix is: how much redundancy are there, and how many errors can be corrected by the code.
+%
+%The hamming distance between two messages, $d$, under a code $C$ is
+%\[
+%	d = \min{ d_H(u, v) \given u, v \in C, u \neq v}
+%\]
+%where $d_H(u, v)$ is the number of coordinates where $u$ and $v$ differ (changes under the coordinates, not under the field).
+%
+%For a code $C$ of rank $k$ and length $n$, one can detect at most $d - 1$ errors. We can fix at most $\text{floor}(\frac{d-1}{2})$ errors. 
+
+\newpage
+\section{Linear Transformation}
+Linear transformations between vector spaces are defined to preserve the addition and scalar multiplication properties of vector spaces.
+
+\begin{defn}{Linear Transformation}{}
+	Let $V$ and $W$ be vector spaces over the same field $\mathbb{F}$. A linear transformation $T$ from $V$ to $W$ is a function $T: V \to W$ with the following properties:
+	\[
+		T(u + v) = T(u) + T(v), \forall u, v \in V
+	\]
+	\[
+		T(au) = aT(u), \forall a \in \mathbb{F}, u \in V
+	\]
+\end{defn}
+
+Subspaces and most other vector space properties are preserved through linear transformations.
+
+Examples of linear transformations
+\begin{itemize}
+	\item Rotation in $\mathbb{R}^2$ around the origin
+	\item Reflection in $\mathbb{R}^2$ across a line that passes the origin
+	\item Dilation in $\mathbb{R}^2$ across a line that passes the origin
+\end{itemize}
+
+Linear transformations are homomorphisms between vector spaces.
+
+For any linear transformation $T: V \to W$, then
+\[
+	T(0_v) = 0_w
+\]
+and
+\[
+	\forall u \in V, T(-u) = -T(u)
+\]
+
+Matrix multiplications on coordinates between two vector spaces are valid linear transformations. In fact, all finite dimensional linear transformations can be represented by matrices.
+
+\begin{lemmas}{}{}
+	Let $A \in M_{m,n}$, then the function $T: M_{n, 1} \to M_{m, 1}$ where $\forall u \in M_{n, 1}, T(u) = Au$, is a linear transformation.
+\end{lemmas}
+This is proved by the distributive law and scalar law of matrices.
+
+The generalization that matrices on coordinates are linear transformations between vector spaces are encapsulated in the following theorem.
+\begin{theorems}{}{}
+	For finite vector spaces $V, W$, where $\dim V = n$, $\dim W = m$. Fix a basis $B$ for $V$, and a basis $C$ for $W$. The mapping (derived from matrix $A \in M_{m,n}$) from $V$ to $W$ defined by: for a vector $u \in V$, consider the function
+	\[
+		[T(u)]_C = A [u]_b
+	\]
+	where $v = T(u) \in W$. This is a valid linear transformation.
+\end{theorems}
+
+Image of a linear transformation refers to the set of elements mapped by the transformation under an original set.
+
+The pre-image of a linear transformation refers to the set of elements that gets mapped to the set under a linear transformation.
+
+Both the image and pre-image preserves subspaces.
+
+Notice that the image of a set $S$ for a mapping $f$ is denoted as $f(S)$, that we are overloading the function $()$ symbol.
+
+Linear transformations are unique based on their mappings of a spanning set. If two linear transformation maps the spanning set to the same set, they are the same linear transformation. That is, for a subset $S \subseteq V$ that spans $V$, if the image of two linear transformation $T_1, T_2$ are the same set $T_1(S) = T_2(S)$, then $T_1 = T_2$.
+
+Linear transformations can be uniquely created by a function mapping the set of basis vectors to the other vector space. That is, for vector spaces $V, W$, where $B$ is a basis for $V$. For any function $f: B \to W$, then there exists a unique linear transformation $T: V \to W$ where $T(B) = f(B)$.
+
+\newpage
+\section{Matrix representation of linear transformations}
+
+\begin{lemmas}{}{}
+	Let $V$ and $W$ be finite vector spaces with dimensions $\dim V = n$ and $\dim W = m$, fixing a basis $B$ for $V$ and $C$ for $W$, given a matrix $A \in M_{m, n}$, we can define a unique linear transformation $T: V \to W$ as so
+	\[
+	[T(u)]_C = A [u]_B
+	\]
+\end{lemmas}
+
+In this case, we denote $A = [T]_{CB} \in M_{m,n}$.
+
+\begin{theorems}{}{}
+	We are trying to show the reverse: that for all linear transformations $T$ for a vector space $V$ and $W$ with basis $B$ and $C$, there exists a unique matrix operating in the coordinate space (given $T: V \to W$, find a unique $A=[T]_{CB}$ such that $\forall u \in V, [T(u)]_C = A [u]_B = [T]_{CB} [u]_B$).
+	
+\end{theorems}
+\begin{proof}
+	To show that this unique $A$ exists, using the above scenario, let $B = \set{b_1, \dots, b_n}$. Define $A = [T]_{CB}$ to be
+	\[
+	A = [[T(b_1)]_C \dots [T(b_n)]_C]
+	\]
+	this must be the case because $[T(b_i)]_C = A [b_i]_B = A_i$ where $A_i$ is the ith column of $A$.
+	
+	Now to show that $A$ does indeed satisfy as a linear transformation, consider $u = a_i b_i$, then
+	\begin{align*}
+		[T(u)]_C & = a_i [T(b_i)]_C\\
+		&= a_i A_i\\
+		&= A [u]_B
+	\end{align*}
+\end{proof}
+
+Linear transformations under function composition represented a matrices follow the lemma:
+\begin{lemmas}{}{}
+	Suppose $U, V, W$ are vector spaces with basis $A, B, C$. Let the linear transformations $S: U \to V$ and $T: V \to W$. Then the following expression holds
+	\[
+		[T \circ S]_{CA} = [T]_{CB} [S]_{BA}
+	\]
+\end{lemmas}
+
+\subsection{Kernel and Image}
+\begin{defn}{Kernel and Image}{}
+	Let $T: V \to W$ be a linear transformation. The kernel (or nullspace) of $T$ is the set of all vectors that maps to the zero vector through $T$. That is
+	\[
+		\ker T = \{u \given T(u) = 0, u \in V \}
+	\]
+	
+	The image of $T$ consists of all vectors in $W$ mapped to by $T$, that is
+	\[
+		\im T = \set{ T(u) \given u \in V }
+	\]
+\end{defn}
+
+Notice that both the kernel and the image are subspaces of $V$ and $W$.
+
+\begin{defn}{Nullity and Rank}{}
+	Define the nullity of a linear transformation $T$ by the dimensions of its kernel. Define the rank of a linear transformation by the dimensions of its image.
+\end{defn}
+
+\begin{theorems}{}{}
+	For a linear transformation $T$, the mapping is injective if and only if the nullity of $T$ is zero (or that its kernel space contains only the zero vector).
+\end{theorems}
+\begin{proof}
+	It is simple to see that if $T$ is injective, then every vector in the kernel space must be the zero vector.
+	Also that if the kernel space contains only the zero vector, then $T(u) = T(v)$ implies that $u = v$ for all $u, v \in V$, hence injective.
+\end{proof}
+
+For a linear transformation $T: V \to W$. If $T$ is injective, the projection of a linearly independent subset $U$ from $V$ is also linearly independent in $W$, that $T(U)$ is linearly independent.
+Also, no matter the properties of $T$, the projection of a spanning subset $U$ (of $V$) will also be a spanning set for the image, that $\spann T(U) = \im T$.
+
+Therefore, for an injective linear transformation $T$, the projection of a basis in $V$ will also be a basis in $\im T$.
+
+For finite dimensional domain and codomains on a linear transformation, when converted into a matrix, its kernel space is equivalent (same dimensions) to the solution space in the coordinate space, and its image is equivalent (same dimensions) to its column space in the coordinate space.
+
+
+\begin{theorems}{Rank Nullity Theorem}{}
+	For a linear transformation $T: V \to W$, if $V$ is finite dimensional (note that $W$ doesn't have to be), then the rank of $T$ plus the nullity of $T$ equals the dimension of the domain vector space:
+	\[
+		\rank T + \dim \ker T = \dim V
+	\]
+	This should be intuitive for it represents that a linear transformation takes the degrees of freedom in $V$, $\dim V$, and splits it into degrees of freedom in its image $\rank T$ and the loss of degrees of freedom in its nullspace.
+\end{theorems}
+\begin{proof}
+	Use the fact that the rank of $T$ equals the dimension of the column space, which are the pivot columns, and that the nullity of $T$ equals the dimension of the solution space, which are the non-pivot columns. The sum, which are the number of columns in $[T]$, by definition is equal to the number of basis vectors in $V$, or its dimension.
+	
+	If $W$ is not finitely dimensional and $[T]$ is not defined, simply restrict the codomain of $T$ to $T': V \to \im T$. Notice that the kernel and image of $T'$ does not differ for we have not changed its domain and range. This leads to the theorem holding for non-finite dimensional co-domain vector spaces.
+\end{proof}
+
+Any linear transformation $T$ is injective if and only if the kernel space of $T$ is the singleton set of the zero vector. That is, $T$ is injective if and only if it has zero nullity.
+
+It is also surjective if and only if $\rank T = \dim W$. This because $\rank T = \dim \im T$. As $\im T \leq W$, and they have the same dimension, by the dimension subspace theorem, $\im T = W$, and the linear transformation is surjective for the complete co-domain is mapped to.
+
+
+\newpage
+\section{Change of Basis}
+Consider invertible linear transformations 
+
+\begin{defn}{Invertible linear transformation}{}
+	Let $T$ be a linear transformation from $V$ to $W$. We define $T$ to be invertible if there exists a linear transformation $S$ from $W$ to $V$ such that
+	\[
+		S \circ T = id_V
+	\]
+	and
+	\[
+		T \circ S = id_W
+	\]
+	where $S$ is the inverse of $T$, and $T$ is the inverse of $S$.
+	
+	We can also denote $S$ as $T^{-1}$.
+	
+	Both orders are required for this definition for one might not imply the other.
+\end{defn}
+
+There exists a unique inverse linear transformation, and they are mutually invertible.
+
+The linear transformation and its inverse are called isomorphisms between the vector spaces. If such linear transformation exists between two vector spaces, the two vector spaces are isomorphic, $V \cong W$.
+
+\begin{lemmas}{Bijection of isomorphisms}{}
+	An isomorphism (invertible linear transformation) if and only if it is a bijective function (a bijection). The vector spaces does not need to be finite dimensional.
+\end{lemmas}
+\begin{proof}
+	Let $T: V \to W$ be an isomorphism between vector spaces $V$ and $W$. Therefore there exists an inverse $T^{-1}: W \to V$.
+	
+	Consider the kernel of $T$. For all $\forall u \in \ker T$:
+	\begin{align*}
+		T(u) &= 0_W\\
+		T^{-1}(T(u)) &= T^{-1}(0_W)\\
+		u &= o_v
+	\end{align*}
+	hence $\ker T = \set{0}$, so $T$ is injective.
+	
+	
+	Now consider $\forall v \in v$, let $u = T^{-1}(v)$. Notice that
+	\begin{align*}
+		T(u) &= T(T^{-1}(v))\\
+		&= v
+	\end{align*}
+	hence $T$ is surjective.
+	
+	Therefore $T$ is bijective.
+	
+	In the other direction, if the linear transformation $T$ is a bijection, it is injective and surjective.
+	
+	The surjectivity of $T$ implies that $\im T = W$, and the injectivity of $T$ implies that for any elements $v$ in $W$, there exists a unique $u \in \im T = W$ such that $T(u) = v$.
+	
+	Hence define $T^{-1}: W \to V$ where $T^{-1}(v) = T^{-1}(T(u)) = u$. This is valid for any $v \in W$ can be written as $T(u) = v$.
+	
+	It is easy to see that $T^{-1}$ is a linear transformation (from $T$ being linear). Now to show that $T^{-1}$ is invertible:
+	\begin{align*}
+		\forall u \in V, T^{-1}(T(u)) &= u\\
+		\forall v \in W, T(T^{-1}(v)) &= T(T^{-1}(T(u))) \quad (\text{for let $v = T(u)$})\\
+		&= T(u) = v
+	\end{align*}
+	
+	Therefore $T$ is isomorphic (invertible) if and only if $T$ is a bijection.
+\end{proof}
+
+We want to relate the different matrices under different basis for the same linear transformation.
+
+\begin{lemmas}{Matrix of an isomorphism}{}
+	For finite-dimensional vector spaces $V$ and $W$, with bases $B$ and $C$. Let linearly transformation $T: V \to W$:
+	\begin{itemize}
+		\item $T$ is an isomorphism if and only if $[T]_{CB}$ is invertible.
+		\item If $T$ is an isomorphism, $[T^{-1}]_{BC} = {[T]_{CB}}^{-1}$ 
+	\end{itemize}
+\end{lemmas}
+
+Notice that for all isomorphic pairs of vector spaces $V \cong W$, $\dim V = \dim W$.
+
+The coordinate space is isomorphic with all finite dimensional vector spaces under the coordinate function with a basis from the vector space.
+
+\subsection{Change of basis for vectors}
+To convert coordinates with respect to one basis to another, define the transition matrix:
+\begin{defn}{}{}
+	For a finite dimensional vector space $V$ of basis $B$ and $C$. The transition matrix from $B$ to $C$, denoted as $P_{CB}$ is
+	\[
+		P_{CB} = [\operatorname{Id}_V]_{CB}
+	\]
+\end{defn}
+
+Because the identity linear transformation is invertible, its matrix under any basis, $P_{CB}$, must also be invertible. By the lemma, this matrix inverse will be the form
+\[
+	P_{CB}^{-1} = [Id_V]_{CB}^{-1} = [Id_V^{-1}]_{BC} = [Id_V]_{BC} = P_{BC}
+\]
+
+The transition matrix can also be composed, with the property that
+\[
+	P_{CA} = P_{CB} P_{BA}
+\]
+for bases $C$ $B$ $A$ in vector space $V$, because
+\begin{align*}
+	P_{CA} &= [Id_V]_{CA}\\
+	&= [Id_V \circ Id_V]_{CA}\\
+	&= [Id_V]_{CB} [Id_V]_{BA}\\
+	&= P_{CB} P_{BA}
+\end{align*}
+
+The change of basis expression is therefore
+\[
+	\forall u \in V, [u]_C = P_{CB} [u]_B
+\]
+This is obviously true from the theorem of linear transformation matrices: that $[T(u)]_C = [T]_{CB} [u]_B$.
+
+\subsection{Change of basis for linear transformations}
+Transition matrices can be used to relate different matrix representations of the same linear transformation.
+
+\begin{lemmas}{Matrix change of basis}{}
+	Let $V$, $W$ be finite dimensional vector spaces, with $B_1$ and $B_2$ be the basis for $V$, and $C_1$ and $C_2$ be the basis for $W$.
+	
+	For any linear transformation $T: V \to W$, the following expression holds
+	\[
+		[T]_{C_2 B_2} = P_{C_2 C_1} [T]_{C_1 B_1} P_{B_1 B_2}
+	\]
+\end{lemmas}
+
+\begin{theorems}{}{}
+	Let $V$ be a finite vector space, with $B$ and $C$ be two bases for $V$. Let $P = P_{CB}$, then for any linear transformation $T: V \to V$,
+	\[
+		[T]_C = P [T]_B P^{-1}
+	\]
+	noticing that
+	\[
+		P_{BC} = {P_{CB}}^{-1} = {P^{-1}}
+	\]
+\end{theorems}
+
+\begin{defn}{Similar matrices}{}
+	For square matrices $A$ and $B$, then $A$ and $B$ are similar if and only if there exists a square matrix $P$ such that
+	\[
+		A = P B P^{-1}
+	\]
+	
+	Similar matrices are denoted as $A \sim B$, but this does not imply row equivalence between $A$ and $B$.
+\end{defn}
+
+Similar matrices represent the fact that the matrices are simply representations of the same linear transformations under different bases.
+
+This means that for any linear transformation $T: V \to V$ under a vector space $V$ with basis $B$ and $C$, 
+\[
+	[T]_C \sim [T]_B
+\]
+(by defining $P = P_{CB}$)
+
+
+\newpage
+\section{Eigenvalues and Eigenvectors}
+\subsection{Invariant Subspaces}
+
+It is helpful to find subspaces in a vector space that maps to themselves under a linear transformation, more formally, 
+\begin{defn}{Invariant subspaces}{}
+	For a linear transformation $T: V \to V$ in a vector space $V$, a subspace $W \leq V$ is called an invariant subspace if and only if $T(W) \subseteq W$.
+\end{defn}
+
+Notice that for an invarant subspace $W$, $T(W) \leq W$ because the set $T(W)$ is closed under addition and scalar multiplication.
+
+To show that the span of a set $U = \spann S$ is invariant under transformation $T$, it suffice to show that for all $u \in S$, $T(u) \in U$. That is, the span is invariant under $T$ if and only if the spanning set vectors are all mapped to the span.
+
+\subsection{Eigenvalues and Eigenvectors}
+\begin{defn}{Eigenvalue, Eigenvector, and Eigenspace}{}
+	Let $T: V \to V$ be a linear transformation on the vector space $V$ (doesn't need to be finite). An eigenvector of $T$ is a non-zero vector $u \in V \backslash \set{0}$ such that
+	\[
+		T(u) = \lambda u
+	\]
+	for some $\lambda \in \mathbb{F}$. This scalar $\lambda$ is the eigenvalue of this eigenvector $u$.
+	
+	For an eigenvalue $\lambda$ for some eigenvector, the eigenspace of $\lambda$ is the subspace
+	\[
+		E_\lambda = \set{ u \in V \given T(u) = \lambda u }
+	\]
+	notice that the zero vector is in the eigenspace.
+\end{defn}
+
+Notice that any vector in the kernel of $T$ is an eigenvector with eigenvalue $0$.
+
+The span of any eigenvector $\spann \set{u}$ of $T: V \to V$, is invariant under itself. More generally, the eigenspace of any eigenvalue $\lambda$, $E_\lambda$ is invariant:
+\[
+	T(E_\lambda) \subseteq E_\lambda
+\]
+therefore $E_\lambda$ is an invariant non-zero subspace.
+
+For an eigenspace $E_\lambda$, it is equivalent to
+\[
+	E_\lambda = \ker (T - \lambda Id_V)
+\]
+by the definition of the eigenspace.
+
+Note that because of the isomorphism between coordinates spaces and vector spaces, we can find a basis for the eigenspace of an eigenvalue by finding the kernel of the linear transformation subtracting the scaled identity operator shown above. This is also equivalent to finding the basis of the solution space for the matrix representation of $T - \lambda Id_V$ under some basis, then converting the coordinate matrix basis vectors into vectors from the vector space.
+
+The eigenspace must always have a positive, non-zero dimension.
+
+% talk about eigenvalues for matrices and vectors
+Extending eigenvalues and eigenvectors to matrices is simply and intuitive.
+\begin{defn}{Matrix eigenvalues and eigenvectors}{}
+	Let $A \in M_{n,n}$, a scalar $\lambda$ is an eigenvalue if and only if there exists a non-zero column matrix $v \in M_{n, 1}$ such that
+	\[
+		Av = \lambda v
+	\]
+	where $v$ is the eigenvector with eigenvalue $\lambda$ of $A$.
+\end{defn}
+
+\begin{lemmas}{Matrix and linear transformation eigenvalues relation}{}
+	For vector $v$ and field scalar $\lambda$ under linear transformation $T\colon V \to V$ in vector space $V$ with basis $B$: $v$ is an eigenvector of $T$ with eigenvalue $\lambda$ if and only if $[v]_B$ is an eigenvector of $[T]_{BB}$ with eigenvalue $\lambda$.
+\end{lemmas}
+
+\subsection{Calculating Eigenvalues and Characteristic polynomials}
+Notice that for a linear transformation $T\colon V \to V$, its nullity in $T$ is the same as the dimensions of the solution space in $[T]$, and its rank in $T$ is the same as the rank in $[T]$.
+
+\begin{lemmas}{}{}
+	For matrix $A$, the eigenvalues $\lambda$ are solutions to the equation
+	\[
+		\det (A - \lambda_n I) = 0
+	\]
+\end{lemmas}
+
+If $A$ is triangular, its eigenvectors are the diagonal entries.
+
+\begin{defn}{Characteristic Polynomial}{}
+	For matrix $A_n$, its characteristic polynomial is the expression $\det(xI_n - A)$, denoted by $c_A$:
+	\[
+		c_A(x) = \det (xI_n - A)
+	\]
+	The characteristic equation of $A$ is $c_A(x) = 0$. The eigenvalues of $A$ are the roots (from the field) of the characteristic equation.
+\end{defn}
+
+Remarks:
+\begin{itemize}
+	\item The characteristic polynomial of $A_n$ is always monic (highest degree coefficent equals 1), and of degree exactly $n$.
+	\item For the special case $A \in M_{2, 2}$, $c_A = \det A - x \operatorname{tr} A + x^2$
+	\item The determinant is the product of eigenvalues, the trace is the sum of eigenvalues.
+	\item The eigenvalues are the roots of the characteristic polynomial. That is, for all eigenvalues $\lambda$, $(x - \lambda)$ divides the polynomial.
+\end{itemize}
+
+Also, notice that similar matrices $A \sim B$ have the same eigenvalues.
+
+\begin{defn}{Algebraic Multiplicity}{}
+	Define the algebraic multiplicity $k$ of an eigenvalue $\lambda$ as the largest $k$ such that $(x - \lambda)$ divides the characteristic polynomials. This is intuitively the number of repeated eigenvalues the matrix has.
+	
+	Notice that for each eigenvalue, its algebraic multiplicity $k$ must be in the range $1 \leq k \leq n$.
+\end{defn}
+
+In general, sum of the algebraic multiplicities has a maximum value of $n$, because there may be portions of the characteristic polynomial with complex roots under a general field (of which the eigenvalues are ignored).
+
+For a complex field, there exists always one eigenvalue (or with $n$ eigenvalues for a matrix of $n$ by $n$). The sum of the eigenvalue algebraic multiplicities always equals to $n$ for such matrices.
+
+\subsection{Notes for finding 3x3 matrices eigenvalues}
+% subtract rows to make one row without x, end make it pivot
+% to not need to factor x^3 poly
+Try to reduce the matrix using determinant rules, eventually factoring out a $(\lambda - k)$, which reduces the determinant degree to a quadratic.
+
+Important rules are adding two rows/columns to cancel out one element, and factoring out the other two. Or that
+\[
+	\begin{vmatrix}
+		a & b & c\\
+		0 & k & 0\\
+		d & e & f\\
+	\end{vmatrix} = k\begin{vmatrix}
+		a & c\\
+		d & f
+\end{vmatrix}
+\]
+
+Alternative, try expanding the determinant using co-factor expansion and try to group similar factors.
+
+Another determinant rule is
+\[
+	\begin{vmatrix}
+		A & C\\
+		0 & B
+	\end{vmatrix} = \det A \det B
+\]
+for square matrices $A$ and $B$, and whatever in $C$.
+
+
+\newpage
+\section{Eigenspaces}
+Remember that the eigenspace for an eigenvalue $\lambda$ under a matrix $A$, is the kernel $\ker (A-\lambda I)$, which is just the solution space of $A - \lambda I$.
+
+Define the dimension of the eigenspace for eigenvalue $\lambda$ as $\lambda$'s geometric multiplicity.
+
+Therefore in summary, to find the eigenvalues, eigenspaces, algebraic and geometric multiplicities for the matrix $A$ under field $\mathbb{F}$ is:
+\begin{enumerate}
+	\item Find the characteristic polynomial $c_A(x) = \det(xI - A)$, the roots of that polynomial are the matrix's eigenvalues.
+	\item The number of repeated roots $k$ for eigenvalue $\lambda$ in the root expansion of $c_A$, $(x - \lambda)^k$, are the algebraic multiplicities.
+	\item The eigenspace for the eigenvalue $\lambda$ is the solution space for $A - \lambda I$. A basis for this solution space can be found through REF of the matrix.
+	\item  The dimensions of the eigenspace for each eigenvalue are its geometric multiplicities.
+\end{enumerate}
+
+It is important to realize that the eigenvalues and eigenvectors (eigenspaces) are related between linear transformations and their matrix representations.
+
+\begin{defn}{Linear transformation Characteristic polynomials}{}
+	For a linear transformation $T\colon V \to V$, where $B$ is a basis for finite dimensional vector space $V$. Define the characteristic polynomial $c_T(x)$ to be the characteristic polynomial for $[T]_B$.
+	
+	This definition for characteristic polynomials is unique, because all representation matrices $[T]_A$, $[T]_B$ under $T$ are similar, and hence have equal characteristic polynomials.
+\end{defn}
+
+
+\begin{lemmas}{Uniqueness of characteristic polynomials for linear transformations}{}
+	Let $A$ and $B$ be similar matrices. Their characteristic polynomials must be equal:
+	\[
+		c_A(x) = c_B(x)
+	\]
+\end{lemmas}
+\begin{proof}
+	Consider matrix $A$ and $B$, we want to show that
+	\[
+		c_A(x) = \det(xI - A) = c_B(x) = \det(xI - B)
+	\]
+	if they are similar:
+	\[
+		\exists P, B = P A P^{-1}
+	\]
+	
+	Therefore,
+	\begin{align*}
+		c_B(x) &= \det (xI - B)\\
+		&= \det(xI - P A P^{-1})\\
+		&= \det (P (xI P^{-1} - A P^{-1}) )\\
+		&= \det (P (xI - A) P^{-1})\\
+		&= \det P \det (xI - A) \det P^{-1}\\
+		&= \det P \det P^{-1} \det (xI - A)
+	\end{align*}
+	because  $\det P \det P^{-1} = \det (P P^{-1}) = 1$ 
+	\[
+		c_B(x) = \det (XI - A) = c_A(x)
+	\]
+\end{proof}
+
+The algebraic multiplicity will always be greater or equal to the geometric multiplicity for a given eigenvalue $\lambda$ under a linear transformation $T$. In that the algebraic multiplicity represents an upperbound for the geometric multiplicity. 
+
+Remarks for eigenspaces: the eigenspaces of a 2D vector space are precisely the 1d invariant subspaces under the linear transformation.
+
+
+
+\newpage
+\section{Diagonalization}
+Diagonalization refers to the choosing of a basis for the linear transformation formed by all the bases for eigenspaces, then the matrix representation of that linear transformation under this basis will be diagonal.
+
+\begin{defn}{Diagonalizaton of Linear Transformations}{}
+	A linear transformation $T\colon V \to V$ on a finite n-dimensional vector space $V$, is diagonalizable if and only if: there exists a basis $B$ for $V$ such that
+	\[
+		[T]_B = \begin{bmatrix}
+			\lambda_1 & 0 & 0\\
+			0 & \ddots & 0\\
+			0 & 0 & \lambda_n
+		\end{bmatrix}
+	\]
+\end{defn}
+
+Note that for another basis $C$ for $V$, we have will always have:
+\[
+	[T]_C = P_{CB} [T]_B P_{BC}
+\]
+
+Therefore we can define a diagonalizable (square) matrix $A \in M_{n,n}$ by that there exists a matrix $D \in M_{n,n}$ and an invertible matrix $P \in M_{n,n}$ such that
+\[
+	A = P D P^{-1}
+\]
+and that $D$ is purely diagonal.
+
+This implies that if a linear transformation is diagonalizable, then any matrix representation of the linear transformation under any basis will be diagonalizable.
+
+\begin{lemmas}{}{}
+	A linear transformation $T\colon V \to V$ is diagonalizable if and only if for all basis $B$ of $V$, $[T]_B$ is diagonalizable.
+	In a more restrictive sense, if there exists a diagonalizable matrix representation $[T]_C$ for some basis $C$, then the linear transformation is diagonalizable. (because similar matrices share diagonality properties, and all matrices representations of $T$ are similar).
+\end{lemmas}
+\begin{proof}
+	If a linear transformation $T$ is diagonalizable, then there exists a basis $B$ where $[T]_B$ is purely diagonal. Then for any basis $C$, let $P = P_{CB}$, so $[T]_C$ is diagonalizable because:
+	\[
+		[T]_C = P_{CB} [T]_B P_{BC} = P [T]_B P^{-1}
+	\]
+	and that $[T]_B$ is purely diagonal.
+	
+	In the other direction, if, for all basis $C$ in $V$, $[T]_C$ are diagonalizable. Say the basis is the standard basis $S$, then it implies
+	\[
+		[T]_S = P D P^{-1}
+	\]
+	for some invertible $P$ and purely diagonal $D$. This means that $[T]_S$ and $D$ are similar matrices, so (from exercise 188) there exists a linear transformation $G$ and a basis $B$ such that $[T]_S = [G]_S$ and $D = [G]_B$. But matrix representations are unique under the same basis (for they map the basis vectors to the same set), so $T = G$ and $D = [T]_B$. Therefore there exists a basis, namely $B$, such that $[T]_B$ is diagonal, hence $T$ is diagonalizable.
+\end{proof}
+
+\begin{theorems}{}{}
+For a linear transformation $T$ under a finite dimensional vector space, $T$ is diagonalizable if and only if there is a basis $B$ such that all elements in $B$ are eigenvectors of $T$.
+
+In such case, $[T]_B$ will be diagonal with the diagonal entries the eigenvalues of eigenvectors in $B$.
+\end{theorems}
+
+Also, notice that if $A$ is diagonalizable, then the linear transformation $T\colon V \to V$ is diagonalizable if and only if $[T]_B = A$ for some basis $B$ in $V$.
+
+\subsection{Diagonalizing Matrices}
+The steps to diagonalize a matrix $A \in M_{n,n}$, that is, to find an invertible matrix $P$ and a diagonal matrix $D$ such that
+\[
+	A = P D P^{-1}
+\]
+, is
+\begin{enumerate}
+	\item Find the eigenvalues of $A$, $\lambda_i$
+	\item Find the eigenspaces $E_{\lambda_i}$ for all the eigenvalues, include the bases for those eigenspaces
+	\item Take the union of the eigenspace bases, say into $B$, notice that $B$ is a set of column matrices which are all eigenvectors.
+	\item If $|B| < n$, then the matrix is not diagonalizable.
+	\item Otherwise it is diagonalizable, define $P = [b_1, \dots, b_n]$, and if $\lambda_i b_i  = A b_i$, then
+	\[
+		D = \begin{bmatrix}
+			\lambda_1 &&0\\
+			 & \ddots & \\
+			0 & & \lambda_n
+		\end{bmatrix}
+	\]
+\end{enumerate}
+
+Relating to linear transformations, for a linear transformation $T\colon V \to V$ on a finite n-dimensional vector space $V$, let $A = [T]_S$ where $S$ is the standard basis of $V$. If we can find a set of eigenspace bases $B$ that has size $n$, then the linear transformation $T$ is diagonalizable with $[T]_B$ (with $B \subseteq V$ be the uncoordinated set of the column matrix set $B \subseteq M_{n,1}$) being the diagonal matrix.
+
+This is because $P_{SB} = [b_i] = P$, and we know that $[T]_S = A$, therefore $[T]_S = P_{SB}DP_{BS}$ from substitution, and
+\[
+	[T]_S = P_{SB} [T]_B P_{BS}
+\]
+from the lemma regarding matrix change of basis. So $D = [T]_B$ (because $P$ is invertible with $[T]_B = D = P_{BS}[T]_S P_{SB}$).
+
+\subsection{Footnotes}
+Notice that the union of all the bases of eigenspaces will be a basis if it has $n$ elements. This is because the basis of each eigenspace are linearly independent, for otherwise, the set of linearly dependent vectors across two eigenspace will have the same eigenvalue, which is not possible.
+
+
+\newpage
+\section{Diagonalization 2}
+Concerns the conditions for diagonalizability
+
+\begin{theorems}{Distinct Eigenvalues}{}
+	Let $T\colon V \to V$ be a linear transformation. For $S = \set{v_1, \dots, v_k} \subseteq V$ be a set of eigenvectors in $V$ with corresponding eigenvalues $\lambda_i$. If their eigenvalues are distinct, then the set $S$ is linearly independent.
+\end{theorems}
+
+For a linear transformation $T$ under a finite dimensional vector space $V$. For two distinct eigenvalues $\lambda_1$ and $\lambda_2$, with their respective eigenspace $E_1$ and $E_2$. It can be shown that
+\begin{itemize}
+	\item $E_1 \cap E_2 = \set{0}$
+	\item That for any basis $B_1$, $B_2$ of $E_1$ and $E_2$. $B_1 \cup B_2$ is linearly independent.
+\end{itemize}
+
+\begin{theorems}{Geometric Multiplicity Diagonalizaton}{}
+	For a linear transformation $T\colon V \to V$ under a finite dimensional vector space $V$. The sum of the geometric multiplicities equals $\dim V$ if and only if $T$ is diagonalizable.
+\end{theorems}
+
+If the geometric multiplicity of a given eigenvalue $\lambda$ is less than its algebraic multiplicity, then the linear transformation (or matrix) must not be diagonalizable. This is because
+\[
+	g_1 + \dots + g_k \leq a_1 + \dots + g_i + \dots + a_{k} < a_1 + \dots + a_k = n
+\]
+if for $g_i < a_i$. So the sum of the geometric multiplicities is less than $n$, hence it is not diagonalizable.
+
+\subsection{Conditions for Diagonalization}
+\begin{theorems}{}{}
+	For an n-dimensional vector space $V$, let $T\colon V \to V$ be a linear transformation. IF $T$ has $n$ distinct eigenvalues, then $T$ is diagonalizable.
+\end{theorems}
+Note that the converse: that $T$ is diagonalizable implies $n$ distinct eigenvalues is FALSE.
+
+
+\newpage
+\section{Matrix Power and the Cayley-Hamilton theorem}
+\begin{theorems}{}{}
+	For a diagonal matrix $D$, the $k$th power of $D$ is simply the $k$ power of its diagonal elements.
+\end{theorems}
+
+\begin{theorems}{}{}
+	For a matrix $A \in M_{n,n}$, and suppose that $A$ is diagonalizable with $P$ and $D$. Then
+	\[
+		A^k = P D^k P^{-1}
+	\]
+	
+	Intuitively, the $P$ and $P^{-1}$ cancels upon repeated multiplications.
+\end{theorems}
+
+Therefore, to find the exponential of a diagonalizable matrix
+\begin{itemize}
+	\item Compute the diagonal $D$ and change of basis $P$.
+	\item The exponential is $P D^k P^{-1}$.
+\end{itemize}
+
+This can be applied to discrete-time markov systems (where the discrete state change function is a linear matrix on the state). This can be used to find the long term equilibrium system state in solving for $\lim_{k \to \inf} A^k$ and multiplying against the initial state.
+
+\begin{theorems}{Cayley-Hamilton Theorem}{}
+	Given a matrix $A \in M_{n, n}$, let $c_A(x)$ be its characteristic polynomial. Then
+	\[
+		c_A(A) = 0
+	\]
+	where $0$ is the zero matrix.
+	
+	That is, every square matrix will satisfy its own characteristic polynomial.
+\end{theorems}
+\begin{proof}
+	We can prove this theorem for diagonalizable matrices. For consider the diagonal matrix $D$. It is easy to see that $c_D(D) = 0$ for the roots are the diagonal elements, and the multiplying of roots implies multiplying matrices with rows of zeros, resulting in a zero matrix overall.
+	
+	Then for a general diagonalizable matrix $A = PDP^{-1}$. Notice that $c_A(A) = c_D(A) = c_D(PDP^{-1}) = Pc_D(D)P^{-1} = 0$.
+\end{proof}
+
+The implications of the Cayley-Hamilton Theorem are plenty.
+
+\begin{corollary}
+	Given a matrix $A \in M_{n,n}$, then for any $k \geq 0$,
+	\[
+		A^k \in \spann \set{I, A, \dots, A^{n-1}}
+	\].
+	
+	Moreover, if $A$ is invertible, then for any $k \geq 0$,
+	\[
+		A^{-k} \in \spann \set{I, A, \dots, A^{n-1}}
+	\]
+\end{corollary}
+\begin{proof}
+	In general for a matrix $A$, due to the CH theorem,
+	\begin{align*}
+		c_A(A) &= 0\\
+		A^n + a_{n-1} A^{n-1} + \dots + a_0 I &= 0\\
+		A^n &= -a_{n-1} A^{n-1} + \dots - a_0 I
+	\end{align*}
+	
+	Consider induction on $k$ from $k = n$ --- for $k\leq n-1$, $A^k$ must be in the span for it is in the set.
+	
+	If $k = n$, then $A^k = A^n$, which is a linear combination of elements from the set.
+	
+	Assuming $k = p$ holds for $p \geq n$. Consider $k = p+1$
+	\begin{align*}
+		A^{p+1} &= A^p A\\
+		&= (a_{n-1} A^{n-1} + \dots + a_0 I) A\\
+		&= a_{n-1} A^n + \dots + a_0 A
+	\end{align*}
+	and because $A^n$ is a linear combination of set elements, $A^{p+1}$ will be a linear combination of $\set{I, A, \dots, A^{n-1}}$. So the expression holds for $p+1$ as well.
+	
+	Hence the expression holds for all $k \geq 0$.
+	
+	
+	If $A$ is invertible. Notice that $0 \neq \det A = \det (A - 0I) = c_A(0) = a_0$, so the constant term is non-zero.
+	
+	Consider the CH expansion again, because $a_0 \neq 0$,
+	\begin{align*}
+		A^n + a_{n-1} A^{n-1} + \dots + a_0 I &= 0\\
+		\frac{-1}{a_0} (A^n + a_{n-1} A^{n-1} + \dots) &= I\\
+		\frac{-1}{a_0} A^{-1} (A^n + a_{n-1} A^{n-1} + \dots) &= A^{-1}\\
+		\frac{-1}{a_0} (A^{n-1} + a_{n-1} A^{n-2} + \dots + a_1 I) &= A^{-1}
+	\end{align*}
+	therefore $A^{-1}$ is in the span.
+	
+	Once again use induction of $k = 1$ --- for $k=0$, $A^0 = I$ is obviously in the span --- we see that the case holds for all $k$ as well (this is the same proof but using $A^{-1}$ instead). Hence $A^{-k}$ is in the span for all $k\geq 0$.
+\end{proof}
+
+\newpage
+\section{Geometry in Euclidean space}
+This (and next) section aims to define the geometric length, distance, and angle in a vector space. This section only considers the vector space of $\mathbb{R}^3$, and we will eventually define the general geometry notion in abstract vector spaces through the inner product space.
+
+\subsection{Dot product}
+We need the dot product to define length, distance, and angles in $\mathbb{R}^n$.
+\begin{defn}{Dot Product}{}
+	Let $u = (u_1, \dots, u_n) \in \mathbb{R}^n$, and $v = (v_1, \dots, v_n) \in \mathbb{R}^n$. Define the dot product between $u$ and $v$ to be
+	\[
+		u \cdot v = u_1 v_1 + \dots + u_n v_n
+	\]
+\end{defn}
+
+Under the standard basis of $S$ for $\mathbb{R}^n$, the dot product can be defined as $u \cdot v  = [u]_S^T [v]_S$.
+
+Properties of the dot product
+\begin{itemize}
+	\item $u \cdot v = v \cdot u$
+	\item $(\alpha u) \cdot v = \alpha (u \cdot v)$
+	\item $u \cdot (v+w) = u \cdot v + u \cdot w$
+	\item $u \cdot u \geq 0$
+	\item $u \cdot u = 0 \iff u = 0$
+\end{itemize}
+
+\begin{defn}{Length}{}
+	The length (magnitude or norm) of a vector $u = (u_1, \dots, u_n) \in \mathbb{R}^n$ is given by
+	\[
+		 || u || = \sqrt{u \cdot u} = \sqrt{u_1^2 + \dots + u_n^2}
+	\]
+	
+	A vector $u$ is denoted as a unit vector iff $||u|| = 1$.
+	
+	Define the distance $d$ between two vectors $u, v$ by $d(u, v) = ||u - v|| = ||v - u||$.
+\end{defn}
+
+
+\begin{defn}{Angle}{}
+	The angle $\theta$ between two vectors $u, v$ is given by
+	\[
+		u \cdot v = ||u|| ||v|| \cos \theta
+	\]
+	where $0 \leq \theta \leq \pi$.
+	
+	Define the two vectors to be orthogonal (perpendicular) iff $u \cdot v = 0$.
+	Define the two vectors to be parallel iff $\exists k \in \mathbb{F}, ku = v$.
+\end{defn}
+
+
+\subsection{Cross Product}
+\begin{defn}{Cross Product}{}
+	Consider $u = (u_1, u_2, u_3)$ and $v = (v_1, v_2, v_3)$ in $\mathbb{R}^3$. Define the cross product (vector product) be a vector perpendicular to the two vectors with the magnitude of the area of their parallelogram.
+	
+	That is
+	\[
+		u \times v = \begin{vmatrix}
+			i & j & k\\
+			u_1 & u_2 & u_3 \\
+			v_1 & v_2 & v_3
+		\end{vmatrix}
+		= (u_2 v_3 - u_3 v_2, u_3 v_1 - u_1 v_3, u_1 v_2 - u_2 v_1)
+	\]
+	
+	Notice that
+	\[
+		||u \times v|| = ||u|| ||v|| |\sin \theta|
+	\]
+	where $\theta$ is the angle between the two vectors ($0 \leq \theta \leq \pi$).
+\end{defn}
+
+Properties of the cross product
+\begin{itemize}
+	\item $v \times u = - u \times v$
+	\item $(\alpha u) \times v = \alpha (u \times v)$
+	\item $u \times u = \vec{0}$
+	\item $u \cdot (u \times v) = 0$, because $u \times v$ is orthogonal to $u$ and $v$.
+\end{itemize}
+
+\begin{lemmas}{}{}
+	For vectors $u$, $v$
+	\[
+		u \times v  = ||u|| ||v|| \sin \theta \hat n
+	\]
+	where $\theta$ is smallest positive angel between $u$ and $v$ and $\hat n$ is the unit vector orthogonal to $u$ and $v$.
+	
+	The direction of $\hat n$ is given by the right-hand rule (index finger $u$, middle finger $v$, and thumb $\hat n$).
+\end{lemmas}
+
+\subsection{Lines}
+Lines in $\mathbb{R}^3$ are always translations of one dimensional subspaces.
+
+\paragraph{Vector equation}
+\[
+	\vec{r}(t) = \vec{r}_0 + t \vec{d}
+\]
+for vector $\vec{r}_0$ and $\vec{d}$, and all scalars $t$. Where $\vec{r}_0$ is the translation of the line from the origin and $\vec{d}$ is the direction vector. Note that this vector equation is not unique.
+
+\paragraph{Parametric equation} Given $\vec{r} = (x, y, z)$, $\vec{r}_0 = (x_0, y_0, z_0)$ and $\vec{d}= (d_1, d_2, d_3)$, then
+\begin{align*}
+	x &= x_0 + t d_1\\
+	y &= y_0 + t d_2\\
+	z &= z_0 + t d_3
+\end{align*}
+for scalars $t$.
+
+\paragraph{Cartesian equation}
+\[
+	\frac{x - x_0}{d_1} = \frac{y - y_0}{d_2} = \frac{z - z_0}{d_3} = t
+\]
+derived by solving for $t$ in the parametric equation (assuming that all coordinates of $\vec{d} \neq 0$).
+
+If $d_1 = 0$, then we ignore the first equality and replace it with $x = x_0$, etc.
+
+\begin{defn}{Line intersections}{}
+	Two lines in $\mathbb{R^3}$ are said to:
+	\begin{itemize}
+		\item Intersect if there exists a point lying on both lines
+		\item be parallel if their direction vectors are parallel
+		\item be skew if they do not intersect and their direction vectors are not parallel.
+	\end{itemize}
+
+	Define the angle between two lines to be the angle between their direction vectors.
+\end{defn}
+
+\begin{lemmas}{Distance between point and line}{}
+	Given a point with position vector $\vec p$ and a line with vector equation $\vec r = \vec{r}_0 + t \vec d$. The closest distance from the point to the line is
+	\[
+		d = \frac{|| \vec{d} \times (\vec p - \vec r_0 )||}{||\vec{d}||}
+	\]
+\end{lemmas}
+\begin{proof}
+	This is because
+	\[
+		||u\times v|| = ||u|| ||v|| \sin \theta
+	\]
+	
+	So $RHS = ||\vec p - \vec r_0|| \sin \theta$, where $\theta$ is the angle between $\vec d$ and the relative vector from line origin to point. As sin = O over H, H x sin is the opposite which is the length of line from point onto line at right angle, hence the distance of the shortest path from line to point.
+\end{proof}
+
+Note that a vector $w$ from the line to the point can be found by
+\[
+	w = \vec d \times ((\vec p - \vec r_0) \times \vec d)
+\]
+and therefore the closest point on the line to point will be
+\[
+	\vec{p} - d \hat w
+\]
+
+\begin{lemmas}{Distance between two skew lines}
+	Given two skew lines
+	\begin{align*}
+		\vec r &= \vec r_1 + t \vec d_1\\
+		\vec r &= \vec r_2 + t \vec d_2
+	\end{align*}
+
+	The minimum distance between them is
+	\[
+		d = \frac{| (\vec d_1 \times \vec d_2) \cdot (\vec r_2 - \vec r_1) |}{|| \vec d_1 \times \vec d_2 ||}
+	\]
+\end{lemmas}
+\begin{proof}
+	Notice that
+	\[
+		d = ||\vec r_2 - \vec r_1|| | \cos \theta |
+	\]
+	where $\theta$ is the angle between the origin differences and the vector direction for minimal distance. The intuition is that there always exists two parallel planes with normal $\vec d_1 \times \vec d_2$ containing the line, so any differences between points on the plane when is the hypotenuse of the right angle triangle against the plane normal, with H x cos equating to the length of the adjacent, which is the correct normal vector length, hence the minimum distance between the lines.
+\end{proof}
+
+To find the vector for the minimal distance between the two skew lines, it is simply $\vec d_1 \times \vec d_2$.
+
+To find the two points on the lines where their distances are minimal, solve for the equation
+\[
+	l_1(t) - l_2(s) + d (\vec d_1 \times \vec d_2) = 0
+\]
+for $t$ and $s$, of which $l_1(t)$ and $l_2(s)$ are the points.
+
+\subsection{Planes}
+All planes in $\mathbb{R}^3$ are translated 2-dimensional subspaces. They are all of the form
+\[
+	\vec r_0 + W
+\]
+where $\vec r_0 \in \mathbb{R}^3$ and $W$ is a 2-dimensional subspace.
+
+\paragraph{Vector equation}
+\[
+	\vec r(s, t) = \vec r_0 + s \vec u + t \vec v
+\]
+where the plane passes through $\vec r_0$, and is parallel to both $\vec u$ and $\vec v$.
+
+\paragraph{Parametric equation}
+Just the vector equation but split into its 3 components.
+
+\paragraph{Cartesian equation}
+\begin{align*}
+	\hat n \cdot (\vec r - \vec r_0) &= 0\\
+	ax + by + cz &= d
+\end{align*}
+where $\hat n = (a, b, c)$ is a normal vector of the plane (a vector that is orthogonal to both $u$ and $v$), and $\vec r_0$ is a position on the plane with $d = \hat n \cdot \vec r_0$. It is assumed that $\vec r = (x, y, z)$.
+
+Note that a plane perpendicular to a vector implies that the vector is normal to the plane.
+
+To find a vector equation from the cartesian equation, we attempt to find $\vec u$ and $\vec v$ by guessing two vectors perpendicular to the normal, then guess a position on the plane.
+
+To find a cartesian equation from the vector equation, we take the normal vector as the cross product between $\vec u$ and $\vec v$, and use the same normal.
+
+\begin{lemmas}{Distance between a point and a plane}{}
+	Given a point $\vec p$ and a plane with normal $\hat n$ and origin $\vec r_0$, the shortest distance from the point to the plane is
+	\[
+		d = \frac{|(\vec p - \vec r_0) \cdot \hat n|}{||\hat n||}
+	\]
+\end{lemmas}
+\begin{proof}
+	Notice that
+	\[
+		d = ||\vec p - \vec r_0|| |\cos \theta |
+	\]
+	where $\theta$ is the angle between the difference between the point and plane origin, against the normal vector. H cos will give you the adjacent, length of normal between the planes that is the minimal distance.
+\end{proof}
+
+
+\subsection{Footnotes}
+The vector triple product is the identity
+\[
+	u \cdot (v \times w) = (u \times v) \dot w
+\]
+the proof is simply to derive by using the determinant shortcut for cross products.
+
+The angle between lines is the angle between their direction vectors. The angle between planes is the angle between their normals. The angle between a line and a plane is 90 - angle between the normal and direction vector.
+
+Colinear points $A$ $B$ $C$ are defined to be
+\[
+	\exists k,	AB = k AC
+\]
+it satisfies
+\[
+	AB \times AC = \vec{0}
+\]
+
+
+Coplanar points $ABCD$ are defined to be
+\[
+	\exists t, s, AD = t AB + s AC
+\]
+it satisifies
+\[
+	AB \cdot (AC \times AD) = 0
+\]
+
+A cartesian equation with one equality will always result in a plane, and an equation with two equalities will always result in a line.
+
+\newpage
+\section{Inner Product}
+The inner product is a generalization of the dot product onto abstract vector spaces. It is used to define geometric notions like lengths and angles.
+
+We will restrict the fields $\mathbb{F}$ for real and complex fields when dealing with inner products (otherwise it makes little sense).
+
+Define $\alpha^*$ be the complex conjugate and $|\alpha|$ be the absolute value of $\alpha \in \mathbb{F}$.
+
+\begin{defn}{Inner product}{}
+	For a vector space $V$ under the field $\mathbb{R}$ or $\mathbb{C}$. An inner product on $V$ is a function of the form $\langle u,v \rangle : V \times V \to \mathbb{F}$ (the image of $(u, v) \in V \times V$ is $\langle u,v\rangle \in \mathbb{F}$), where the following identities hold $\forall u,v,w \in V$ and $\forall \alpha \in \mathbb{F}$
+	\begin{itemize}
+		\item $\langle u, v \rangle = {\langle v, u \rangle}^*$
+		\item $\langle \alpha u, v \rangle = \alpha \langle u, v \rangle$
+		\item $\langle u + v, w \rangle = \langle u, w \rangle + \langle v, w \rangle$
+		\item $\langle u, u \rangle \geq 0$ (the inner product will always be real), and that 
+		\[
+			\langle u, u \rangle = 0 \implies u = \vec{0}
+		\]
+	\end{itemize}
+\end{defn}
+
+An inner product under the field $\mathbb{R}$ is called a real inner product.
+
+An inner product under the field $\mathbb{C}$ is called a Hermitian inner product.
+
+A vector space $V$ combined with a fixed inner product is called an inner product space.
+
+Note that
+\begin{itemize}
+	\item $\langle u, u \rangle \in \mathbb{R}$
+	\item $\langle u, \alpha v \rangle = \alpha^* \langle u, v \rangle$
+	\item $\forall v \in V, \langle \vec{0}, v \rangle = 0$
+\end{itemize}
+
+\subsection{Inner product space}
+There can be multiple inner products for a vector space.
+
+\paragraph{Examples} of inner product spaces
+\begin{itemize}
+	\item The complex dot product on $\mathbb{C}^n$ is defined to be
+	\[
+		\langle u, v \rangle = \sum_i u_i v_i^*
+	\]
+	\item For vector space $\mathbb{R}^2$, this is an inner product
+	\begin{align*}
+		\langle (u_1, u_2), (v_1, v_2) \rangle &= u_1 v_1 - u_1 v_2 - u_2 v_1 + 5 u_2 v_2 \\
+	\end{align*}
+	
+	\item For $V = M_{n, n}(\mathbb{C}), \langle A, B \rangle = \operatorname{tr}(A B^\dagger)$
+	
+	\item For vector space $V = C [0, 1]$, this is an inner product
+	\[
+		\langle f, g \rangle = \int_0^1 f(x) g(x) \, dx
+	\]
+	
+	\item Notice that this is not an inner product
+		\begin{align*}
+		\langle (u_1, u_2), (v_1, v_2) \rangle &= u_1 v_1 - 2u_1 v_2 - 2u_2 v_1 + 3 u_2 v_2 \\
+	\end{align*}
+\end{itemize}
+
+
+\begin{defn}{Length and Angle}{}
+	For the inner product $\langle,\rangle$ on a vector space $V$, define the length of a vector $u \in V$ to be
+	\[
+		||u|| = \sqrt{\langle u, u \rangle}
+	\]
+	
+	Two vectors $u, v \in V$ are orthogonal iff
+	\[
+		\langle u, v \rangle = 0
+	\]
+	
+	And define their distance to be
+	\[
+		d(u, v) = ||u - v||
+	\]
+	
+	Their angle $\theta$ is defined (if $V$ is a real inner product space) as
+	\[
+		\cos \theta = \frac{\langle u ,v \rangle}{||u|| ||v||}
+	\]
+	for $0 \leq \theta \leq \pi$.
+	
+	The vector $u$ is a unit vector iff $||u|| = 1$.
+\end{defn}
+
+Notice that the length is linear under scalar multiplication
+\[
+	|| \alpha u|| = |\alpha| ||u||
+\]
+and that if $u$ and $v$ are orthogonal ($\langle u, v \rangle = 0$), then
+\[
+	||u + v||^2 = ||u||^2 + ||v||^2
+\]
+
+Moreover
+\[
+	\langle w, v+w \rangle = \langle w, v\rangle + \langle w, u\rangle
+\]
+and
+\[
+	||u+v||^2 = ||u||^2 + ||v||^2 + 2 Re(\langle u, v\rangle)
+\]
+
+To prove that the angle between two vectors in an inner product space is always well defined, we need the following theorem.
+\begin{theorems}{Cauchy-Schwartz Inequality}{}
+	Let $V$ be an inner product space, for all vectors $u$ and $v$,
+	\[
+		|\langle u, v\rangle| \leq ||u|| ||v||
+	\]
+	And that equality holds iff $u = kv$ for some $k \in \mathbb{F}$, meaning that the set $\set{u, v}$ is linearly dependent.
+	
+	The implication is that
+	\[
+		-1 \leq \frac{\langle u, v \rangle}{||u|| ||v||} \leq 1
+	\]
+	hence the angle between two vectors is always defined (for that is the domain of the $\arccos$ function).
+\end{theorems}
+\begin{proof}
+	This is not a pretty proof so no.
+\end{proof}
+
+\begin{lemmas}{Triangle Inequality}{}
+	Let $V$ be an inner product space, then $\forall u,v \in V$,
+	\[
+		||u+v|| \leq ||u|| + ||v||
+	\]
+	and equality holds if $u = kv$ (IDK if this is true in abstract vector spaces).
+\end{lemmas}
+\begin{proof}
+	Simply expand out $||u+v||^2$ and use the inequalities
+	\begin{align*}
+		Re(\langle u, v\rangle) &\leq |\langle u, v\rangle|\\
+		&\leq ||u|| ||v||
+	\end{align*}
+\end{proof}
+
+
+\subsection{Footnotes}
+To verify that a linear multiplication-ish function is indeed an inner product, we can verify the part asserting
+\[
+	\langle u, u \rangle \geq 0
+\]
+by completing the square on the quadratic. This should hopefully return a form that is the sum of squares. This is then used to verify the last part
+\[
+	\langle u, u \rangle = 0 \implies u = \vec{0}
+\]
+
+In all real inner product spaces $V$, $\forall u, v \in V$, $u - v$ is orthogonal against $u + v$ iff $||u|| = ||v||$.
+
+Similarly,
+\[
+	||x+y||^2 + ||x-y||^2 = 2||x||^2 + 2||y||
+\]
+
+For a real invertible matrix $A \in M_{n,n}$ under a vector space $\mathbb{R}^n$, the function
+\[
+	\langle x, y \rangle = [x]^T A^T A [y]
+\]
+is a valid inner product. It is also not an inner product if the matrix is not invertible.
+
+
+
+
+
+
+\newpage
+\section{Orthonormal bases}
+Some bases are nicer in an inner product space. This is because the inner product matrix representation is simpler under this basis (in a finite dimensional vector space).
+
+Representing inner products with matrices
+\begin{defn}{Matrix representation of inner products}{}
+	Let $V$ be a finite dimensional inner product space. Let $B = \set{b_1, \dots, b_n}$ be a basis for $V$. Define a matrix $M \in M_{n, n}$ such that
+	\[
+		M_{ij} = \langle b_i, b_j \rangle
+	\]
+	
+	Notice that
+	\[
+		\forall u, v \in V, \langle u, v \rangle = [u]_B^T M [v]_B^*
+	\]
+	this states that an inner product can always be defined by a matrix
+	
+	This matrix $M$ is also unique for a given inner product and basis.
+\end{defn}
+\begin{proof}
+	Under the definition that $M_{ij} = \langle b_i, b_j \rangle$, we want to show that $[u]^T M [v]^*$ is the same function as the inner product $\langle u, v \rangle$ for all $u, v \in V$.
+	
+	For vector $u, v \in V$ under a basis $B$, suppose that $u = u_i b_i$ and $v = v_j b_j$.
+	
+	Then $[u] = u_i$ and $[v] = v_j$. So
+	\begin{align*}
+		M [v]^* &= M_{ij} v_j^* e_i\\
+		&= \langle b_i, b_j \rangle v_j^* e_i\\
+		&= \langle b_i, v_j b_j \rangle e_i\\
+		[u]^T M [v]^* &= u_i \langle b_i, v_j b_j \rangle\\
+		&= \langle u_i b_i, v_j b_j \rangle\\
+		&= \langle u, v \rangle
+	\end{align*}
+
+	Therefore the inner product is equivalent to the function defined by the matrix.
+\end{proof}
+
+Also notice that for the vector space $\mathbb{R}^n$, $\forall u, v \in \mathbb{R}^n$,
+\[
+	u \cdot v = [u]_S^T I_n [v]_S
+\]
+
+The matrix representation $M$ of an inner product can only be a valid inner product iff $M$ is positive definite. (The definition satisfies axiom 2 and 3, the hermitian condition satisfies axiom 1, and positive definite satisfies axiom 4).
+
+\begin{defn}{Matrix Properties}{}
+	A matrix is real symmetrical iff its transpose is itself.
+	
+	A matrix $M$ is called a Hermitian matrix iff $M = M^\dagger$, where $M^\dagger = \bar{M}^T$. The operation of complex conjugating and transposing is called the conjugate transpose.
+	
+	A matrix $M$ is positive definite iff $M$ is Hermitian and for all non-zero $x \in M_{n, 1}$
+	\[
+		x^T M x^* > 0
+	\]
+\end{defn}
+
+Notice that for a positive definite matrix $M$, $0 M 0 = 0$, and that it is always that $x^T M x^* \in \mathbb{R}$ for $M$ is Hermitian.
+
+\begin{lemmas}{Inner product matrix}{}
+	Let $V$ be a finite vector space, and $B$ is a basis for $V$. If a matrix $M$ is positive definite, then
+	\[
+		\langle u, v \rangle = [u]_B^T M [v]_B^*
+	\]
+	must define an inner product on $V$
+\end{lemmas}
+
+This suggests that there is a bijection between positive definite matrices and inner products under a finite vector space and some basis.
+
+\subsection{Orthonormal Bases}
+\begin{defn}{Orthogonal sets}{}
+	A set $S \subseteq V$ under a finite dimensional vector space $V$ is orthogonal iff
+	\[
+		\forall u, v \in S, u \neq v \implies \langle u, v\rangle = 0
+	\]
+	
+	The set may contain the zero vector.
+\end{defn}
+
+
+\begin{lemmas}{}{}
+	Let $S \subseteq V \setminus \set{0} $, if $S$ is orthogonal, then $S$ is linearly independent.
+\end{lemmas}
+
+
+\begin{defn}{Orthonormal sets}{}
+	A subset $S \subseteq V$ is an orthonormal set iff
+	\[
+		\forall u,v \in S, \langle u, v \rangle = \begin{cases}
+			0 & u \neq v\\
+			1 & u = v
+		\end{cases}
+	\]
+	
+	It implies that all the elements in the set are unit, normalized vectors. The set must not contain the zero vector.
+\end{defn}
+
+Notice that any orthogonal set of non-zero vectors can be made orthonormal by dividing each vector by its length.
+
+\begin{defn}{Orthonormal basis}{}
+	For an inner product space $V$, an orthonormal basis for $V$ is a basis that is orthonormal.
+\end{defn}
+
+\begin{lemmas}{}{}
+	Let $V$ be a finite inner product space and $B = \set{b_1, \dots, b_n}$ be an orthonormal basis for $V$. Then for all $u \in V$,
+	\[
+		u = \langle u, b_i \rangle b_i
+	\]
+\end{lemmas}
+
+
+Therefore for an orthonormal basis, the coordinate of any vector under the basis can be computed by simply applying the inner product between the vector and each basis vector.
+
+
+The matrix representation of the inner product under an orthonormal basis is simply the identity matrix.
+
+\newpage
+\section{The Gram-Schmidt Orthogonalization and Orthogonal projection}
+The algorithm for finding an orthonormal basis by converting a basis of a finite dimensional inner product space.
+
+\begin{defn}{Gram-Schmidt Orthogonalization procedure}{}
+	Let $V$ be a finite inner product space. Let $W \leq V$ be a finite dimensional subspace. Let $B = \set{b_1, \dots, b_n}$ be a basis for $W$.
+	
+	To convert $B$ to an orthonormal basis for $V$, we
+	\begin{enumerate}
+		\item Let $u_1 = \frac{b_1}{||b_1||}$, this normalizes the first basis vector.
+		\item Let $w_2 = b_2 - \langle b_2, u_1 \rangle u_1$. This is the second basis vector without the $u_1$ component. Let $u_2 = \frac{w_2}{||w_2||}$.
+		\item Let $w_3 = b_3 - \langle b_3, u_1 \rangle u_1 - \langle b_3, u_2 \rangle u_2$. This is the third basis vector without the $u_1$ and $u_2$ component. Then $u_3 = \frac{w_3}{||w_3||}$.
+		\item Continue and profit.
+	\end{enumerate}
+
+	The set $\set{u_1, \dots, u_n}$ will be an orthonormal basis.
+\end{defn}
+
+Notice that for any finite dimensional inner product space has an orthonormal basis (for it always have a basis).
+
+
+\subsection{Orthogonal projection}
+\begin{defn}{Orthogonal projection}{}
+	Let $V$ be an inner product space, and $W \leq V$ be a subspace.
+	
+	Define the orthogonal complement of $W$ to be a subspace $W^\bot \leq V$ such that
+	\[
+		W^\bot = \set{ u \in V \given \forall w \in W, \langle u, w \rangle = 0}
+	\]
+	
+	$W^\bot$ is a vector space where any its vectors are orthogonal to all the vectors in $W$.
+\end{defn}
+
+Notice that $W^\bot$ is a subspace of $V$, and that $W \cap W^\bot = \set{0}$.
+
+\begin{lemmas}{}{}
+	Let $V$ be a finite dimensional inner product space, $W \leq V$.
+	
+	Then every vector $u \in V$ can be written uniquely by
+	\[
+		u = w + w'
+	\]
+	where $w \in W$ and $w' \in W^\bot$.
+	
+	This $w$ and $w'$ decomposition is unique.
+\end{lemmas}
+\begin{proof}
+	
+	Fix an orthonormal basis $B_w = \set{w_1, \dots, w_k}$ for $W$. For the vector $u \in V$, define
+	\[
+		w = \langle u, w_i \rangle w_i
+	\]
+	it is clear that $w \in W$. $w$ is understood to be the components of $u$ inside $W$.
+	
+	Let
+	\[
+		w' = u - w
+	\]
+	check that $w' \in W^\bot$. For all the basis vectors $w_i \in B_w$, notice
+	\begin{align*}
+		\langle w', w_i \rangle &= \langle u - w, w_i \rangle\\
+			&= \langle u, w_i \rangle - \langle w, w_i \rangle\\
+			&= \langle u, w_i \rangle - \langle \langle u, w_j \rangle w_j, w_i \rangle\\
+			&= \langle u, w_i \rangle - \langle u, w_j \rangle \langle w_j, w_i \rangle\\
+			&= \langle u, w_i \rangle - \langle u, w_i \rangle\\
+			&= 0
+	\end{align*}
+
+	Therefore $w'$ is orthogonal to all basis vectors of $B_w$, so it is orthogonal to all linear combinations of the basis vectors (that is $W = \spann{w_1, \dots, w_k}$). Hence $w' \in W^\bot$.
+	
+	To show that $w$ and $w'$ are unique, suppose additionally, $u = v + v'$ where $v \in W$ and $v' \in W^\bot$. So
+	\begin{align*}
+		u = w+w' &= v+v'\\
+		w - v &= v' - w'
+	\end{align*}
+	Because the LHS is an element in $W$, and the RHS is a vector in $W^\bot$, then $w - v = 0$ for the zero vector is the only vector in both $W$ and $W^\bot$. So $w = v$ and $w' = v'$.
+\end{proof}
+
+\begin{defn}{Orthogonal projection}{}
+	For a finite dimensional inner product space $V$ with a subspace $W \leq V$, define the linear transformation $\operatorname{proj}_W \colon V \to V$ by
+	\[
+		\operatorname{proj}_W(u) = w
+	\]
+	where $u \in V$, and $u = w + w'$ be the unique decomposition for $w \in W$ and $w' \in W^\bot$.
+	
+	This operator is a projection onto $W$, and the image of the projection operator is $\operatorname{im} \operatorname{proj}_W = W$.
+	
+	The vector $w = \operatorname{proj}_W(u)$ is called the projection of $u$ onto $W$.
+\end{defn}
+
+Notice that
+\[
+	\operatorname{proj}_W(u) = \sum_i \langle u, w_i \rangle w_i
+\]
+for any orthonormal basis for $W$, $\set{w_1, \dots, w_k}$. The choice of basis for $W$ doesn't matter.
+
+
+\begin{lemmas}{Minimum distance projection}{}
+	Let $V$ be an inner product space with subspace $W$. Then the projection of all vectors $u \in V$ is the closest vector on $W$ to the vector $v$. That is
+	\[
+		\forall u \in V, \forall w \in W, ||u - \operatorname{proj}_W(u) || \leq ||u - w||
+	\]
+\end{lemmas}
+
+This is because $||u - w||$ consists of the distance $||u-p||$ and $||p-w||$, where $p = \operatorname{proj}_W(u)$.
+
+\subsection{Footnote}
+Not all infinite dimensional inner product spaces have an orthonormal basis.
+
+When applying GS orthogonalization to a linearly dependent set, we will get some zero vectors. The set of non zero vectors will be an orthonormal basis for the vector space that is the span of the original set.
+
+\newpage
+\section{Least squares approximation}
+Two applications of the inner product (dot product) in $\mathbb{R}^n$.
+
+In linear regression, we want to find a line $y=a + bx$ where the squared error is minimized. Given a set of empirical data points
+\[
+	(x_1, y_1), (x_2, y_2), \dots
+\]
+define the error $\delta$ for each value as
+\[
+	\delta_1 = y_1 - (a+bx_1)
+\]
+
+Define the square error to be
+\begin{align*}
+	E &= \sum_i (y_i - (a+bx_i))^2\\
+	&= ||y - Au||^2
+\end{align*}
+where 
+\begin{align*}
+	y &= (y_1, y_2, \dots, y_n)\\
+	A &= \begin{bmatrix}
+		1 & x_1\\
+		1 & x_2\\
+		\vdots&\\
+		1 & x_n\\
+	\end{bmatrix}\\
+	u &= (a, b) \in M_{2, 1}
+\end{align*}
+
+We are solving for a $u$ that minimizes $E$.
+
+Define $W$ to be the subspace of the column space of $A$,
+\[
+	W = \set{Av \given v = (a. b), a, b \in \mathbb{R}}
+\]
+
+The closest point on $W$ to the point $y$ will be the projection of $y$ onto $W$, that is
+\[
+	Au = \operatorname{proj}_W (y)
+\]
+
+Let $p = \operatorname{proj}_W (y)$, notice that
+\[
+	\forall w \in W, \langle w, y - p \rangle = 0
+\]
+
+Because the 2D inner product is defined to be $\langle u, v \rangle = [u]^T [v]$, then
+\begin{align*}
+	w^T(y - p) &= 0\\
+	(Av)^T (y-Au) &= 0\\
+	v^T A^T (y-Au) &= 0\\
+	A^T (y - Au) &= \vec{0}\\
+	A^T Au &= A^T y
+\end{align*}
+we can then simply solve for $u$, given $A, y$ of course.
+
+If the matrix $A^T A \in M_{2, 2}$ is invertible, then we can solve for $u$ using
+\[
+	u = (A^T A)^{-1} A^T y
+\]  
+If the matrix is not invertible, we will have multiple $u$ that minimizes $E$.
+
+
+\subsection{Higher order least squares}
+To find a polynomial $y = a_i x^i$, $i \leq k$, that minimizes $E$ for a set of data points.
+
+Define
+\begin{align*}
+	y &= (y_1, \dots, y_n)\\
+	A &= \begin{bmatrix}
+		1 & x_1 & \dots & x_n^1\\
+		\vdots &&&\\
+		1 & x_n & \dots & x_n^k
+	\end{bmatrix}\\
+	u &= (a_1, \dots, a_k)
+\end{align*}
+
+Then use the same technique, the best fit polynomial $y$ (of coefficients $u$) is given by
+\[
+	A^T A u = A^T y
+\] 
+
+or if the matrix is invertible
+\[
+	u = (A^T A)^{-1} A^T y
+\]
+
+\subsection{Areas, Volumes, and Determinants}
+Given $u, v \in \mathbb{R}^3$, the area of the parallelogram
+\[
+	A = ||u|| ||v|| \sin \theta
+\]
+with $\theta$ being the angle between $u$ and $v$, therefore
+\[
+	A = || u \times v ||
+\]
+
+If $u = (u_1, u_2), v = (v_1, v_2) \in \mathbb{R}^2$, then
+\[
+	A = \det \begin{bmatrix}
+		u_1 & v_1\\
+		u_2 & v_2
+	\end{bmatrix}
+\]
+We can prove this by extending $u$ and $v$ into the 3rd dimension and calculating the length of their cross product.
+
+
+% volume of parallelepiped
+The volume of a parallelepiped given by 3 vectors $u, v, w \in \mathbb{R}^3$ is $V = A h$.
+
+This is equivalent to
+\begin{align*}
+	V &=|(u \times v ) \cdot w|\\
+	&= | \det \begin{bmatrix}
+		u_1 & v_1 & w_1\\
+		u_2 & v_2 & w_2\\
+		u_3 & v_3 & w_3\\
+	\end{bmatrix} |
+\end{align*}
+The absolute operator is used to ensure a positive volume.
+
+\newpage
+\section{Orthogonal diagonalization and real symmetric matrices}
+We look at matrix diagonalizations under an orthonormal basis.
+
+
+\begin{defn}{Orthogonal Matrix}{}
+	A matrix $Q \in M_{n,n}$ is orthogonal iff 
+	\[
+		Q^T Q = I_n
+	\]
+\end{defn}
+
+Remarks, this means that for an orthogonal matrix $Q \in M_{n,n}$
+\begin{itemize}
+	\item It is invertible and $Q^{-1} = Q^T$ and is orthogonal.
+	\item That $\det Q = \det Q^T = \pm 1$.
+	\item If $A, B \in M_{n, n}$ and are both orthogonal, then $AB$ is also orthogonal.
+\end{itemize}
+
+The matrix $Q$ is orthogonal iff
+\begin{itemize}
+	\item The rows or columns of $Q$ forms an orthonormal basis for $M_{n, 1}$, under the real dot product.
+	\item The inner product (must be the dot product) is preserved under the transformation, that is,
+	\begin{align*}
+		\forall u, ||Qu|| &= ||u||\\
+		\forall u, v, \langle Q u, Q v \rangle &= \langle u, v \rangle
+	\end{align*}
+\end{itemize}
+\begin{proof}
+	The first statement is simply a property of matrix multiplication.
+	
+	The second statement derives from the first, in that $Q$ orthogonal implies that $Q^T$ orthogonal, implies (by first) that columns of $Q^T$, and therefore rows of $Q$ is orthogonal.
+	
+	For the third statement, consider
+	\begin{align*}
+		\langle Q u, Q u \rangle &= (Qu)^T Qu\\
+			&= u^T Q^T Q u\\
+			&= u^T u\\
+			&= \langle u, u \rangle
+	\end{align*}
+	Hence $||Qu||^2 = ||u||^2$, so $||Qu|| = ||u||$.
+	
+	For the fourth statement, consider
+	\[
+		\langle u + v, u + v \rangle - \langle u - v, u - v \rangle = 4\langle u, v \rangle
+	\]
+	Then
+	\[
+		\langle Qu + Qv, Qu + Qv \rangle - \langle Qu - Qv, Qu - Qv \rangle = 4\langle Qu, Qv \rangle
+	\]
+	From the third statement
+	\begin{align*}
+		\langle Q(u+v), Q(u+v) \rangle &= \langle u + v, u + v\rangle\\
+		\langle Q(u-v), Q(u-v) \rangle &= \langle u - v, u - v\rangle
+	\end{align*}
+	So
+	\[
+		\langle u + v, u+v\rangle - \langle u - v, u - v\rangle = 4 \langle u, v \rangle = 4 \langle Qu, Qv \rangle
+	\]
+	
+	To show that statement four implies that $Q$ is orthogonal, if
+	\begin{align*}
+		\langle Q u, Qv\rangle &= \langle u, v\rangle\\
+		u^T Q^T Q v &= u^T I v\\
+		\implies Q^T Q &= I
+	\end{align*}
+\end{proof}
+
+The set of all orthogonal matrices forms a group.
+Transition matrices from/to an orthonormal basis are orthogonal under the real dot product.
+
+
+\begin{defn}{Orthogonal Diagonalization}{}
+	A real matrix $A \in M_{n, n}$ is orthogonally diagonalizable iff there exists an orthogonal matrix $Q$ and diagonal matrix $D$ such that
+	\[
+		A = Q D Q^T = Q D Q^{-1}
+	\]
+	
+	Orthogonally diagonalizable matrices are also diagonalizable.
+\end{defn}
+
+\begin{theorems}{}{}
+	A real matrix $A \in M_{n,n}$ is orthogonally diagonalizable iff there exists an orthonormal basis (for $M_{n, 1}$), with respect to the dot product, where all element of the basis are eigenvectors of $A$.
+\end{theorems}
+\begin{proof}
+	The same as the proof for a regular diagonalizable matrix. The only extra observation is that the $B$ is an orthonormal basis iff the transition matrix of $B$ is orthogonal.
+	
+	For the forward direction, if the matrix is orthogonally diagonalizable with $A = Q D Q^T$, then let the basis $B$ be the columns of $Q$. The basis is automatically orthonormal, and by computing $A b_i= QDQ^T b_i = \lambda_i b_i$, we show that the basis also has eigenvectors.
+	
+	For the reverse direction, let $Q$ be the matrix whose columns are the vectors in $B$, so $Q$ is orthogonal. We just have to show now that $D e_i = Q^T A Q e_i = \lambda_i e_i$, so that $D$ is diagonal with the eigenvalues. 
+\end{proof}
+
+\subsection{Real symmetric matrices}
+\begin{theorems}{}{}
+	If $A$ is a real symmetric matrix, then $A$ is orthogonally diagonalizable.
+\end{theorems}
+Notice that because an orthogonally diagonalizable matrix must be symmetrical, this theorem implies that real symmetric matrices are equivalent to be orthogonally diagonalizable.
+
+\begin{theorems}{}{}
+	If $A$ is a real symmetric matrix, then
+	\begin{enumerate}
+		\item All roots of $c_A(x)$ are real: it has only real eigenvalues
+		\item Eigenvectors with different eigenvalues must be orthogonal (not necessarily the other way), with respect to the real dot product.
+	\end{enumerate}
+\end{theorems}
+\begin{proof}
+	To prove 1, consider an eigenvalue $\lambda \in \mathbb{C}$ with eigenvector $v$ (this must be possible for the field is $\mathbb{C}$), notice that
+	\begin{align*}
+		(v^\dagger A v)^* &= ((v^\dagger A v)^T)^*\\
+		&= (v^T A^T v^*)^*\\
+		&= v^\dagger A v
+	\end{align*}
+	hence $v^\dagger A v \in \mathbb{R}$. Therefore
+	\[
+		v^\dagger A v = v^\dagger \lambda v = \lambda v^\dagger v
+	\]
+	but $v^\dagger v > 0$ for $v$ is non-zero and positive. Then
+	\[
+		\lambda = \frac{v^\dagger A v}{v^\dagger v} \in \mathbb{R}
+	\]
+	
+	To show 2, consider two eigenvectors $v_1, v_2$ with different eigenvalues $\lambda_1, \lambda_2$. Then
+	\begin{align*}
+		v_1^T A v_2 &= v_1^T \lambda_2 v_2 = \lambda_2 v_1^T v_2\\
+		&= (A v_1)^T v_2 = \lambda_1 v_1^T v_2
+	\end{align*}
+	Hence if $\lambda_1 \neq \lambda_2$, $\langle v_1, v_2 \rangle = v_1^T v_2 = 0$.
+\end{proof}
+
+\begin{algor}{Orthogonal diagonalization of real symmetric matrices}{}
+	For a real symmetric matrix $A$
+	\begin{enumerate}
+		\item Find all the eigenvalues of $A$, using the characteristic polynomial.
+		\item For each eigenvalue, find a basis for its eigenspace. Then use GS orthgonalization to find an orthonormal basis for that eigenspace, with the real dot product.
+		\item The union of the orthonormal eigenspace basis is an orthonormal basis under the real dot product, let the columns of $Q$ be the vectors in the union, and $D$ have diagonal entries corresponding to the eigenvalues (ordered as in $Q$). We will then have
+		\[
+			A = Q D Q^T
+		\]
+	\end{enumerate}
+\end{algor}
+
+
+
+
+\newpage
+\section{Spectral Theorem}
+The proof that all real symmetrical matrices are orthognally diagonalizable is easier to understand in terms of linear transformations.
+
+\begin{defn}{Symmetric Linear Transformations}{}
+	Let $V$ be a real inner product space. A linear transformation $T\colon V \to V$ is symmetric iff
+	\[
+		\forall u, v \in V, \langle T(u), v \rangle = \langle u, T(v) \rangle
+	\]
+\end{defn}
+Notice that under an orthonormal basis $B$ of $V$ and a finite dimensional vector space $V$, the linear transformation $T$ is symmetric iff $[T]_{BB}$ is symmetric. The proof simply relies on the fact that the inner product under an orthonormal basis is $I$.
+
+
+\begin{theorems}{}{}
+	Let $V$ be a finite dimensional real inner product space, with $T \colon V \to V$ be a linear transformation. If $T$ is symmetric, then there exists an orthonormal basis $B$ for $V$, where each vector in the basis is an eigenvector of $T$.
+\end{theorems}
+\begin{proof}
+	Prove by induction on $\dim V$. The base case is when $\dim V = 1$, and the induction case considers $\dim V = n$ by:
+	\begin{enumerate}
+		\item Finding an eigenvalue and unit eigenvector for $V$, guaranteed by the real eigenvalue theorem.
+		\item Define the orthogonal complement $W$ of the span of the eigenvector, notice that $W$ is a closed subspace under $T$ with one less dimension.
+		\item Hence there exists an orthonormal eigenbasis for $W$.
+		\item And the union of that basis with the unit eigenvector for $V$ is an orthonormal eigenbasis for $V$.
+	\end{enumerate} 
+\end{proof}
+
+Therefore for a real symmetrical matrix
+\begin{enumerate}
+	\item There exists an n-dim inner product space (any inner product) and a linear transformation $T$ with coordinate matrix representation being the symmetrical matrix under some orthonormal basis $B$ (the inner product could be the dot product, and basis could be the standard basis).
+	\item Hence $T$ is symmetrical, so there is an orthonormal eigenbasis for the inner product space.
+    \item The set of coordinates of the eigenbasis is an eigenbasis of $M_{n1}$, $A$ under $B$, and orthonormal under the matrix representation of the inner product under $B$, which is actually $I$.
+	\item The real symmetrical matrix can thus orthogonally diagonalized.
+\end{enumerate}
+
+\subsection{Conic Sections}
+We can diagonalize conic section equations to change the figure to a better basis. The act of diagonalization removes the $xy$ cross terms in the expression.
+
+Consider the general equation
+\[
+	ax^2 + 2bxy + cy^2 = d
+\]
+where $(x, y) \in \mathbb{R}^2$.
+
+This is equivalent to the matrix equation
+\[
+	X^T A X = [d]
+\]
+where $X = \begin{bmatrix}
+	x\\y
+\end{bmatrix}$ and $A = \begin{bmatrix}
+	a & b\\
+	b & d
+\end{bmatrix}$.
+
+As $A$ is real symmetrical, it is orthogonally diagonalizable with some $Q$ and $D$, where
+\[
+	A = Q D Q^T
+\]
+
+Notice that $Q = P_{SB}$, with $B$ being the orthonormal eigenbasis from $A$ (under the dot product). Because $X$ is equivalent to $[(x, y)]_S$, then $Q^T X = Q^{-1} X = P_{BS} [(x, y)]_S = [(x, y)]_B$. Define $[(x, y)]_B = (x', y') = X'$.
+
+Therefore the conic equation is
+\begin{align*}
+	[d] &= X^T Q D Q^T X\\
+		&= (Q^T X)^T D (Q^T X)\\
+		&= X'^T D X'
+\end{align*}
+
+And because $D$ is diagonal with
+\[
+    D = \begin{bmatrix}
+        d_1 & 0\\
+        0 & d_2\\
+    \end{bmatrix}
+\]
+therefore,
+\[
+	d_1 x'^2 + d_2 y'^2 = d
+\]
+
+
+\newpage
+\section{Unitary Diagonalization}
+The results of orthogonality and orthgonal diagonalization applies to complex matrices as well.
+
+\begin{defn}{Unitary Matrices}{}
+    A matrix $U \in M_{n,n}(\mathbb{C})$ is unitary iff $U^\dagger U = I_n$.
+\end{defn}
+
+Notice that
+\begin{itemize}
+    \item $U^\dagger = U^{-1}$ is unitary
+    \item $PU$ is unitary for any unitary matrix $U$
+    \item $|\det U| = 1$
+\end{itemize}
+
+A matrix $U \in M_{n,n}$ is unitary iff
+\begin{itemize}
+    \item the rows and columns of $U$ form an orthonormal basis of $\mathbb{C}^n$ under the complex dot product
+    \item $\forall v \in \mathbb{C}^n, ||U v|| = ||v||$ under the complex dot product
+    \item $\forall u, v \in \mathbb{C}^n, \langle Uu, Uv \rangle = \langle u, v \rangle$ under the complex dot product.
+\end{itemize}
+\begin{proof}
+    Statement 1 and 2 are the same, statement 3 from unitary is the same.
+
+    To show statement 4 from 3, do some random symbol manuipulations on $u+v, u-v, u+iv, u-iv$ with their length and on $U$ of those. We should be able to show that the reals and imaginary parts of $\langle u,v\rangle$ equals the parts in $\langle U u, U v\rangle$.
+
+    To show statement 4 to unitary, it is the same proof as the reals.
+\end{proof}
+
+Notice that for an n dimensional complex inner product space $V$ with any inner product, for two orthonormal basis $B$ and $C$ for $V$, the transition matrix $P_{CB}$ is unitary.
+
+
+\begin{defn}{Unitary Diagonalization}{}
+    A matrix $A$ is unitarily diagonalizable iff there exists a unitary matrix $U$ and a diagonal matrix $D$ such that $A = U D U^\dagger$.
+\end{defn}
+
+\begin{theorems}{}{}
+    A matrix $A \in M_{n,n}$ is unitarily diagonalizable iff there is an orthonormal eigenbasis $B$ for $\mathbb{C}^n$, under the complex dot product.
+\end{theorems}
+
+\subsection{Hermitian matrices}
+
+\begin{theorems}{}{}
+    If the matrix $A$ is Hermitian ($A^\dagger = A$), then $A$ is unitarily diagonalizable.
+\end{theorems}
+\begin{proof}
+    The same proof as the real case but define a self-adjoint linear transformation $T$ to be one where
+    \[
+        \langle T u, v \rangle = \langle u, T v \rangle
+    \],
+    notice that such self-adjoint linear transformation with an orthonormal eigenbasis $B$ implies that $[T]_B$ is Hermitian, and vice versa (Hermitian matrix under an on eigenbasis implies the linear transformation is self-adjoint).
+\end{proof}
+
+\begin{lemmas}{}{}
+    For a hermitian matrix $A$,
+    \begin{itemize}
+        \item All eigenvalues of $A$ are real.
+        \item Eigenvectors of $A$ with different eigenvalues are orthogonal under the complex dot product.
+    \end{itemize}
+\end{lemmas}
+
+
+\begin{algor}{Unitarily diagonalize a Hermitian matrix}{}
+    For a Hermitian matrix $A$,
+    \begin{enumerate}
+        \item Find the eigenvalues of $A$
+        \item For each eigenvalue, find a basis for the eigenspace, then apply GS using the complex dot product to convert into an orthonormal basis.
+        \item The union of the eigenspace basis forms an orthonormal basis for $\mathbb{C}^n$ under the compelx dot product. Let $U$ be the matrix whose columns are the orthonormal eigenbasis, and $D$ the diagonal matrix with entries of the corresponding eigenvalues, then
+            \[
+                A = U D U^\dagger
+            \]
+    \end{enumerate}
+\end{algor}
+
+
+\subsection{Self Adjoint complex linear transformations}
+\begin{lemmas}{}{}
+    For a self adjoint linear transformation $T\colon V \to V$ where $V$ is a complex inner product space.
+
+    \begin{itemize}
+        \item All the eigenvalues of $T$ are real.
+        \item For eigenvectors of $T$ with different eigenvalues, they are orthogonal under the complex dot product.
+    \end{itemize}
+
+    For an orthonormal eigenbasis $B$ of $V$ (this will always exist by the Spectral Theorem). $[T]_B$ will be unitarily diagonalizable. 
+\end{lemmas}
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+\appendix
+\section{Theorems}
+
+\begin{theorem}
+	For matrix $A,B$. $(AB)^T = B^T A^T$
+\end{theorem}
+
+\begin{theorem}
+	If $A,C$ are both invertible matrices of the same size, $AC$ is also invertible with
+	\[
+		(AC)^{-1} = C^{-1} A^{-1}
+	\]
+\end{theorem}
+
+\begin{theorem}
+	For a square matrix $A$, $(A^k)^{-1} = (A^{-1})^k$, and $(aA)^{-1} = A^{-1} / a$, with $(A^T)^{-1} = (A^{-1})^T$
+\end{theorem}
+
+\begin{theorem}
+	A square matrix with row of only zeros is singular
+\end{theorem}
+
+\begin{theorem}
+	For matrices $A, B$. If $B$ is obtained from $A$ by applying a single row operation, then let $E$ be the elementary matrix by applying the same row operation to $I$, we get $B=EA$
+\end{theorem}
+
+\begin{theorem}
+	Elementary matrices are invertible
+\end{theorem}
+
+\begin{theorem}
+	If $A, B$ are matrices where $A\sim B$, there exists an invertible matrix $E$ where $B=EA$
+\end{theorem}
+
+\begin{theorem}
+	All square matrices $A$ are invertible if an only if $A \sim I$.
+\end{theorem}
+
+\begin{theorem}
+	If $A$ is invertible, then it can be written as the product of elementary matrices.
+\end{theorem}
+
+\begin{theorem}
+	If $A, B$ are matrices such that $AB = I$, then $A$ is invertible with $A^{-1} = B$. Hence $AB = I$ is enough to show that $BA = I$.
+\end{theorem}
+
+\begin{lemma}
+	The reduced row echelon form of any matrix is unique.
+\end{lemma}
+
+\paragraph{Rank Remarks} If two matrices are row equivalent, they have the same rank. If $A$ has m rows its rank must be $\leq m$. A square matrix of size $n$ with rank $n$ has its RREF form be the identity matrix.
+
+\begin{theorem}
+	Let $A \in M_{n,n}$ be a square matrix, then $A$ is invertible if and only if $\text{rank} (A) = n$
+\end{theorem}
+
+\paragraph{Determinant properties} Consider a square matrix $A$. Then $\det I = 1$; if $B$ is one row swapping operation from $A$, then $\det B = -\det A$; The determinant depends linearly on the first row:
+\[
+	\det [kA_{11}, kA_{12}, \dots] = k \det [A_{11}, A_{12}, \dots]
+\]
+and 
+\[
+	\det [A_{11}+A'_{11} + \dots] = \det [A_{11} + \dots] + \det [A'_{11} + \dots]
+\]
+
+\paragraph{More Det Properties} These can be proved by the first three properties.
+\begin{itemize}
+	\item If two rows are equal, then the determinant is zero
+	\item If $B$ is obtained from $A$ by applying a row operation of the 3rd kind, $\det B = \det A$
+	\item If $A$ has a row of zeros, $\det A = 0$
+	\item The determinant of a upper diagonal matrix is the product of the diagonal elements
+	\item $\det A = 0$ if and only if $A$ is singular
+	\item $\det AB = \det A \det B$
+	\item $\det A^T = \det A$
+\end{itemize}
+
+
+\end{document}

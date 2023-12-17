@@ -1,0 +1,1203 @@
+\documentclass[8pt]{extarticle}
+\usepackage[utf8]{inputenc}
+
+\usepackage[margin=0.3in]{geometry}
+
+\usepackage{parskip}
+\setlength{\parskip}{0.25\baselineskip}
+
+\usepackage{float}
+
+\usepackage{multicol}
+\setlength{\columnseprule}{0.4pt}
+
+\usepackage{mathtools}
+
+\begin{document}
+
+    % TITLE
+    \begin{quote}
+        \centering
+        CALCULUS 2 SUMMARY
+    \end{quote}
+
+    \begin{multicols*}{3}
+        % Content
+        \section{Number, Functions, and Graphs}
+        4 main properties: Trichotomy ($<$, $>$, =), Ordering, Closure under addition and multiplication.
+
+        Triangle inequality (Real, complex, vector): $|a + b| \leq |a| + |b|$;
+
+        Cauchy-Schwartz's inequality: $|a \cdot b| \leq |a||b|$
+        \\
+
+        Conic sections and Planes:
+
+        Ellipse: $(x - x_{1})^2/a^2 + (y - y_{1})^2/b^2 = 1$
+
+        Hyperbola; $(x - x_{1})^2/a^2 - (y - y_{1})^2/b^2 = 1$
+
+        Plane: $ax + by + cz = d$
+        \\
+
+        Function: Set of pairs of values (a, b) in the set. If (a, c) and (b, c) are in the set, then a = b.
+
+        Graph: Set of points of $(x, f(x)) $
+
+        Level sets: Subset of the domain at a fixed value of  $f(a_{0}, ..., a_{n})$
+
+        \section{Limits and Continuity}
+        \textbf{Limits:}
+        Tips: Apply limit laws if possible.
+
+        Easily add a constant bound via min(), to deal with terms containing x.
+
+        Try to factor the conditions (x - a) from the functions.
+        \\
+
+        For 1 variable: $lim_{x \xrightarrow{} a} f(x) = l$, when let $\epsilon > 0$, exists a $\delta > 0$, s.t: for all x, if $0 < |x - a| < \delta$, then $|f(x) - l| < \epsilon$
+
+        For 1 side limits ($lim_{x \xrightarrow{} \pm a}$), the conditions change to $0 < x - a | a - x < \delta$, depending on the side.
+        \\
+
+        For 2 variables: $lim_{(x, y) \xrightarrow{} (a, b)} f(x, y) = l$, when let $\epsilon > 0$, exists a $\delta > 0$, s.t: if $0 < |(x, y) - (a, b)| < \delta$, then $|f(x, y) - l| < \epsilon$
+
+        Note: $max(|y|, |x|) < |(x, y) - (a, b)|$, which can be convenient.
+
+        \textbf{Infinity}: For $lim_{x \xrightarrow{} \infty}$, replace $\delta$ with: Exist an $N > 0$, so that if $X > N$, then ...; For $lim_{\dots} f(x) = \infty$, replace $\epsilon$ with: Exist an $M > 0$, so that if ..., then $f(x) > M$. Use negative N, M for negative infinity.
+        \\
+
+        Negation of $limit_{x \xrightarrow{} a} f(x) = l$: There exist an $\epsilon > 0$, so that for every $\delta > 0$, exist an x so that: $0 < |x - a| < \delta$ and $|f(x) - l| > \epsilon$.
+
+        Proof of no limits: Try to find 2 possible values for the limits (non unique). Then prove the negation for all values l.
+        \\
+
+        Limit Laws:
+        If the limit for the 2 functions f(x) (= l), g(x) (= m) exist, the limit of add/mult/div of the 2 functions exists (= add/mult/div of l, m), For div, m != 0.
+
+        For prove of product, choose $\epsilon_{f} = \frac{\epsilon}{2(|m| + 1)}$ and $\epsilon_{g} = min(1, \frac{\epsilon}{2(|l| +  1)})$
+        \\
+
+        Limit Composition Laws (???): If $lim_{x \xrightarrow{} a} f(x) = l$, then $lim_{x \xrightarrow{} a} g(f(x)) = lim_{x \xrightarrow{} l} g(x)$
+        \\
+
+        Property: Unique limit at a point (if exist, and equal to the 2 one-sided limits).
+        \\
+
+        \textbf{Continuity:}
+        A function is continuous at a if: $lim_{x \xrightarrow{} a} f(x) = f(a)$, given both exist.
+
+        Continuity Laws (1 and multiple vars): If function f and g are continuous at a, f+g, f.g are continuous at a. If g(a) != 0, then f/g is continuous at a. Proved using limits.
+
+        Continuity Composition (1 and multiple vars): If function f (at g(a)) and g (at a) are continuous, f(g) is continuous at a.
+
+        \underline{Theorem:} If f is continuous at a, and $f(a) > 0$ (or $< 0$), exist an interval containing a, so that for all x in the interval, $f(x) > 0$ (or $< 0$).
+
+        \underline{Intermediate Value Theorem:} If f is continuous on an interval [a, b] and $f(a) < t < f(b)$, then exist x in (a, b) so that f(x) = t.
+        Implies a root when there is a change in sign for continuous function.
+
+        \underline{Bounded Value Theorem:} If f is continuous on [a, b], then there exist a value N such that $N >= f(x)$ for x in [a, b].
+
+        \underline{Extreme Value Theorem:} If f is continuous on [a, b], then there is some number y in (a, b), such that $f(y) >= f(x)$ for all x in (a, b).
+        This implies the existence of the minimum in [a, b] (which is the maximum of -f(x)).
+
+        \underline{Polynomials Theorems}:
+
+        For an odd polynomial: $P(x) = x^n + a_{n-1} x^{n-1} + ... + a_{0}$, there is a root. Property: $lim_{x \xrightarrow{} \pm \infty} P(x) = \pm \infty$
+
+        Proof: Combined limit property and IVT.
+        \\
+
+        For an even polynomial: $P(x) = x^n + a_{n-1} x^(n-1) + ... + a_{0} = c$, there is a value m, so that the equation has root for $c \leq m$, and no root for $c > m$.
+        Basically, the polynomial has a global minimum m.
+
+        Property: $lim_{x \xrightarrow{} \pm \infty} P(x) = \infty$. Combined with EVT for proof.
+        \\
+
+
+        \section{Proven Continuous functions (thus limits)}
+        \begin{description}
+            \item Geometry functions: sin, cos, tan (when cos != 0)
+            \item Polynomials: $x^n$, even for fractional n (covered in inverse function)
+            \item Exponentials and logarithm: $e^x$ and $log(x)$
+        \end{description}
+
+
+        \section{Differentiability}
+        \underline{1 Variables}:
+
+        \underline{Definition}: The function is differentiable at a if:
+
+        $lim_{h \xrightarrow{} 0} \frac{f(a + h) - f(a)}{h}$ exists, then f'(x) = the limit.
+
+        \underline{Theorem (Both 1 and multi-vars)}: If f(x) is differentiable at a, then f(x) is continuous at a (proved with limit laws).
+
+        \underline{Linear Approximation}:
+        Let l(x) = f(a) + f'(a) (x - a)
+        Then, f(x) = l(x) + h(x), with h(x) = The error term;
+
+        $lim_{x \xrightarrow{} a} \frac{h(x)}{x - a} = 0$ (Prove by sub. h(x) = f(x) - l(x))
+
+        \underline{Sum and Product rule} If f and g are differentiable at a, then f+g and fg are differentiable at a:
+        \[
+        (f + g)'(a) = f'(a) + g'(a)
+        \]
+        \[
+        (fg)'(a) = f'(a) g(a) + f(a) g'(a)
+        \]
+        Proof of product rule: Write in limit form, and try to factor out the term: f(a+h) - f(a) and g(a+h) - g(a).
+
+        \underline{Quotient rules}:
+        If f and g are differentiable at a and g(a) != 0, then f/g is differentiable at a:
+        \[
+        (f/g(a))' = \frac{f'(a)g(a) - g'(a)f(a)}{g^2(a)}
+        \]
+        Prove for 1/g(a) using the limit form. Then apply product rule.
+
+        \underline{Chain rule}:
+        If f (at g(a)) and g (at a) are differentiable, then $f \circ g$ is differentiable at a:
+        \[
+        (f \circ g)'(a) = f'(g(a)) g'(a)
+        \]
+
+        Proof of chain rule:
+
+        $(f \circ g)'(a) = \frac{f(g(a + h)) - f(g(a))}{h} =
+        \frac{f(g(a + h)) - f(g(a))}{g(a+h) - g(a)} \frac{g(a+h)-g(a)}{h}$
+
+        To avoid $g(a+h) - g(a) = 0$, we define function: $r(x) = \frac{f(g(a + h)) - f(g(a))}{g(a+h) - g(a)}$ when g(a+h) - g(a) != 0; and $r(x) = f'(g(a))$ when g(a+h) - g(a) = 0
+
+        Then, prove $lim_{h \xrightarrow{} 0} r(x) = f'(g(a))$ by using the fact that f is differentiable at g(a), and g is differentiable at a. Similar style to prove composition continuity.
+        \\
+
+        \underline{2 Variables}:
+
+        \underline{Partial derivative}:
+
+        For f(x, y), the limits at (a, b), if exist, are the partial derivatives:
+        \[
+        \frac{\partial f}{\partial x} (a, b) = lim_{h \xrightarrow{} 0} \frac{f(a+h, b) - f(a, b)}{h}
+        \]
+        \[
+        \frac{\partial f}{\partial y} (a, b) = lim_{h \xrightarrow{} 0} \frac{f(a, b+h) - f(a, b)}{h}
+        \]
+
+        \underline{Differentiable}:
+        The function $f(x_1, y_1)$ is differentiable at $\Vec{a} = (a_1, a_2)$, if:
+        let $\Vec{h} = \Vec{x} - \Vec{a}$, there exist a gradient/linear function:
+
+        $l(\Vec{x}) = f(\Vec{a}) + \nabla f(\Vec{a}) . \Vec{h} + E(\Vec{h})$
+
+        With: $lim_{\Vec{h} \xrightarrow{} (0, 0)} \frac{E(\Vec{h})}{|\Vec{h}|}$
+
+        \underline{Theorem for gradient of functions}:
+        If the function f(x, y) is differentiable at $\Vec{a} = (a_1, a_2)$, then the partial derivatives (for both x and y) exist and form the gradient of f(x, y):
+
+        \[
+        \nabla f(\Vec{a}) = [\frac{\partial f}{\partial x} (\Vec{a}), \frac{\partial f}{\partial y} (\Vec{a})]
+        \]
+
+        However, the existence of the partial derivative are not sufficient for the function to be differentiable at the point.
+
+        \underline{Theorem}: If the partial derivatives exist at (every ???) points and they are continuous at $\Vec{a}$, then the function is differentiable at $\Vec{a}$.
+
+        \underline{Directional Derivative}: Given a unit direction vector $\Vec{u} = (u_1, u_2)$ and $|u| = 1$. The directional derivative at $\Vec{a} = (a_1, a_2)$ is:
+        \[
+        \frac{\partial f}{\partial u} (\Vec{a}) = lim_{t \xrightarrow{} 0} \frac{f(\Vec{a} + t\Vec{u}) - f(\Vec{a})}{t}
+        \]
+
+        Equivalent to partial derivative of x with $\Vec{u}$ = (1, 0) and of y with $\Vec{u}$ = (0, 1)
+
+        \underline{Theorem}: If f is differentiable at $\Vec{a} = (a_1, a_2)$, then the directional derivative at any direction $\Vec{u}$ exists, and equal:
+        \[
+        \frac{\partial f}{\partial u} (\Vec{a}) = \nabla f(\Vec{a}) . \Vec{u}
+        \]
+
+        Prove by substitute $\Vec{h} = t . \Vec{u}$, then rearrange, divide by t and take the limit.
+
+        Useful negation???: If the partial derivative exists (thus $\nabla f(\Vec{a})$ defined), but the directional derivative equation is not equal to the expression above, then f is not differentiable (Check one of the tutor sheet).
+
+        \underline{Maximum value of directional derivative}: If f is differentiable at $\Vec{a} = (a_1, a_2)$, the equation above applies, and by Cauchy inequality (remember $|u| = 1$):
+
+        \[
+        |\nabla f(\Vec{a}) . \Vec{u}| \leq |\nabla f(\Vec{a})| . |\Vec{u}| = |\nabla f(\Vec{a})|
+        \]
+
+        Thus, the maximum value occurs when the 2 vectors are co-linear
+        $\xrightarrow{}$ Maximum directional derivative occurs at the gradient $\nabla f(\Vec{a})$
+
+        \underline{Sum and product of 2 variables???}: Apply similar rules as 1 variables. At $\Vec{a} = (a_1, a_2)$:
+        \[
+        \nabla (f + g) (\Vec{a}) = \nabla f(\Vec{a}) + \nabla g(\Vec{a})
+        \]
+        \[
+        \nabla (f . g) (\Vec{a}) = \nabla f(\Vec{a}) . g(\Vec{a}) + f(\Vec{a}) . \nabla g(\Vec{a})
+        \]
+
+        \subsection{L'Hopital Rules}
+        Given f(x)/ g(x). If:
+
+        1. $lim_{x \xrightarrow{} a} f(x)$ = $lim_{x \xrightarrow{} a} g(x)$ = 0
+
+        2. $lim_{x \xrightarrow{} a} f'(x)/ g'(x)$ exists
+
+        then: $lim_{x \xrightarrow{} a} f(x)/g(x) = lim_{x \xrightarrow{} a} f'(x)/ g'(x)$
+        \\
+
+        Other proven variations of given conditions:
+
+        1. For 1: Valid when replace limit value = 0 with $\pm \infty$ (Tutorial 5)
+
+        2. For 2: When  $lim_{x \xrightarrow{} 0} f'(x)/ g'(x) = \pm \infty$ (Note 9)
+
+        3. For the limit: Valid if replace $lim_{x \xrightarrow{} 0}$ with $lim_{x \xrightarrow{} \pm \infty}$ (Note 9)
+
+        Check the negative infinity and $\lim_{x \xrightarrow{} \infty} f(x) = \infty$ ???
+        \\
+
+        Relevant theorems are listed below.
+
+        Proof with Cauchy Mean Value Theorem:
+
+        1. Re-define f and g so that: f(a) = g(a) = 0 (based on the limit) to make a continuous function.
+        \\
+
+        2. Justify that: g'(x) != 0 (since f'(x)/ g'(x) exist) on a small interval near a, so g(x) != g(a) for any x in the interval. Then, apply Cauchy Mean Value Theorem:
+        \[
+        \frac{f(x)}{g(x)} = \frac{f(x) - f(a)}{g(x) - g(a)} = \frac{f'(\alpha)}{g'(\alpha)}
+        \]
+
+        for some $\alpha$ in (a, x), with x in some interval near a. The interval ($0 < |x - a| < \delta$) will correspond to the interval where Epsilon-Delta is applied later on in step 3.
+
+        Doesn't quite matter whether $x > \alpha$ or $x < \alpha$, since $\frac{f(x) - f(a)}{g(x) - g(a)} = \frac{f(a) - f(x)}{g(a) - g(x)}$
+        \\
+
+        3. Use Epsilon-Delta to propagate the limit from f'(x)/g'(x) to f(x)/g(x):
+
+        Since $lim_{x \xrightarrow{} a} f'(x)/ g'(x)$ exists, there's an $\delta_1 > 0$, for any $\epsilon > 0$, if $0 < |x - a| < \delta$, then $|\frac{f'(x)}{g'(x)} - l| < \epsilon$
+        \\
+
+        For any $\epsilon > 0$, exist a $\delta_2 = \delta_1$ (corresponding above), so that:
+        if $0 < |x - a| < \delta_2$, then
+        \[
+        |\frac{f(x)}{g(x)} - l| = |\frac{f'(\alpha)}{g'(\alpha)} - l| < \epsilon
+        \]
+
+        since $\alpha$ is in (a, x), with x in the interval: $0 < |x - a| < \delta_2$, then $0 < |\alpha - a| < \delta_2$, so the inequality for epsilon-delta of f'(x)/ g'(x) still applies.
+        \\
+
+        \underline{Definition}: Local maximum: There is a $\delta > 0$, so that for all y, $|y - a| < \delta$, then $f(y) \leq f(a)$. Similar for local minimum. Extends to more than 1 variable.
+        \\
+
+        \underline{Theorem}: If f(x) has a local maximum/ minimum at a, and f is differentiable, then f'(a) = 0.
+
+        Proof: Checking the 2 sides of the limit of differentiability def, which only agrees on 0.
+        \\
+
+        This theorem extends to 2 variables.
+
+        Proof: Let $g(u) = f(\Vec{a} + t\Vec{u})$ for any $\Vec{u}$. If f has a local maximum at a, g(0) is the local maximum, thus g'(0) = 0.
+
+        Note: g'(0) = $\frac{\partial f}{\partial u} (\Vec{a}) = \nabla f(\Vec{a}) . \Vec{u}$.
+        Since g'(0) = 0 for ANY $\Vec{u}$, then $\nabla f(\Vec{a}) = \Vec{0}$
+        \\
+
+        \underline{Rolle's Theorem}:
+
+        Given f(x). If:
+
+        1. f is continuous on [a, b]
+
+        2. f is differentiable on (a, b)
+
+        3. f(a) = f(b)
+
+        Then, there exists x in (a, b) so that f'(x) = 0.
+        \\
+
+        Proof: By Extreme Value Theorem, there must be a maximum and a minimum value in [a, b].
+        If either a maximum/ minimum point lies in (a, b), then f'(x) = 0 at that point. If both points lie at a or b, then maximum = minimum = f(a) = f(b), thus the function is a constant and f'(x) = 0 for all points in (a, b).
+        \\
+
+        \underline{Mean Value Theorem}:
+
+        If:
+
+        1. f is continuous on [a, b]
+
+        2. f is differentiable on (a, b)
+
+        Then there exist x in (a, b), so that f'(x) = (f(b) - f(a))/ (b-a)
+
+        Proof: Let l(x) = f(a) + (f(b) - f(a))/ (b-a) * (x - a), then let g(x) = f(x) - l(x).
+        g(x) satisfies all conditions of Rolle's Theorem, thus have a point where: g'(x) = f'(x) - l'(x) = 0 $\xrightarrow{}$ f'(x) = l'(x) = (f(b) - f(a))/ (b-a), for a point x in (a, b).
+        \\
+
+        \underline{Corollary}: If f'(x) = 0 on an interval, then f(x) = constant for that interval.
+
+        \underline{Cauchy Mean Value Theorem}:
+
+        If:
+
+        1. f and g are continuous on [a, b]
+
+        2. f and g are differentiable on (a, b)
+
+        3. g'(x) != 0 and g(a) != g(b)
+
+        Then, for some x in (a, b),
+
+        \[
+        \frac{f(b) - f(a)}{g(b) - g(a)} = \frac{f'(x)}{g'(x)}
+        \]
+
+        Proof: Take g(x) = (f(b) - f(a)) g(x) - (g(b) - g(a)) f(x). Then, g(b) = -f(a)g(b) + g(a)f(b) = g(a), so by Rolle's theorem, there is an x in (a, b) for g'(x) = 0.
+
+        \subsection{Inverse functions}
+
+        \underline{1-to-1 definition} A 1-to-1 function is: f(a) != f(b) if and only if a != b
+
+        \underline{Theorem}: If a function is continuous, 1-to-1 on an interval, then it's either increasing or decreasing on the interval.
+
+        \underline{Theorem}: If f is continuous and 1-to-1 on an interval, then $f^{-1}$ is continuous on corresponding interval.
+
+        Proof: f is either increasing or decreasing. Replace f with $f^{-1}$, then choose an interval $\delta$ so that $f(\alpha - \epsilon) < f(\alpha) - \delta < f(\alpha) = y < f(\alpha) + \delta < f(\alpha + \epsilon)$. As $f^{-1}$ is also increasing, apply $f^{-1}$ to the chain of inequality to obtain $\epsilon$.
+        \\
+
+        \underline{Theorem}: If f is continuous on an interval containing a, 1-to-1, and $f'(f^{-1}(a)) != 0$, then $f^-1$ is differentiable at a:
+        \[
+        (f^{-1})'(a) = \frac{1}{f'(f^{-1}(a))}
+        \]
+        \\
+
+        Proof: DO NOT use chain rule to prove. Use limit definition and the linear approximation of f:
+
+        1. Replace all $f^{-1}$ with f:
+        Let: $k = f^{-1}(a + h) - f^{-1}(a)$ and $b = f{^-1}(a)$
+
+        \begin{align*}
+            (f^{-1})'(x) = lim_{h \xrightarrow{} 0} \frac{f^{-1}(a + h) - f^{-1}(a)}{h} \\
+            = lim_{h \xrightarrow{} 0} \frac{k}{f(b + k) - f(b)}
+        \end{align*}
+
+        2. Use linear approximation: $f(b+k) = f(b) + f'(b)k + E(k)$, then $f(b + k) - f(b) = f'(b)k + E(k)$
+
+        3. Reason to switch the limit to limit (k $\xrightarrow{}$ 0):
+        Since $f^{-1}$ is continuous, $lim_{h \xrightarrow{} 0} f^{-1}(a + h) = f^{-1}(a)$, thus $lim_{h \xrightarrow{} 0} k = 0$.
+
+        4. Put all the limit and linear approximation together:
+        \begin{align*}
+            (f^{-1})'(x) = lim_{k \xrightarrow{} 0} \frac{k}{f'(b)k + E(k)} \\
+            = lim_{k \xrightarrow{} 0} \frac{1}{f'(b) + E(k)/k}
+        \end{align*}
+        Which, by limit laws, give the formula stated above.
+
+
+        \section{Proven (non-) differentiable functions}
+        \textbf{Differentiable}:
+
+        Geometry functions
+
+        Polynomials
+
+        Exponential and Logarithm
+
+        Other: See f' exist section below.
+        \\
+
+        Limit exists but Non-differentiable: $|x|$ (at 0), $\frac{sin(x^2)}{x}$ (at $\infty$), $x sin(1/x)$ (define f(0) = 0, at 0)
+        \\
+
+        f' exist, but not f'': $x^2$ (for $x >= 0$) and $-x^2$ (for $x < 0$); $x^2 sin(1/x)$ (define f(0) = 0, at 0)
+        \\
+
+        Partial derivative exist, but not differentiable: $\frac{xy}{x^2 + y^2}$
+
+        \section{Integration}
+        \subsection{Fundamentals}
+
+        \underline{Basic properties of integration}
+        \[
+        \int_b^{a} f = \int_b^{c} f + \int_c^{a} f
+        \]
+
+        for $a < c < b$
+
+        \[
+        \int_b^{a} f + g = \int_b^{a} f + \int_b^{a} g
+        \]
+        \[
+        \int_b^{a} cf = c \int_b^{a} f
+        \]
+
+        for c in R
+
+
+        \underline{Property}: All continuous functions are integrable, but a function can be integrable without being continuous.
+
+        \underline{Fundamental theorem of Calculus}: For a CONTINUOUS function f on [a, b]. For an x in [a, b], define:
+        \[
+        F(x) = \int_b^{x} f(t) dt
+        \]
+        Then F(x) is continuous on [a, b], differentiable on (a, b), and:
+        \[
+        f(x) = F'(x)
+        \]
+
+        Note: F(x) is defined with x on top of the integral. If the top part is not x, use chain rule to differentiate. The lower part must be a constant.
+
+        \underline{Corollary}: If f is continuous on [a, b] and g' = f, then:
+        \[
+        \int_b^{a} f(t) dt = g(b) - g(a)
+        \]
+
+        Proof: Use the property to convert the integral to: F(b) - F(a), then note that: F' = g', so F = g + c, which cancel out during subtraction (or sub F(a) = 0 to find c).
+
+
+
+        \subsection{Logarithms and Exponents}
+
+        \underline{Definition}: Logarithm f(x) = log(x) is defined as:
+
+        For $x > 0$:
+        \[
+        log(x) = \int_1^{x} \frac{1}{t} dt
+        \]
+
+        \underline{Property}
+        \[
+        log(xy) = log(x) + log(y)
+        \]
+        \[
+        log(x/y) = log(x) - log(y)
+        \]
+        \[
+        log(x^n) = n log(x)
+        \]
+
+        Proof 1st prop: Set y as a constant, then differentiate (log(xy))' = 1/x, so log(xy) = log(x) + c. Find c = log(y) at x = 1. Since it applies for all y, the theorem is proved.
+
+        The 2nd and 3rd follows by rearrange or induction.
+
+        \underline{Inequality}
+
+        For $x > 0$:
+        \[
+        log(x) < x
+        \]
+
+        Proof: For $x <= 1$, $log(x) <= 0$ (by definition). For $x > 1$, $log(x) <= (x-1) < x$ (by looking at the area under the curve).
+        \\
+
+        \underline{Definition}: For exponent, we defines it as:
+
+        For x in R:
+        \[
+        e^x = log^{-1}(x)
+        \]
+
+        Property:
+        \[
+        e^{x+y} = e^x e^y
+        \]
+        \[
+        (e^x)' = e^x
+        \]
+
+        Property from definition, and replace x = log(a).
+
+        Limits property:
+        \[
+        lim_{x \xrightarrow{} \infty} e^x = \infty
+        \]
+
+        Proof: From above theorem:
+        \[
+        log(x) < x \xrightarrow{} x < e^{x}
+        \]
+        \\
+
+        \[
+        lim_{x \xrightarrow{} \infty} e^x/x = \infty
+        \]
+
+        Proof:
+        \[
+        \frac{e^x}{x} = 1/2 . (\frac{e^{x/2}}{x/2}) . e^{x/2}
+        \]
+
+        From the above limit, it's clear that $(\frac{e^{x/2}}{x/2}) > 1$, so the limit is the same as the limit of $e^x$
+        \\
+
+
+        \[
+        lim_{x \xrightarrow{} \infty} \frac{e^x}{x^n}= \infty
+        \]
+
+        Proof:
+        \[
+        \frac{e^x}{x^n} = \frac{1}{n^n} . (\frac{e^{x/n}}{x/n})^n
+        \]
+
+        Then, follows from the limits above, the limit comes to $\infty$
+
+        \underline{The value of e}
+
+        \underline{Estimate} 2 < e < 4, then 2 < e < 3 with Taylor's series.
+
+        Proof: ???, Never given.
+        ln(2) < 1 < ln(4)
+        But likely by splitting the interval (1, 4) into 3 sections: (1, 2), (2, 3), (3, 4), then look at the area of the rectangles under the graph.
+
+        By taking the Taylor series of n = 4, and bound R < 4/ (n + 1)!, we could bound 2 < e < 3 (using Lagrange remainder or the integral form) or even tighter with higher n.
+
+        \underline{Theorem}: e is irrational
+
+        Proof by contradiction:
+
+        Assume e is rational, thus e = a/b.
+
+        Then, an!/b = n! + n!/ 1! + n!/ 2! + ... + R n!
+        By choosing n > b and n > 3, every part are integer, except for R n!, thus R n! must be an integer.
+
+        But R < 3/ (n+1)! (Lagrange remainder), so 0 < R n! < 3/ (n+1) < 1 (as n > 3).
+        Which is a contradiction.
+
+
+        \subsection{Integration}
+
+        \underline{Integration by parts}
+
+        If f' and g' are continuous:
+        \[
+        \int f'g = fg - \int fg'
+        \]
+        \[
+        \int_b^{a} f'(x)g(x) dx = [f(x)g(x)]|_b^{a} - \int_b^{a} f(x)g'(x) dx
+        \]
+
+        Proof follows from integrating the product rules.
+
+        \underline{Integration by substitution}
+
+        If f and g' are continuous
+        \[
+        \int_g(b)^{g(a)} f(y) dy = \int_b^{a} f(g(x)) g'(x) dx
+        \]
+
+        Proof: Let F = $\int_b^{a} f(y) dy$, then differentiate F(g(x)) to prove that it is the primitive for the left-hand side, then plug b and a in.
+
+        The theorem is defined for definite only. This extends to primitive if the function works for all definite. There is a procedure to shorten the process, though.
+
+        \underline{Substitution procedures}
+
+        Substitute u = g(x). Write du = g'(x) dx, then try to replace all x with u.
+
+        Sometime, it might be more convenient to write x = $g^{-1}(u)$, then dx = $(g^{-1})'(u) . du$.
+
+        \underline{Trigonometry substitution}
+
+        $cos(2x) = cos^2(x) - sin^2(x) = 2cos^2(x) - 1 = 1 - 2sin^2(x)$
+
+        For the terms with $\sqrt{1 - x^2}$ or $1 + x^2$, the substitution of x = sin(u) or x = tan(u) might be useful.
+
+        \underline{Strategy for $sin^n$ and $cos^n$}:
+
+        If n is even: n = 2k, so rewrite it as: $cos^2k(x) = (cos^2(x))^k = (\frac{1 + cos(2x)}{2})^k$, then repeating the same process after expanding the k power. Same for sin.
+
+        If n is odd: n = 2k + 1, so rewrite it as: $cos^{2k + 1}(x) = cos(x)((cos^2)^k) = cos(x)((1 - sin^2(x))^k)$, then substituting u = sin(x), which will turn the equation into a polynomials.
+
+        \section{Complex number and functions}
+        \subsection{Complex number}
+        For 2 complex numbers z, w:
+
+        $\bar \bar z = z$
+
+        $\bar z = z$ if and only if z is real
+
+        $\bar {z + w} = \bar z + \bar w$
+
+        $\bar {-z} = - \bar z$
+
+        $\bar z . \bar w = \bar {z.w}$
+
+        $conj(1/z) = 1/conj(z)$
+
+        $|z|^2 = z . \bar z$
+
+        $|z . w| = |z| . |w|$
+        \\
+
+        Triangle inequality:
+
+        $|z + w| <= |z| + |w|$
+
+        Proof: The inequality is true for z = a . w.
+        Try z != a.w, and write:
+        \[
+        0 < |z - a.w|^2 = |z|^2 + a^2 |w|^2 - a (z \bar w + \bar z w)
+        \]
+
+        Which can't be 0, thus the discriminant is negative:
+        \[
+        (z \bar w + \bar z w)^2- 4|w|^2|z|^2 < 0
+        \]
+
+        Thus, $(z \bar w + \bar z w) < 2|w||z|$, which implies the inequality after squaring both sides.
+        \\
+
+        \underline{Argument-magnitude form}:
+
+        $z = |z|(cos(\theta) + i sin(\theta))$
+
+        $w = |w|(cos(\theta_2) + i sin(\theta_2))$
+        \\
+
+        Property:
+        \[
+        z.w = |z||w|(cos(\theta + \theta_2) + i sin(\theta + \theta_2))
+        \]
+
+
+        \underline{de Moivre's Theorem}:
+        \[
+        z^n = |z|^n (cos(n \theta) + i sin(n \theta))
+        \]
+
+
+        \textbf{Polynomial property:} The complex roots of a polynomial with real coefficients will always occur in pairs: z and $\bar z$
+
+        Find k-th roots of complex numbers z, argument $\theta$:
+
+        1. Write the number in Modulus-Argument form.
+
+        2. Find the modulus of the root = $|z|^{1/n}$
+
+        3. Find the n different arguments of the root:
+        \[
+        \theta_{root} = \frac{\theta}{n} + \frac{2k\pi}{n}
+        \]
+        with k = 0, 1, 2, ..., n-1
+
+        \subsection{Complex-valued function}
+        \underline{Definition} Function maps from Complex to Complex.
+
+        \underline{Limit laws} Same as real, with real epsilon and delta.
+
+        \underline{Differentiation} Same as real. Note, though, geometry function is no longer bounded by 1 (sin(iy), for example).
+
+
+
+
+
+
+        \section{Hyperbolic functions}
+
+        \underline{Definition}:
+        \[
+        cosh(x) = \frac{e^x + e^{-x}}{2}
+        \]
+        Domain: R, Range: $> 1$
+
+        \[
+        sinh(x) = \frac{e^x - e^{-x}}{2}
+        \]
+        Domain: R, Range: R
+
+        \[
+        tanh(x) = sinh(x)/ cosh(x)
+        \]
+        Domain: R, Range: (-1, 1)
+
+        The 2 functions are the solution to the equation: y'' - y = 0, y(0) = $y_0$, y'(0) = $y_1$, with ($y_0, y_1$) = (1, 0) or (0, 1).
+        W(cosh, sinh) (0) = 1, thus the 2 functions are linear independent, thus all solutions are linear combinations of these 2.
+
+        \underline{Property}
+        \[
+        cosh^2(x) - sinh^2(x) = 1
+        \]
+        \[
+        sinh(x \pm y) = sinh(x) cosh(y) \pm cosh(x) sinh(y)
+        \]
+        \[
+        cosh(x \pm y) = cosh(x) cosh(y) \pm sinh(x) sinh(y)
+        \]
+        \[
+        tanh^2(x) + cosh^{-2}(x) = 1
+        \]
+
+        \underline{Inverse Hyperbolic function}
+        \[
+        arsinh(x) = log(x + \sqrt{x^2 + 1})
+        \]
+        for x in R. arsinh returns all possible solutions, as sinh is one-to-one.
+
+        \[
+        arcosh(x) = log(x + \sqrt{x^2 - 1})
+        \]
+        for $x > 1$. arcosh only returns 1 (the positive) of the 2 possible solutions.
+
+        \[
+        artanh(x) = 1/2 log(\frac{x+1}{x-1})
+        \]
+        Domain: (-1, 1), Range: R
+
+        \underline{Differentiation}
+        \[
+        cosh'(x) = sinh(x)
+        \]
+        \[
+        sinh'(x) = cosh(x)
+        \]
+        \[
+        tanh'(x) = cosh^-2(x)
+        \]
+        \[
+        arcosh'(x) = \frac{1}{\sqrt{x^2 - 1}}
+        \]
+        \[
+        arsinh'(x) = \frac{1}{\sqrt{x^2 + 1}}
+        \]
+        \[
+        artanh'(x) = \frac{1}{1 - x^2}
+        \]
+
+        \underline{Integration} Usually useful to deal with $\sqrt{1 + x^2}, \sqrt{x^2 - 1}, (1+x^2)$.
+
+        CAREFUL: Consider the range, and do NOT replace: sinh(x) = $\sqrt{cosh^2(x) - 1}$. Check the 2 cases of +/-.
+        If sub x = cosh(u), either restrict u > 0, or check if there might be 2 cases of sinh(u) to be dealt with,
+
+
+        \section{Differential Equations}
+        \subsection{Simplest forms}
+
+        \underline{Simplest First Order}
+
+        \underline{Theorem} For y' = y, all solutions are $y = ce^{x}$, with c in R
+
+        Proof: Let r(x) = any solution. Let g(x) = $r(x) . e^{-x}$, then g'(x) = $\frac{r'(x) e^{x} - r(x)e^{x}}{e^{2x}}$ = 0 (as r'(x) - r(x) = 0), so g'(x) = c, thus r(x) = $ce^{x}$
+
+        \underline{Simplest Second Order}
+
+        \underline{Lemma} For y'' + y = 0; y(0) = 0; y'(0) = 0; then y = 0
+
+        Proof: Let g(x) = $y^2 + (y')^2$ (an invariant). Then, g'(x) = $2y.y' + 2y'.y'' = 2y'.(y + y'') = 0$, then g(x) = constant. g(0) = 0, so g(x) = 0 for all x. Thus, since $a^2 >= 0$, then y(x) = y'(x) = 0 for all x.
+
+        \underline{Theorem} For y'' + y = 0; y(0) = a; y'(0) = b; all solutions are in the form:
+        $y = a cos(x) + b sin(x)$
+
+        Proof: Let $g(x) = a cos(x) + b sin(x)$, which is the solutions to the equation. For any solution r(x), define d(x) = r(x) - g(x). d(x) will also be the solution to the equation, with d(0) = 0 and d'(0) = 0, so from Lemma, d(x) = 0.
+
+        \underline{Applications} To prove trigonometry identity, by fix y, substitute f(x) = sin(x + y), set the second order equations then solve for it in above form.
+
+        \subsection{Linear First Order Differential Equation}
+
+        \underline{Simplest form}
+
+        For: y' = ay, y(0) = $y_0$
+
+        Then, all solution has the form: y(x) = $y_0 e^{ax}$
+
+        Proof: Similar to the simplest form with g(x) = $y(x).e^{-ax}$
+        \\
+
+        \underline{2nd Simpler form}
+
+        For: y' + P(x) y = 0, y(0) = $y_0$
+
+        if and only if, y(x) = $y_0 . exp[\int_{x_0}^x -P(x) dx]$
+
+        Proof: Similar to the simplest form, but set g(x) = $y(x) . exp[\int_{x_0}^x P(x) dx]$
+        \\
+
+        \underline{Full form}
+
+        \underline{Method of variation of constants}: A guessing technique, involves replacing $y_0$ with a function $y_0(x)$. Then plug in the equation, find satisfying conditions, and prove the solution is unique.
+
+        \underline{Theorem}:
+
+        For y' + P(x) y = Q(x), with P and Q are continuous functions:
+
+        1. Let G = Primitive of P, H = Primitive of $e^{G} . Q$.
+        Then the solution r(x) is if and only if
+        \[
+        r(x) = e^{G} H
+        \]
+
+        Proof: Let g(x) = r(x) . $e^{-G(x)}$, then recognize that g'(x) = $e^{G} . Q$, so g(x) = H(x).
+
+        2. With initial value: $y(x_0) = y_0$
+        \[
+        r(x) = e^{\int_{x_0}^x -P(t) dt} . (y_0 + \int_{x_0}^x Q(t) e^{\int_{x_0}^x P(a) da} dt)
+        \]
+
+        If no initial value given, choose any $x_0$ in the valid interval, to avoid having to deal with 2 arbitrary constants.
+
+        \subsection{Separable Equation}
+
+        \underline{Theorem}:
+        Suppose that f and g are continuous, and g != 0, then:
+
+        For the equation: y' = f(x) g(y)
+        Let G = Primitive of 1/g(y), R = Primitive of f(x), with their respective domains (Need to choose a domain for R so that the composition is valid, based on G and value of c):
+        \[
+        y = G^{-1}(R(x))
+        \]
+        \\
+
+        \underline{c}: Remember to put the 2c for G and R.
+
+        \underline{Conditions for existence of solutions}: For $G^{-1}$ to exist, G must be one-to-one, which occurs when g(y) is continuous and non-zero.
+        \\
+
+        \underline{Solve separable equation}
+
+        1. Check for when g(y) = 0, then test if these cases can be a solution manually, since the Theorem above ignore these cases.
+
+        2. Use the formula from the theorem above to obtain the full solutions.
+
+        3. Define suitable domains.
+
+        \underline{Reducing to separable equation}
+
+        1. Linear Combination replacement:
+
+        For: y' = f(ax + by + c)
+
+        Assume there is a solution y(x):
+
+        Let u(x) = ax + by(x) + c
+        Then, u'(x) = a + by'(x) = a +  b . f(u) = g(u)
+        Thus, a solution for the first equation will satisfy the u equation.
+        Conversely, the solution of u will satisfy the first equation.
+        So, all solutions of u = all solutions of y.
+        \\
+
+        2. Homogeneity replacement:
+
+        For: y' = f(y/x) (To recognize this form, check if the result changes when scale to (tx, ty))
+
+        Assume the solution y exist:
+        Replace u = y/x
+
+        u' = y'/x - y/$x^2$ = f(u)/x - u/x = (f(u) - u)/x
+
+        Thus, a solution for the first equation will satisfy the u equation.
+        Conversely, the solution of u will satisfy the first equation.
+        So, all solutions of u = all solutions of y.
+
+        \underline{Loss of uniqueness???}
+        The loss of uniqueness for solution of: y = f(x) g(y) occurs when:
+
+        1. g(y) = 0 at some values of y = a
+
+        2. The solutions for when g(y) != 0 has the slope approaching 0 at a.
+
+        However, the uniqueness is preserved, if:
+
+        1. The function g(y) is differentiable at a (not just continuous).
+
+        \underline{Isocline and Homogeneity}
+
+        \underline{Definition} A level set of f(x, y) is an isocline if y' = f(x, y)
+
+        \underline{Definition} A function is homogeneous with degree $n > 0$, if:
+        \[
+        f(tx, ty) = t^n f(x, y)
+        \]
+
+        With $n >= 0$. At n = 0, f(x, y) = f(1, y/x), which is useful for separable equation.
+        \\
+
+        \subsection{Second Order Differential Equation with constant coefficients}
+
+        Finding solution for: y'' + ay' + b = r(x)
+        \\
+
+        \underline{Homogenous Equation}
+
+        \underline{Defintion} The general form but with r(x) = 0.
+
+        \underline{Simple Solution Theorem}:
+
+        For the equation: y'' + by = 0, the solutions are the linear combinations of f1 and f2: y = c1 . f1 + c2 . f2:
+        \\
+
+        If $b > 0$, let $b= k^2$: f1 = sin(kx), f2 = cos(kx)
+
+        If $b = 0$: f1 = x, f2 = 1
+
+        If $b < 0$, let $|b| = k^2$: f1 = $e^{kx}$, f2 = $e^{-kx}$
+
+        c1 and c2 are chosen to satisfy the initial values problem.
+        \\
+
+        Proof: The general proof of uniqueness of solution is given later on. For b = 0, use Mean Value Theorem. For $b > 0$, use the same proof as list in Simplest Second Order (adjust for the constant b). For $b < 0$, relies on the general proof.
+
+        \underline{Equation reduction Theorem}:
+
+        For the equation: y'' + ay + b = 0, by replacing y(x) = $e^(-ax/2) . u(x)$, the solutions y satisfies if and only if:
+        \[
+        u'' + \frac{4b - a^2}{4} u = 0
+        \]
+
+        Thus, we could reduce any Homogenous equation to the simpler form when a = 0. The form of f1 and f2 thus depends on $4b - a^2$, the determinant of the characteristic equation.
+        \\
+
+        \underline{Euler's identity}
+        \[
+        e^{ix} = cos(x) + isin(x)
+        \]
+
+        Which leads to 2 other identity:
+        \[
+        cos(x) = 1/2 . (e^{ix} + e^{-ix})
+        \]
+
+        \[
+        sin(x) = 1/2i . (e^{ix} - e^{-ix})
+        \]
+
+        Proof (More like intuition): For second order differential equation with determinant $< 0$: y'' + y = 0, the solutions from the usual anzats are $e^{\pm i x}$. Since this is a complex valued function, we could guess that the real and imaginary parts would form 2 real solutions. Based on the uniqueness theorem, the real and imaginary parts must correspond to cos(x) and sin(x).
+
+        \underline{Second method for Homogenous equation}
+        \underline{Steps to solve equation based on characteristic equations}
+
+        1. Rearrange the equation into the form: y'' + ay + b = 0
+
+        2. Set up the characteristic equation: Q = $\lambda^2 + a\lambda + b = 0$
+
+        3. Find the determinant d and 2 solutions $\lambda_1$ and $\lambda_2$:
+
+        If d = 0, $\lambda = \lambda_1 = \lambda_2$: f1 = $e^{\lambda x}$, f2 = $xe^{\lambda x}$
+
+        If d < 0, $\lambda = \alpha \pm \beta i$: f1 = $e^{\alpha} cos(\beta x)$ and f2 = $e^{\alpha} sin(\beta x)$
+
+        If d > 0, $\lambda_1 != \lambda_2$: f1 = $e^{\lambda_1 x}$, f2 = $e^{\lambda_2 x}$
+
+        4. f = c1 f1 + c2 f2. Solve for c1 and c2 based on the initial values.
+        \\
+
+        \underline{Inhomogeneous equations}
+        \underline{Proposition} If y1 and y2 are 2 particular solutions, then y2 - y1 is the solutions to the homogenous equation. Thus, if y1 is particular solution, general solution is obtained by adding the general homogenous equation to it.
+
+        \underline{Special types of the inhomogeneous terms}
+
+        1. r(x) = $p_n(x)$ (polynomial of degree n). If b != 0, then try the polynomial g(x) of the same degree. Substitute it into the equation, and solve for the coefficients. If b = 0, use degree n + 1.
+
+        2. r(x) = $p_n(x) e^{mx}$ . Substitute the anzatz y = u $e^{mx}$, which will get rid of the exponential form. Then, substitute similar to 1 to solve for u, plug back to get y.
+
+
+        \subsection{Uniqueness of solutions}
+
+        \underline{Definition} Wronskian determinant: Let f, g be any 2 solutions of the second order differential equation (does NOT have to share the same initial value). Define W(f, g) = fg' - f'g. Then, W(f, g) = W(0) $e^-ax$.
+
+        Proof: Differentiate W(f, g) and use the fact that f and g are solutions to the differential equation. W'(x) = -a W(x), which gives the required result.
+        \\
+
+        Note: This means that the Wronskian is either always 0 or never 0.
+
+        \underline{Uniqueness Theorem} Let b in R, and $x_0, y_0, y_1$ in R, and suppose f and g are 2 solutions to the initial value problem:
+
+        y'' + by = 0; $y(x_0) = y_0, y'(x_0) = y_1$
+
+        Then: f = g for all x in R.
+
+        Proof By contradiction:
+        Let d(x) = f(x) - g(x).
+        Assume there exist x1 so that d(x1) != 0.
+
+        Note: d(x) is also the solution to same differential equation, with $y(x_0) = 0$; $y'(x_0) = 0$
+
+        Set up the initial value problems:
+        y'' + by = 0; y(x1) = 0; y'(x1) = d(x1)
+
+        Let w(x) = the solution to the initial value problems = c1 f1 + c2 f2, with f1 and f2 determined according to b. w(x) is solvable, since the W(f1, f2) != 0.
+
+        Take:
+        W(w, d) $(x_0)$ = 0 (since $d(x_0) = d'(x_0) = 0$
+        W(w, d) (x1) = w(x1) d'(x1) - w'(x1) d(x1) = -$w(x1)^2$, which is non zero.
+
+        Thus, a contradiction.
+
+        The same argument applies when a != 0, by replacing y = $u(x)e^{-ax/2}$.
+
+        \section{Taylor's Polynomials}
+        \underline{Definition} Given a function f that is n times differentiable, the polynomial:
+        \begin{align*}
+            P_{n, a}[f](x) = f(a) + f'(a) (x - a) +
+            \frac{f''(a)}{2!} (x - a)^2 + ... + \frac{f^{(n)}(a)}{n!} (x - a)^n
+        \end{align*}
+        Then the polynomial is the Taylor polynomial of degree n at a of f.
+
+        \underline{Remainder Term Theorem} Let $R_{n,a}[f](x) = f(x) - P_{n,a}[f](x)$, then:
+        \[
+        lim_{x \xrightarrow{} a} \frac{R_{n,a}[f](x)}{(x - a)^n} = 0
+        \]
+
+        Prove with repeating L'Hopital rules n times.
+        \\
+
+        \underline{Theorem of n-th degree polynomials} Let p(x) and q(x) be 2 polynomials in (x - a), and they are equal up to n-th order at a:
+        \[
+        lim_{x \xrightarrow{} a} \frac{p(x) - q(x)}{(x - a)^n} = 0
+        \]
+        Then p = q
+
+        Proof:
+
+        Take the difference: r = p - q, then from given condition:
+        \[
+        lim_{x \xrightarrow{} a} \frac{r(x)}{(x - a)^i} = 0
+        \]
+        for any i in range (0, 1, 2, ..., n), by limit laws.
+
+        Let r = $b_0 + b_1 (x - a) + ... + b_n (x - a)^n$
+        Then, the limit at i is $b_i$. Thus, r = 0.
+        \\
+
+        \underline{Corollary}: From the Theorem above, given any polynomial P that is equal up to n-th order to f(x) at a. Then, P = $P_{n, a}[f](x)$
+
+        \underline{Special Taylor polynomials}
+        \begin{align*}
+            arctan(x) &= x - \frac{1}{3}x^3 + \frac{1}{5} x^5 -
+            ... + (-1)^n \frac{x^{2n + 1}}{2n + 1}
+        \end{align*}
+
+        \underline{Replace x with $x^2$ at 0 in Taylor polynomials}
+
+        (or any other polynomials? at any a or 0 only?)
+
+        The question involved has a = 0, f = sin and replace x with $x^2$. The polynomial can be found by simply replacing x with $x^2$.
+
+        The proof are:
+
+        1. Set up 2 Taylor's polynomial: 1 for f = sin(x) and 1 for $g = sin(x^2)$
+
+        2. For the $R_{2n + 1, 0}[f](x)$, show that: as $lim_{x \xrightarrow{} 0} x^2 = 0$, $lim_{x \xrightarrow{} 0} R_{2n + 1, 0} [f](x^2)/ (x^(2n+1))^2 = 0$
+
+        3. Take the limit of $(P_{2n+1, 0}[g] - P_{4n+2, 0}[f])/ (x^{4n+2})$ = limit of the sum of the 2 remainders (from 2) = 0
+
+        4. Thus, $P_{2n+1, 0}[g] = P_{4n+2, 0}[f]$
+
+        \underline{Integral form}
+
+        By keep integrating $\int_{a}^{x} f(t) dt$ using integration by part, the same polynomial is obtained, and the remainder term is defined:
+        \[
+        R_{n, a}[f](x) = \int_{a}^{x} \frac{f^{n+1}(t)}{(n + 1)!} . (x - t)^{n+1} dt
+        \]
+
+        Conditions: f need to be (n + 1) times differentiable?
+
+
+        \underline{Proposition} Given f is (n+1)-times differentiable, and $|f^(n+1)(x)| <= M$ for all x in domain and $M > 0$, then:
+        \[
+        |R_{n, a}[f](x)| <= M \frac{(x-a)^{n+1}}{(n+1)!}
+        \]
+
+        $f^{n+1}$ is continuous?
+
+        Follow immediately from the integration form.
+
+        \underline{Taylor's Theorem with Lagrange Remainder}
+        Given f is (n+1)-times differentiable, for some t in between a and x:
+        \[
+        R_{n, a}[f](x) = \frac{f^{(n+1)}(t)}{(n+1)!} . (x - a)^{n+1}
+        \]
+
+        Proof:
+
+        First, prove that for a n+1-times differentiable function g(x), if g(a) = ... = $g^{n}(a)$ = 0, then for any x:
+        \[
+        g(x) = \frac{g^{n+1}(t)}{(n + 2)!} . (x - a)^{n+2}
+        \]
+        for some t in between a, x.
+
+        Use induction: Base case at n = 0 is the Mean Value Theorem.
+        Then, set: $g(x)/ (x - a)^(n+2)$, apply Cauchy Mean Value Theorem, then substitute g'(t) with the formula above, then rearrange for correct form.
+        \\
+
+        \underline{Convergence}
+        \[
+        lim_{n \xrightarrow{} \infty} \frac{x^n}{n!} = 0
+        \]
+
+        Proof:
+        For any fix x, choose an N > e . x, and n > 10N
+
+        \[
+        \frac{x^n}{n!} = \frac{x^N}{N!} . \frac{x^{n - N}}{(n - N)!}
+        \]
+        \[
+        <= \frac{x^N}{N!} . \frac{1}{e^(n - N)}
+        \]
+
+        Since $limit_{x \xrightarrow{} \infty} e^x = \infty$, we could choose an n so large that the second fraction is much smaller than the first fraction (fix x), which force the limit to 0.
+
+        \subsection{Local Extrema???}
+        No proof is given, but theorem 22.1 is involved, so might be the shape of the Taylor's series approximation.
+
+        Suggested method to deal with local maxima/ minima when f''(x) is 0.
+
+        \underline{Theorem} Given f:
+
+        1. If n is even and $f^{(n)}(x) > 0$, then there is a local minima.
+
+        2. If n is even and $f^{(n)}(x) < 0$, then there is a local maxima.
+
+        3. If n is odd and $f^{(n)}(x) != 0$, then it's neither local maxima nor minima.
+
+
+        \section{Complex Power Series}
+        \underline{Complex power series}
+        For exp, sin, cos, the same Taylor's series as the real series.
+        In general, the series is defined as:
+        \[
+        f(z) = \sum_{n = 1}^{\infty} a_n (z - a)^n
+        \]
+
+        with $a_n$ and a in C.
+
+        \underline{Theorem} For complex power series, there are 3 possibilities:
+
+        1. Converges only for z = 0.
+
+        2. Converges absolutely for all z.
+
+        3. Converges for $|z| < R$, and diverges for $|z| > R$ for some R in C.
+
+        The Taylor series of exp to infinity converges for all z in C.
+
+        \underline{Theorem} If the power series has a radius of convergence R as shown above, then f is differentiable inside the circle of convergence, and apply normal differentiation on each term of the infinite series.
+
+        Thus, the power series is infinitely differentiable inside the circle of convergence.
+
+        \underline{Theorem of complex value of real variables}
+
+        Let f(x) = u(x) + i v(x), then:
+
+        1. f is continuous if and only if u and v are continuous.
+
+        2. f is differentiable if and only if u and v are differentiable, and:
+        \[
+        f'(x) = u'(x) + i v'(x)
+        \]
+
+        \underline{Theorem of complex analysis (prob ignored)}
+
+        If a complex func is defined in a region A, and is differentiable in A, then it is infinitely differentiable in A.
+
+        Moreover, each point a in A could be written as a complex power series inside a circle centered at a.
+
+
+
+
+
+
+
+
+
+
+    \end{multicols*}
+
+\end{document}

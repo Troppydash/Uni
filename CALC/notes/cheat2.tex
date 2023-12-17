@@ -1,0 +1,476 @@
+\documentclass[11pt]{article}
+
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{geometry}
+\usepackage{parskip}
+
+\begin{document}
+
+\section{Numbers and Inequalities}
+
+% induction
+
+% number sets
+
+Proofs, induction, contradiction, contrapositive.
+
+Trichotomy, that two numbers are either greater, lesser, or equal.
+
+Ordering, of real numbers.
+
+Inequality closure under addition and positive multiplication.
+
+Absolute Cauchy's Schwartz.
+
+Absolute triangle inequality.
+
+Vector dot products, magnitudes.
+
+Vector triangle inequality.
+
+Vector Cauchy's Schwartz.
+
+
+\section{Functions and Graphs}
+Function set definition, domain and co-domain.
+
+Function graphs for $f \colon A \to B$
+\[
+    \operatorname{graph}(f) = \{(x, f(x)) \colon x \in A \} \subset A \times B
+\]
+
+Function combinations, compositions.
+
+1D and 2D Function graphing.
+
+Level sets $A_c$ at $c$ is
+\[
+    A_c = \{(x,y) \colon f(x,y) = c \} \subseteq \mathbb{R}^2
+\]
+
+Polar coordinate transformation.
+
+Function image, range.
+
+Function inverses, injection, surjection, bijection.
+
+Conic sections, circle, ellipse, hyperbola
+\[
+    x^2 + y^2 = r^2 \qquad ax^2 + by^2 = 1 \qquad ax^2 - by^2 = 1
+\]
+
+\section{Limits}
+
+Limits, epsilon delta.
+
+Limits, infinite limits in domain and codomain.
+
+Limit uniqueness.
+
+Limiting delta or epsilon to a smaller range still implies full limit.
+
+Limit laws.
+
+Lack of a limit.
+
+Limit translation identities, bounded identities.
+
+Left and right limits, limit laws.
+
+Infinity limit substitution
+\[
+    \lim_{x \to 0^+} f(1/x) = \lim_{x \to \infty} f(x)
+\]
+
+\section{Continuity}
+Continuity limit definition, function extensions.
+
+Real rational functions are continuous everywhere in their domains.
+
+Continuity laws, composition continuity laws.
+
+Open and close interval continuity.
+
+Local positive and negative intervals. If a function is continuous with $f(a) > 0$, then there exists an area around $a$ where $f(x) > 0$.
+
+Intermediate value theorem, if a continuous function $f$ on $[a,b]$ takes two values $c \leq d$, then within $[a,b]$, it must take on all values within $[c,d]$.
+
+IVT guarantees the existence of square roots, a property only exhibited by the reals.
+
+Closed interval continuous functions can be extended to be continuous throughout the reals.
+
+Extreme value theorem (bounded value theorem), that for a continuous function $f$ within $[a,b]$, there exists a maxima $y \in [a,b], f(y)$ and a minima.
+
+Normalized polynomials has an infinity limit
+\[
+    \lim_{x\to \infty} p(x) = \infty
+\]
+
+Odd polynomials must have a root.
+
+Even polynomials must have a global minimum.
+
+\section{Multivariate Limits and Continuity}
+
+Multivariate delta epsilon disc limit definition, or square definition.
+
+A function with different directional limits must not have a limit.
+
+Multivariate continuity.
+
+Multivariate continuity laws.
+
+Separately continuous functions are where
+\[
+    \forall b, f(x,b) \in C^0 \qquad \forall a, f(a, y) \in C^0
+\]
+Continuous functions are separately continuous, but not the other way.
+
+Multivariate composition continuity law.
+
+\section{Differentiation}
+
+Differentiation limit definition.
+
+Differentiability implies continuity.
+
+Sum and product rule of derivatives.
+
+Linear approximation and linear error definition of the derivative.
+
+Higher order differentiability using linear approximations.
+
+Partial derivatives limit definition. If the function is differentiable, then its partials must exist and be components of the gradient vector.
+
+If all the partial derivatives are multi-continuous at $A$, then the function is differentiable at $A$.
+
+Directional derivative limit definition. If a function is differentiable
+\[
+    \nabla_v f(X) = v \cdot \nabla f(X)
+\]
+
+Directional derivative is maximized when $v$ is the direction of the gradient. The gradient is the direction of steepest ascent.
+
+Multivariate scalar chain rule, that if $f(X)$ is differentiable at $X=g(x)$, and $g(x)$ is differentiable, then
+\[
+    \frac{d}{dx} f(g(x)) = \nabla f(g(x)) \cdot g'(x)
+\]
+
+Multivariate differentiation identities.
+
+To show that a function is not differentiable, we can prove by contradiction in deriving a limit directional derivative, and also the dot product directional derivative using the gradient, to show that the two methods do not equal.
+
+\section{Differentiation Theorems}
+
+Mean value theorem, that if a function $f$ is continuous on $[a,b]$ and differentiable on $(a,b)$, then
+\[
+    \exists y \in (a,b), f'(y) = \frac{f(b)-f(a)}{b-a}
+\]
+
+Cauchy's mean value theorem, if $f$ and $g$ are continuous on $[a,b]$ and differentiable on $(a,b)$ then
+\[
+    \exists y \in (a,b), (f(b)-f(a))g'(y) = (g(b)-g(a))f'(y)
+\]
+
+Rolle's theorem is a special case of the MVT, it states that for $f$ that is continuous on $[a,b]$ and differentiable on $(a,b)$, if $f(a)=f(b)$, then
+\[
+    \exists y \in (a,b), f'(y) = 0
+\]
+
+L'Hopital's rule. If $f$ and $g$ are functions at $a$ with
+\[
+    \lim_{x\to a} f(x) = 0 \qquad \lim_{x \to a}g(x) = 0
+\]
+, then if the quotient of their derivatives has the limit
+\[
+    \lim_{x\to a} \frac{f'(x)}{g'(x)} = l
+\]
+Then the quotient limit must exist
+\[
+    \lim_{x\to a} \frac{f(x)}{g(x)} = l
+\]
+This also holds if $a = \pm \infty$ or $l = \pm \infty$, or $0 = \pm \infty$.
+
+\section{Multivariate properties}
+Critical points are points where the gradient is zero.
+
+Local minimums are points where within a small disc, the point is a minimum.
+
+For differentiable functions, local extremas are critical points, but not all critical points are local extremas.
+
+A function is invertible if it is a one-to-one mapping (bijective). A function that is increasing or decreasing is invertible.
+
+Increasing and decreasing functions.
+
+Not all one-to-one functions are monotonic, but all continuous one-to-one functions are monotonic.
+
+Inverse of continuous increasing functions are increasing, and of decreasing functions are decreasing.
+
+Inverse properties. Carried continuity and invertibility.
+
+The inverse is differentiable when $f$ is differentiable and
+\[
+    f'(f^{-1}(x)) \neq 0
+\]
+
+\section{Integration}
+Antiderivative, where the set of solutions are
+\[
+    y' = f(x) \qquad y = \int f(x)
+\]
+
+First fundamental theorem of calculus, if $f$ is continuous on $[a,b]$ then
+\[
+    F(x) = \int_a^x f(t) \, dt \implies F'(x) = f(x)
+\]
+
+Second fundamental theorem of calculus, if $f$ is continuous on $[a,b]$, then
+\[
+    g'(x) = f(x) \implies \int_a^b f(x) \, dx = g(b) - g(a)
+\]
+
+Cauchy's repeated integration formula
+\[
+    \underbrace{\int \dots \int_a^x}_{n} f(t) \, dt \dots dx = \frac{1}{(n-1)!} \int_a^x (x-t)^{n-1} f(t) \, dt
+\]
+
+\section{Logarithms and Exponentiation}
+Logarithm definition
+\[
+    \ln x = \int_1^x \frac{1}{x} \, dx
+\]
+
+Log rules.
+
+The range of log is the reals, and it is increasing.
+
+Log differentiation. Where
+\[
+    F = (\ln \circ f)' \qquad f' = F f
+\]
+
+Exponential function is the inverse log.
+
+Exponential differentiation identity.
+
+Exponential properties.
+
+Exponential growth.
+
+
+\section{Trig and Hyperbolic Trig}
+Trig identities.
+
+\section{Integration Theorems}
+
+Integration by parts.
+
+Integration by substitution.
+
+
+\section{First Order DE}
+The directional field specifies the derivative slopes at all points of any solution.
+
+First order differential equations and IVP. Looking for existence, uniqueness, and analytic forms of solutions.
+
+Continuity classes $C^n$.
+
+For
+\[
+    y' = ky
+\]
+the set of solutions
+\[
+    y = C e^{kx}
+\]
+is unique in IVP.
+
+Linear first order differential equation
+\[
+    y' + P(x) y = Q(x)
+\]
+
+The homogeneous form has $Q(x) = 0$, where
+\[
+    y = C e^{-\int P}
+\]
+is the unique solution.
+
+Inhomogeneous form using variation of constants,
+\[
+    y = \left( C + \int Q e^{\int P} \right) e^{-\int P}
+\]
+
+Rearranging for the constant term to prove uniqueness.
+
+Separable equations have the form
+\[
+    y' = f(x) g(y)
+\]
+
+If $g(y) \neq 0$ for a range of $y$, then we can arrange and integrate both sides. The solutions are uniqueness for the IVP.
+
+For when $g(y) = 0$ for some $y$, then the function $\varphi = y$ is a valid solution that is unique. These constant solutions partition the range of other solutions (no two different solutions may intersect).
+
+Separable equations where $g(y) = 0$ for some $y$ may lose uniqueness if $g'(y)$ is not defined.
+
+Separable equations can be solved by substitution.
+
+Homogeneous function of degree $\lambda$ satisfy
+\[
+    \forall t \geq 0, f(tx, ty) = t^\lambda f(tx, ty)
+\]
+
+Homogeneous differential equations of degree 0 can be made separable by substituting
+\[
+    v = \frac{y}{x} \qquad y' = v'x + v
+\]
+
+The isocline of a differential equation
+\[
+    y' = f(x,y)
+\]
+is the level set of $f(x,y)$.
+
+For zero degree homogeneous differential equations, the solutions are similar in concentric scalings. (Radical scaling centered at $(0,0)$).
+
+\section{Second Order Differential Equations}
+
+Phase space
+
+Linear Differential equations of the 2nd order, constant coefficients.
+\[
+    y'' + a y' + by = r(x)
+\]
+
+The homogeneous solutions ($r(x)= 0$) are
+\[
+    y = e^{-\frac{a}{2}x} \left( c_1 f_1 + c_2 f_2 \right)
+\]
+where the parenthesis part solves the differential equation
+\[
+    u'' + \frac{4b - a^2}{4} u = 0
+\]
+and if $k = \frac{4b-a^2}{4}$ is
+\begin{itemize}
+    \item $k = 0$, $f_1 = 1$ and $f_2 = x$.
+    \item $k > 0$, $f_1 = \cos (\sqrt{k} x)$ and $f_2 = \sin(\sqrt{k} x)$
+    \item $k < 0$, $f_1 = e^{\sqrt{-k} x}$ and $f_2 = e^{-\sqrt{-k} x}$
+\end{itemize}
+
+With the given $c_1$ and $c_2$, this uniquely solves the initial value problem.
+
+Alternatively, use the substitution $y = e^{\lambda x}$ and solve for $\lambda$.
+
+The Wronskian determinant is
+\[
+    W(\varphi_1, \varphi_2) = \varphi_1 \varphi_2' - \varphi_2 \varphi_1'
+\]
+and if the functions are solutions to the differential equation
+\[
+    W(x) = C e^{-ax}
+\]
+which is either zero everywhere, or never zero.
+
+The Wronskian between two independent solutions $f_1$ and $f_2$ are never zero, meaning that they are not a multiple of each other. Vice versa.
+
+The linear combination of two independent, general solutions $\varphi_1$ and $\varphi_2$ will solve all IVP. And all solutions to the differential equation is the linear combination of the two fundamental solutions.
+
+For the inhomogeneous differential equation, $r(x) \neq 0$, then the general solution is a combination of the homogeneous solution and a specific solution.
+
+When $r(x)$ is a polynomial of degree $n$, guess
+\[
+    g(x) = p_n(x)
+\]
+and solve for the constants (or guessing $p_{n+1}(x)$ if the differential equation is missing the $y'$ term).
+
+If $r(x) = p_n(x) e^{mx}$, guess
+\[
+    g(x) = u(x) e^{mx}
+\]
+where $u$ satisfies an alternative differential equation
+\[
+    u'' + (2m + a) u' + (m^2 + am + b)u = p_n(x)
+\]
+then guessing $u$ using the polynomial trick.
+
+If $r(x) = p_n(x) + q_m(x) e^{kx}$, then guess
+\[
+    g(x) = p_n(x) + q_m(x)e^{kx}
+\]
+and substituting to get the coefficients.
+
+
+
+
+\section{Complex Numbers}
+
+Complex arithmetic.
+
+Complex conjugate, and modulus, argument.
+
+Complex identities, triangle inequality.
+
+Polar form.
+
+De Moivre's theorem.
+
+Polynomials with real coefficients have matching (conjugate) roots.
+
+Roots of unity.
+
+Complex valued functions outputs complex values.
+
+Complex limits, continuity, laws.
+
+Complex differentiability.
+
+The real and complex part of a complex function retains continuity and differentiability.
+
+Moving real and imaginary part operators in and out of real valued integrals.
+
+\section{Taylor Polynomials}
+
+Taylor polynomials for an $n$ times differentiable $f$ at $a$ is
+\[
+    P(x) = \frac{f^{(k)}(a)}{k!} (x-a)^k
+\]
+so the derivatives up to order $k$ matches.
+
+Examples.
+
+Taylor remainder theorem, for the taylor polynomial $P_n(x)$ of $f$, it has the property that
+\[
+    \lim_{x \to a} \frac{f(x) - P_n(x)}{(x-a)^n} = 0
+\]
+
+The taylor polynomial is unique. A remainder that satisfies the taylor remainder property creates a taylor polynomial.
+
+Transformation of taylor polynomials.
+
+Taylor remainder formula if $f \in C^{n+1}$
+\[
+    R_n(x) = \frac{1}{n!} \int_a^x f^{(n+1)}(t) (x-t) \, dt
+\]
+
+Taylor remainder bounding. If within an interval, $|f^{n+1}(x)| \leq M$, then
+\[
+    |R_n(x)| \leq M \frac{|x-a|^{n+1}}{(n+1)!}
+\]
+
+Factorial growth.
+
+Taylor's Theorem with lagrange multiplier, if $f$ is $n+1$ differentiable, then
+\[
+    R_n(x) = \frac{f^{(n+1)}(t)}{(n+1)!} (x-a)^{n+1}
+\]
+where $a < t < x$.
+
+Local extrema tests, for a n times differentiable $f$, if
+\[
+    f'(a) = f''(a) = \cdots = f^{(n-1)}(a) = 0 \qquad f^{(n)}(a) \neq 0
+\]
+then if $n$ is odd, the $f(a)$ is not a local extrema. If $n$ is even, $f^{(n)}(a) > 0$ implies that it is a minima, and negative implies that it is a maxima.
+
+\end{document}

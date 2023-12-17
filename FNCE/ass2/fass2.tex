@@ -1,0 +1,284 @@
+\documentclass[11pt]{article}
+
+
+\usepackage{geometry}
+\usepackage{parskip}
+\usepackage{mathtools}
+
+
+\usepackage[
+%time=24h,
+%dateabbrev=false,
+%dateusetime=true,
+% style=numeric,
+%style=authoryear,
+backend=biber
+]{biblatex}
+\addbibresource{ref.bib}
+
+\usepackage{hyperref}
+
+\linespread{1.213}
+
+\begin{document}
+
+% wordcount = 277+277+325 = 879 words
+
+\section*{Assignment 2}
+
+\subsection*{1}
+% If you were to prepare a SoA, the main focus would be on ensuring and adequate RIS for your clients. One alternative that you need to consider is the implementation of an annuity strategy, purchasing a term or lifetime annuity. Explain the advantages and disadvantages of this alternative annuity strategy. (Compared to the pension strategy)
+
+% annuity strategy is the purchasing of a term or lifetime annuity, where one receives a fixed annual or periodic paymente
+% benefits
+
+The annuity strategy has one receive a fixed annual or monthly payment at the cost of an upfront lump sum, often from the super accumulation.
+
+Generally, an annuity strategy has the advantage of reduced risk compared to its pension counterpart, requiring fewer personal interventions, and overall providing a peace-of-mind for the holder. As the income stream is deterministic and with an upfront lump-sum price, the annuity delegates all investment and interest rate risks to the issuer. This is in contrast with the risky investments in one's pension account, armed with potential downside risks. A term or life annuity also reduces the need to personally manage one's investment assets; the annuity provider will take the role of investing its pool of retiree funds and allocating them for all future RIS. This eliminates the savings discipline and asset allocation mental efforts required, granting a peace-of-mind.
+
+Yet, the annuity strategy has disadvantages in lower potential capital growth and returns, with more restrictions on discretionary spending and higher longevity risks. Due to the additional management costs and risk delegation to a third party, the annuity buyer is likely to receive a lower RIS and yield compared to a well-managed pension strategy --- the retiree may also lose out on periods of high market performance and increased levels of interest rates. The lack of flexibility in withdrawing a lump sum for discretionary spending or emergencies can also be a problem when the annuity scheme only guarantees fixed periodic payments. Lastly, term annuity fails to protect the retiree from longevity risks for they may outlive the annuity term. While a life annuity counteracts this risk, it is also likely to be considerably more expensive.
+
+ %for the buyer is unable to continuously adjust or lower their present consumption based on their health conditions to maintain future consumption of longevity.
+
+\newpage
+\subsection*{2}
+% ACTUALLy COMPUTING THE TERM ANNUITY STRATEGY
+% chose termed annuity
+% compute: annuity cost, indexation rate, starting annual annuity
+% yields on annuities
+% if the duration proposed is not the term displayed, estimate the yield throughout the annuity.
+
+% https://www.aihw.gov.au/reports/life-expectancy-deaths/deaths-in-australia/contents/life-expectancy
+% https://web.archive.org/web/20190305160045/https://www.challenger.com.au/personal/products/payment-rates/term-annuity-rates
+% assume 3.0% long term interest, with life expectancy at 83.7 years, rounded to 90 to protect against longevity risks
+% assuming indexation at 2% cpi
+
+% using 5.2% to 5.08%, fee is around 2.3077%
+% agrees witht eh 5.25% to 5.13%
+% no other long term fees needed for challenger, the interest yield is all you see
+% no tax due to super money
+
+Considering the couple's circumstances and various annuity options, I've focused on a 20-year CPI-indexed term annuity payable monthly from Challenger.
+
+A mixture of parameters is extrapolated and derived to reach this recommendation. From actuarial Australian life expectancy data, the couple born around the $1960$s has a life expectancy of about $77.5$ and $80.7$ reaching $65$, for males and females respectively\parencite{australianinstituteofhealthandwelfare_2023_deaths}. This leads to a conservative life expectancy of $85$ years and an annuity scheme of $20$ years. Annuity provider Challenger listed yields of $5.25\%$ for its 5-year termed monthly annuity\parencite{a2023_product}, which extrapolates using the government bond yield spreads to $6.017\%$ for 20-years (see \ref{app:ext}). However, Challenger charges a fee on the listed yield rates that amount to an approximate $2.3077\%$ (see \ref{app:fee}). The couple, meeting conditions of release at 65, will face both zero super withdrawal tax and annuity income tax. This nets an effective annual rate of $5.878\%$ (see \ref{app:fullannu}). Indexation-wise, I've targeted a fixed RBA long-term inflation target of $2\%$ to maintain the couple's buying power.
+
+When purchased with the lump-sum on the entire super accumulation of stated value about $\$700000.00$, my calculation shows an annuity factor of $13.92$ (see \ref{app:fullannu}). This equates to an annual income of $\$50280.21$ over the first year (a monthly income of $\$4190.02$), above the modest ASFA's couple retirement income of $\$45946.62$\parencite{asfa_2023_retirement}. This also amounts to a $7.18\%$ first-year withdrawal rate, greater than the minimum superfund withdrawal rate of $5\%$ and remaining ahead throughout the annuity, netting zero withdrawal tax (see \ref{app:annfullstruct}). Similarly, an indexed annuity paying the modest income has an up-front cost of $\$639667.887$. Both scheme trump an equivalent lifetime annuity, which pays a lower annual payment of $\$35525.00$ displaying the costs of longevity risk (see \ref{app:life}).
+
+%The annuity of the same conditions with a comfortable income would cost $\$899384.25$, a higher value the available in the couple's superfunds (see \ref{app:fullannu}).
+
+\newpage
+\subsection*{3}
+% ACTUAL RECOMMENDATION FOR GETTING AN RIS (could be purchase annuity, or a pension). Explain the advice by showing that it optimally uses the lump sum accumulation of the client, for their needs.
+
+
+% What is your MAIN ADVICE for the clients in relation to the LUMP SUM ACCUMULATION. That is, do you RECOMMEND maintaing the current portfolio, or the 'purchase annuity' strategy, or something else? Explain your advice by demonstrating that it is the OPTIMAL USE of the lump sum accumulation for your clients' needs.
+
+% JUSTIFY THAT MY ALLOCATION MAXIMIZES AND FULFILLES CLIENTS' NEEDS
+
+For the couple's average accumulation and financial literacy, I'd advise a mix of a pension and term annuity, with a heavier emphasis on the ``purchasing annuity'' strategy. This grants the couple a stable RIS while guarding against longevity and other risks.
+
+The higher proportion of funds invested into a reasonable term annuity suits the couple's needs to receive a stable RIS with relatively low risk. I'd recommend at least $\$640000$ (calculated in Q2) of their superfund assets to be placed into a term annuity, so a modest level of retirement income is received for certainty. Using the same Challenger 20-year monthly annuity, it grants an indexed annual income of $\$45946.62$ exactly at the modest target. This alone fulfills the minimum withdrawal rate granting zero taxes (see \ref{app:annstruct}). Moreover, securing this term annuity takes advantage of the now higher-than-normal yields of $6.017\%$, in contrast to the pre-pandemic rates of $3\%$\autocite{a2019_term}.
+
+The small proportion of the accumulation allocated to a pension strategy appeals to the couple's financial literacy and protects against their longevity. If the couple has previously held an SMSF as sole members and trustees, they are likely to have experience or are interested in managing their investments. This pension strategy of a $\$60000.00$ equity allocation creates exposure to the market that helps the couple to gain growth potential while maintain control over their assets, all with minimum risk from a forceful equity sector withdrawal due to the modest annuity payments. The pension funds should be transferred to the SMSF's pension account to minimize tax, with the portion of $\$60000.00$ at a market yield of $8\%$ providing an average annual income of $\$4800.00$ in returns (see \ref{app:pens}). The couple can also vary their withdrawal depending on their portfolio performance. Furthermore, pension withdrawals can be slowed over time if the couple is expected to have a longer-than-average life expectancy, protecting against longevity. This allocation also provides flexibility in discretionary and emergency incomes.
+
+
+\newpage
+\printbibliography
+
+
+\newpage
+\appendix
+\section*{Appendix}
+\section{Term Annuity Calculations}
+\subsection{Year Extrapolation}
+\label{app:ext}
+Using the spread between the 5-year Australian Government bond yield ($4.143\%$) and the 5-year termed annuity ($5.25\%$):
+\[
+    s = 5.25\% - 4.143\% = 1.107\%
+\]
+
+The projected 20-year term annuity yield based on the 20-year bond yield of $4.910\%$ is
+\[
+    r = 4.910\% + 1.107\% = 6.017\%
+\]
+
+
+\subsection{Fee estimation}
+\label{app:fee}
+
+With the presented rate of $5.2\%$ lowered to $5.08\%$ on the 4-year annuity shown by Challenger's calculator\autocite{a2023_product}, we have
+\begin{align*}
+    0.052 (1-f) &= 0.0508\\
+    f &= 1 - \frac{0.0508}{0.052}\\
+    &= 0.023077
+\end{align*}
+which is confirmed by a similar reduction rate in the 5-year term from $5.25\%$ to $5.13\%$
+\begin{align*}
+    0.0525 (1-0.023077) &\approx 0.0513
+\end{align*}
+
+\subsection{Annuity variables and cash flows}
+\label{app:fullannu}
+
+Variables
+\begin{align*}
+    t &= 85 - 65 = 20\\
+    r &= 6.017 (1 - f) = 0.058781457\\
+    g &= 0.02\\
+    p &= 12\\
+    PV &= \$700000
+\end{align*}
+
+And the annuity annual cash flows are
+\begin{align*}
+    r(p) &= p((1+r)^{1/t} - 1)\\
+    &= 0.057254833\\
+    A &= \frac{1 - \frac{(1+g)^t}{(1+r)^t} }{r-g} \frac{r}{r(p)}\\
+    &= 13.92197918\\
+    C &= \frac{PV}{A}\\
+    &= \$50280.20736
+\end{align*}
+
+Modest annuity cost
+\[
+    PV = A \times 45946.62 = \$639667.887
+\]
+
+\subsection{Life Annuity}
+\label{app:life}
+At age 65 with full inflation protection, Challenger's Liquid Lifetime Annuity (Immediate payment) has annual payments of $\$5075$ per $\$100000$ investments\autocite{la2023}, equating to a
+\[
+    5075 \times 700000/100000 = \$35525
+\]
+yearly lifetime RIS.
+
+\newpage
+\subsection{Annuity Structure}
+\label{app:annfullstruct}
+
+For a 100\% allocation,
+
+\begin{tabular}{|c|c|c|c|c|c|c|}
+    \hline
+    Year & EOY Age & Principal & Withdrawal & Remain & Withdrawal \% & Min \% \\
+    \hline
+    1 & 66 &  \$700,000.00  &  \$50,280.21  &  \$691,993.68  & 7.18\% & 5\% \\
+    \hline
+    2 & 67 &  \$691,993.68  &  \$51,285.81  &  \$681,384.26  & 7.41\% & 5\% \\
+    \hline
+    3 & 68 &  \$681,384.26  &  \$52,311.53  &  \$669,125.49  & 7.68\% & 5\% \\
+    \hline
+    4 & 69 &  \$669,125.49  &  \$53,357.76  &  \$655,099.91  & 7.97\% & 5\% \\
+    \hline
+    5 & 70 &  \$655,099.91  &  \$54,424.91  &  \$639,182.72  & 8.31\% & 5\% \\
+    \hline
+    6 & 71 &  \$639,182.72  &  \$55,513.41  &  \$621,241.40  & 8.69\% & 5\% \\
+    \hline
+    7 & 72 &  \$621,241.40  &  \$56,623.68  &  \$601,135.19  & 9.11\% & 5\% \\
+    \hline
+    8 & 73 &  \$601,135.19  &  \$57,756.15  &  \$578,714.64  & 9.61\% & 5\% \\
+    \hline
+    9 & 74 &  \$578,714.64  &  \$58,911.28  &  \$553,821.06  & 10.18\% & 5\% \\
+    \hline
+    10 & 75 &  \$553,821.06  &  \$60,089.50  &  \$526,285.96  & 10.85\% & 5\% \\
+    \hline
+    11 & 76 &  \$526,285.96  &  \$61,291.29  &  \$495,930.53  & 11.65\% & 5\% \\
+    \hline
+    12 & 77 &  \$495,930.53  &  \$62,517.12  &  \$462,564.93  & 12.61\% & 6\% \\
+    \hline
+    13 & 78 &  \$462,564.93  &  \$63,767.46  &  \$425,987.71  & 13.79\% & 6\% \\
+    \hline
+    14 & 79 &  \$425,987.71  &  \$65,042.81  &  \$385,985.08  & 15.27\% & 6\% \\
+    \hline
+    15 & 80 &  \$385,985.08  &  \$66,343.67  &  \$342,330.18  & 17.19\% & 6\% \\
+    \hline
+    16 & 81 &  \$342,330.18  &  \$67,670.54  &  \$294,782.30  & 19.77\% & 7\% \\
+    \hline
+    17 & 82 &  \$294,782.30  &  \$69,023.95  &  \$243,086.09  & 23.42\% & 7\% \\
+    \hline
+    18 & 83 &  \$243,086.09  &  \$70,404.43  &  \$186,970.61  & 28.96\% & 7\% \\
+    \hline
+    19 & 84 &  \$186,970.61  &  \$71,812.52  &  \$126,148.50  & 38.41\% & 7\% \\
+    \hline
+    20 & 85 &  \$126,148.50  &  \$73,248.77  &  \$60,314.92  & 58.07\% & 7\% \\
+    \hline
+\end{tabular}
+
+\newpage
+\section{Annuity Pension Strategy}
+%
+%\subsection{Annuity Calculations}
+%\label{app:annupens}
+%Invested amount
+%\[
+%    0.85 (700000) = \$595000
+%\]
+%
+%First year annual and monthly cashflows
+%\begin{align*}
+%    C_a &= 595000 / 12.702 = \$46842.97\\
+%    C_m &= 46842.97 / 12 = \$3903.58
+%\end{align*}
+
+\subsection{Pension Calculations}
+\label{app:pens}
+
+Perpetual cashflows at $8\%$ expected market returns (assuming a market portfolio)
+\[
+    C = 0.08 (60000) = \$4800
+\]
+
+
+\subsection{Annuity Structure}
+\label{app:annstruct}
+
+For a modest allocation, percentages computed on the entire $\$700000$.
+
+\begin{tabular}{|c|c|c|c|c|c|c|}
+    \hline
+    Year & EOY Age & Principal & Withdrawal & Remain & Withdrawal \% & Min \% \\
+    \hline
+    1 & 66 &  \$639,667.89  &  \$45,946.62  &  \$632,351.62  & 6.56\% & 5\% \\
+    \hline
+    2 & 67 &  \$632,351.62  &  \$46,865.55  &  \$622,656.62  & 6.77\% & 5\% \\
+    \hline
+    3 & 68 &  \$622,656.62  &  \$47,802.86  &  \$611,454.42  & 7.00\% & 5\% \\
+    \hline
+    4 & 69 &  \$611,454.42  &  \$48,758.92  &  \$598,637.68  & 7.26\% & 5\% \\
+    \hline
+    5 & 70 &  \$598,637.68  &  \$49,734.10  &  \$584,092.37  & 7.55\% & 5\% \\
+    \hline
+    6 & 71 &  \$584,092.37  &  \$50,728.78  &  \$567,697.39  & 7.87\% & 5\% \\
+    \hline
+    7 & 72 &  \$567,697.39  &  \$51,743.36  &  \$549,324.11  & 8.24\% & 5\% \\
+    \hline
+    8 & 73 &  \$549,324.11  &  \$52,778.22  &  \$528,835.96  & 8.66\% & 5\% \\
+    \hline
+    9 & 74 &  \$528,835.96  &  \$53,833.79  &  \$506,087.92  & 9.14\% & 5\% \\
+    \hline
+    10 & 75 &  \$506,087.92  &  \$54,910.46  &  \$480,926.04  & 9.69\% & 5\% \\
+    \hline
+    11 & 76 &  \$480,926.04  &  \$56,008.67  &  \$453,186.90  & 10.35\% & 5\% \\
+    \hline
+    12 & 77 &  \$453,186.90  &  \$57,128.85  &  \$422,697.04  & 11.12\% & 6\% \\
+    \hline
+    13 & 78 &  \$422,697.04  &  \$58,271.42  &  \$389,272.37  & 12.06\% & 6\% \\
+    \hline
+    14 & 79 &  \$389,272.37  &  \$59,436.85  &  \$352,717.51  & 13.22\% & 6\% \\
+    \hline
+    15 & 80 &  \$352,717.51  &  \$60,625.59  &  \$312,825.17  & 14.68\% & 6\% \\
+    \hline
+    16 & 81 &  \$312,825.17  &  \$61,838.10  &  \$269,375.39  & 16.57\% & 7\% \\
+    \hline
+    17 & 82 &  \$269,375.39  &  \$63,074.86  &  \$222,134.80  & 19.13\% & 7\% \\
+    \hline
+    18 & 83 &  \$222,134.80  &  \$64,336.36  &  \$170,855.85  & 22.78\% & 7\% \\
+    \hline
+    19 & 84 &  \$170,855.85  &  \$65,623.09  &  \$115,275.92  & 28.39\% & 7\% \\
+    \hline
+    20 & 85 &  \$115,275.92  &  \$66,935.55  &  \$55,116.46  & 38.12\% & 7\% \\
+    \hline
+\end{tabular}
+
+
+\end{document}
