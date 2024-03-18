@@ -16,6 +16,10 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <float.h>
+#include <string.h>
+#include <stdbool.h>
+
+#define EPS (0.000001)
 
 enum orientationResult {
     COLLINEAR = 0,
@@ -77,15 +81,86 @@ enum orientationResult orientation(struct problem *p, int idxFirst, int idxMiddl
     }
 }
 
+// returns -1 if a < b, 0 if approximately equals, and 1 if b > a
+static int ldoubleCompare(long double a, long double b) {
+    if (fabsl(a - b) < EPS) {
+        return 0;
+    }
+
+    return (a < b) ? -1 : 1;
+}
+
+// sorts the indices based on angles and distances, returns the number of angle comparisons
+static int mergesort(const long double *angles, const long double *distances, int *indices, int n) {
+    // base case
+    if (n <= 1) {
+        return 0;
+    }
+
+    int comparisons = 0;
+
+    // recursion
+    int mid = n / 2;
+    comparisons += mergesort(angles, distances, indices, mid);
+    comparisons += mergesort(angles, distances, indices + mid, n - mid);
+
+    // merging steps ahead
+
+    // we copy the left result into the array left
+    int left[mid];
+    memcpy(left, indices, mid * sizeof(int));
+    int *right = indices + mid;
+
+    // merging left and right directly into indices
+    int i = 0, j = 0, k = 0;
+    while (i < mid && j < n - mid) {
+        comparisons += 1;
+        int angleCompare = ldoubleCompare(angles[left[i]], angles[right[j]]);
+        int distCompare = ldoubleCompare(distances[left[i]], distances[right[j]]);
+        if (angleCompare < 0 || (angleCompare == 0 && distCompare < 0)) {
+            indices[k++] = left[i++];
+        } else {
+            indices[k++] = right[j++];
+        }
+    }
+
+    // copy the unmerged elements in array left into indices
+    memcpy(indices + k, left + i, (mid - i) * sizeof(int));
+
+    return comparisons;
+}
+
+
 // returns the minimum point in x then y in the problem, errors if numPoints is zero
-static int minimumPoint(struct problem *p) {
+static int minimumPointXY(const struct problem *p) {
     long double x = LDBL_MAX;
     long double y = LDBL_MAX;
     int minimum = -1;
 
     // iteratively finds the smallest point
     for (int i = 0; i < p->numPoints; ++i) {
-        if (p->pointsX[i] < x || (p->pointsX[i] == x && p->pointsY[i] < y)) {
+        if (ldoubleCompare(p->pointsX[i], x) < 0
+            || (ldoubleCompare(p->pointsX[i], x) == 0 && p->pointsY[i] < y)) {
+            minimum = i;
+            x = p->pointsX[i];
+            y = p->pointsY[i];
+        }
+    }
+
+    assert(minimum != -1);
+    return minimum;
+}
+
+// returns the minimum point in y then x in the problem, errors if numPoints is zero
+static int minimumPointYX(const struct problem *p) {
+    long double x = LDBL_MAX;
+    long double y = LDBL_MAX;
+    int minimum = -1;
+
+    // iteratively finds the smallest point
+    for (int i = 0; i < p->numPoints; ++i) {
+        if (ldoubleCompare(p->pointsY[i], y) < 0
+            || (ldoubleCompare(p->pointsY[i], y) == 0 && p->pointsX[i] < x)) {
             minimum = i;
             x = p->pointsX[i];
             y = p->pointsY[i];
@@ -112,7 +187,7 @@ struct solution *jarvisMarch(struct problem *p) {
     }
 
     // search for bottom left point
-    int leftMost = minimumPoint(p);
+    int leftMost = minimumPointXY(p);
 
     // loop and finding the next convex hull point til returning to start point
     int current = leftMost;
@@ -121,6 +196,7 @@ struct solution *jarvisMarch(struct problem *p) {
 
         int next = 0;
         for (int i = 1; i < p->numPoints; ++i) {
+            s->operationCount += 1;
             if (orientation(p, next, current, i) == COUNTERCLOCKWISE) {
                 next = i;
             }
@@ -136,14 +212,71 @@ struct solution *grahamScan(struct problem *p) {
     /* Part B - perform Graham's Scan to construct a convex
     hull for the given problem. */
     /* IMPLEMENT HERE */
-    struct linkedList *hull = NULL;
+    struct linkedList *hull = newList();
     struct solution *s = (struct solution *) malloc(sizeof(struct solution));
     assert(s);
     s->operationCount = 0;
-
-    /* ... */
-
     s->convexHull = hull;
+
+    // early return when impossible
+    if (p->numPoints < 3) {
+        return s;
+    }
+
+    int lowest = minimumPointYX(p);
+
+    // create indices, angle, and distance arrays for sorting
+    int n = p->numPoints;
+    int indices[n];
+    long double angles[n];
+    long double distances[n];
+    for (int i = 0; i < n; ++i) {
+        indices[i] = i;
+
+        if (i == lowest) {
+            // for the lowest point, we want it to be first in the sort
+            // so assign zeros for both angle and distances
+            angles[i] = 0.0;
+            distances[i] = 0.0;
+        } else {
+            long double dy = p->pointsY[i] - p->pointsY[lowest];
+            long double dx = p->pointsX[i] - p->pointsX[lowest];
+            angles[i] = atan2l(dy, dx);
+            // don't need to sqrt for monotonic property
+            distances[i] = dy * dy + dx * dx;
+        }
+    }
+
+    // merge sort on the indices
+    s->operationCount = mergesort(angles, distances, indices, n);
+
+    // create a stack, max size is the whole points array
+    // this is a stack of point indices
+    int stack[n];
+    int stackSize = 0;
+    stack[stackSize++] = indices[0];
+    stack[stackSize++] = indices[1];
+
+    // looping through the sorted indices, i is the index of indices
+    for (int i = 2; i < n; ++i) {
+        // keep popping when we have more than 2 elements
+        // and the angle for the last three forms a clockwise orientation
+        while (stackSize > 2 &&
+               orientation(
+                       p,
+                       stack[stackSize - 2], stack[stackSize - 1], indices[i]
+               ) != COUNTERCLOCKWISE) {
+            stackSize -= 1;
+        }
+
+        stack[stackSize++] = indices[i];
+    }
+
+    // copy the stack result to the linked list
+    for (int i = 0; i < stackSize; ++i) {
+        insertTail(s->convexHull, p->pointsX[stack[i]], p->pointsY[stack[i]]);
+    }
+
     return s;
 }
 
