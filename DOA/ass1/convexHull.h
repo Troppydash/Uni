@@ -16,7 +16,7 @@ struct solution;
 
 struct solution {
     struct linkedList *convexHull;
-    int operationCount;
+    unsigned long long operationCount;
 };
 
 /* Part A - perform Jarvis' March to construct a convex

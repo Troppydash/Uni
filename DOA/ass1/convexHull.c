@@ -91,13 +91,14 @@ static int ldoubleCompare(long double a, long double b) {
 }
 
 // sorts the indices based on angles and distances, returns the number of angle comparisons
-static int mergesort(const long double *angles, const long double *distances, int *indices, int n) {
+static unsigned long long
+mergesort(const long double *angles, const long double *distances, int *indices, int n) {
     // base case
     if (n <= 1) {
         return 0;
     }
 
-    int comparisons = 0;
+    unsigned long long comparisons = 0;
 
     // recursion
     int mid = n / 2;
@@ -107,7 +108,7 @@ static int mergesort(const long double *angles, const long double *distances, in
     // merging steps ahead
 
     // we copy the left result into the array left
-    int left[mid];
+    int *left = malloc(sizeof(int) * mid);
     memcpy(left, indices, mid * sizeof(int));
     int *right = indices + mid;
 
@@ -126,6 +127,7 @@ static int mergesort(const long double *angles, const long double *distances, in
 
     // copy the unmerged elements in array left into indices
     memcpy(indices + k, left + i, (mid - i) * sizeof(int));
+    free(left);
 
     return comparisons;
 }
@@ -227,9 +229,13 @@ struct solution *grahamScan(struct problem *p) {
 
     // create indices, angle, and distance arrays for sorting
     int n = p->numPoints;
-    int indices[n];
-    long double angles[n];
-    long double distances[n];
+    int *indices = malloc(sizeof(int) * n);
+    long double *angles = malloc(sizeof(long double) * n);
+    long double *distances = malloc(sizeof(long double) * n);
+    assert(indices);
+    assert(angles);
+    assert(distances);
+
     for (int i = 0; i < n; ++i) {
         indices[i] = i;
 
@@ -252,7 +258,8 @@ struct solution *grahamScan(struct problem *p) {
 
     // create a stack, max size is the whole points array
     // this is a stack of point indices
-    int stack[n];
+    int *stack = malloc(sizeof(int) * n);
+    assert(stack);
     int stackSize = 0;
     stack[stackSize++] = indices[0];
     stack[stackSize++] = indices[1];
@@ -276,6 +283,11 @@ struct solution *grahamScan(struct problem *p) {
     for (int i = 0; i < stackSize; ++i) {
         insertTail(s->convexHull, p->pointsX[stack[i]], p->pointsY[stack[i]]);
     }
+
+    free(stack);
+    free(indices);
+    free(angles);
+    free(distances);
 
     return s;
 }
