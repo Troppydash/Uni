@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <float.h>
 
 enum orientationResult {
     COLLINEAR = 0,
@@ -27,7 +28,7 @@ enum orientationResult {
     the gradient of the Middle-Final vector is instead used. */
 enum orientationResult orientation(struct problem *p, int idxFirst, int idxMiddle, int idxFinal);
 
-enum orientationResult orientation(struct problem *p, int idxFirst, int idxMiddle, int idxFinal){
+enum orientationResult orientation(struct problem *p, int idxFirst, int idxMiddle, int idxFinal) {
     assert(idxFirst >= 0 && idxFirst < p->numPoints);
     assert(idxMiddle >= 0 && idxMiddle < p->numPoints);
     assert(idxFinal >= 0 && idxFinal < p->numPoints);
@@ -45,15 +46,15 @@ enum orientationResult orientation(struct problem *p, int idxFirst, int idxMiddl
     /* Cross product of vectors P1P0 & P1P2 */
     long double crossProduct = (p0x - p1x) * (p2y - p1y) - (p0y - p1y) * (p2x - p1x);
 
-    if(crossProduct == 0){
-        if(idxFirst == idxMiddle){
+    if (crossProduct == 0) {
+        if (idxFirst == idxMiddle) {
             /* Special case where we are only looking for positive slope of P1P2. */
-            if(p2x == p1x){
+            if (p2x == p1x) {
                 /* Special case: dx = 0, vertical */
-                if(p2y < p1y){
+                if (p2y < p1y) {
                     /* Directly upwards */
                     return COUNTERCLOCKWISE;
-                } else if(p2y == p1y){
+                } else if (p2y == p1y) {
                     /* Same point. */
                     return COLLINEAR;
                 } else {
@@ -61,7 +62,7 @@ enum orientationResult orientation(struct problem *p, int idxFirst, int idxMiddl
                 }
             }
             long double m = (p2y - p1y) / (p2x - p1x);
-            if(m >= 0){
+            if (m >= 0) {
                 return COUNTERCLOCKWISE;
             } else {
                 return CLOCKWISE;
@@ -69,29 +70,69 @@ enum orientationResult orientation(struct problem *p, int idxFirst, int idxMiddl
 
         }
         return COLLINEAR;
-    } else if(crossProduct > 0){
+    } else if (crossProduct > 0) {
         return CLOCKWISE;
     } else {
         return COUNTERCLOCKWISE;
     }
 }
 
-struct solution *jarvisMarch(struct problem *p){
+// returns the minimum point in x then y in the problem, errors if numPoints is zero
+static int minimumPoint(struct problem *p) {
+    long double x = LDBL_MAX;
+    long double y = LDBL_MAX;
+    int minimum = -1;
+
+    // iteratively finds the smallest point
+    for (int i = 0; i < p->numPoints; ++i) {
+        if (p->pointsX[i] < x || (p->pointsX[i] == x && p->pointsY[i] < y)) {
+            minimum = i;
+            x = p->pointsX[i];
+            y = p->pointsY[i];
+        }
+    }
+
+    assert(minimum != -1);
+    return minimum;
+}
+
+
+struct solution *jarvisMarch(struct problem *p) {
     /* Part A - perform Jarvis' March to construct a convex
     hull for the given problem. */
-    /* IMPLEMENT HERE */
-    struct linkedList *hull = NULL;
+    struct linkedList *hull = newList();
     struct solution *s = (struct solution *) malloc(sizeof(struct solution));
     assert(s);
     s->operationCount = 0;
-
-    /* ... */
-
     s->convexHull = hull;
+
+    // early return on impossible conditions
+    if (p->numPoints < 3) {
+        return s;
+    }
+
+    // search for bottom left point
+    int leftMost = minimumPoint(p);
+
+    // loop and finding the next convex hull point til returning to start point
+    int current = leftMost;
+    do {
+        insertTail(s->convexHull, p->pointsX[current], p->pointsY[current]);
+
+        int next = 0;
+        for (int i = 1; i < p->numPoints; ++i) {
+            if (orientation(p, next, current, i) == COUNTERCLOCKWISE) {
+                next = i;
+            }
+        }
+
+        current = next;
+    } while (current != leftMost);
+
     return s;
 }
 
-struct solution *grahamScan(struct problem *p){
+struct solution *grahamScan(struct problem *p) {
     /* Part B - perform Graham's Scan to construct a convex
     hull for the given problem. */
     /* IMPLEMENT HERE */
@@ -106,11 +147,11 @@ struct solution *grahamScan(struct problem *p){
     return s;
 }
 
-void freeSolution(struct solution *s){
-    if(! s){
+void freeSolution(struct solution *s) {
+    if (!s) {
         return;
     }
-    if(s->convexHull){
+    if (s->convexHull) {
         freeList(s->convexHull);
     }
     free(s);
