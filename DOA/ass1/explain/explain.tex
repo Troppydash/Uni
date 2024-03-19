@@ -1,0 +1,135 @@
+\documentclass[a4paper]{article}
+
+\usepackage{parskip}
+\usepackage{geometry}
+\usepackage{mathtools}
+\usepackage{listings}
+\usepackage{float}
+
+
+
+
+\begin{document}
+\section{Experimental Data}
+The raw data from the benchmark is
+\begin{lstlisting}
+    RANDOM, n=      1000, jarvisMarch=     15984, grahamScan=      8705
+    RANDOM, n=     10000, jarvisMarch=    229977, grahamScan=    120407
+    RANDOM, n=    100000, jarvisMarch=   3299967, grahamScan=   1536335
+    CIRCLE, n=      1000, jarvisMarch=    999000, grahamScan=      8692
+    CIRCLE, n=     10000, jarvisMarch=  99990000, grahamScan=    120497
+    CIRCLE, n=    100000, jarvisMarch=9999800001, grahamScan=   1536728
+    INNER , n=      1000, jarvisMarch=      3996, grahamScan=      8724
+    INNER , n=     10000, jarvisMarch=     39996, grahamScan=    120436
+    INNER , n=    100000, jarvisMarch=    399996, grahamScan=   1536247
+\end{lstlisting}
+
+The processed and normalized data is
+\begin{figure}[H]
+    \centering
+    \begin{tabular}{|l|r|r|r|}
+        \hline
+        type\textbackslash{}n & 1000 & 10000 & 100000 \\
+        \hline
+        RANDOM & 15984 & 229977 & 3299967 \\
+
+         & 1 & 14.38 & 206.45 \\
+        \hline
+        CIRCLE & 999000 & 99990000 & 9999800001 \\
+
+         & 1 & 100.09 & 10009.80 \\
+
+        \hline
+        INNER & 3996 & 39996 & 399996 \\
+
+         & 1 & 10.00 & 100.09 \\
+        \hline
+    \end{tabular}
+    \caption{Jarvis March Trend}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{tabular}{|l|r|r|r|}
+        \hline
+        type\textbackslash{}n & 1000 & 10000 & 100000 \\
+        \hline
+        RANDOM & 8705 & 120407 & 1536335 \\
+
+         & 1 & 13.83 & 176.48 \\
+        \hline
+        CIRCLE & 8692 & 120497 & 1536728 \\
+
+         & 1 & 13.86 & 176.79 \\
+        \hline
+        INNER & 8724 & 120436 & 1536247 \\
+
+         & 1 & 13.80 & 176.09 \\
+        \hline
+    \end{tabular}
+    \caption{Graham Scan Trend}
+\end{figure}
+
+A comparative normalized growth function data is
+\begin{figure}[H]
+    \centering
+
+    \begin{tabular}{|l|r|r|r|}
+        \hline
+        growth\textbackslash{}n & 1000 & 10000 & 10000 \\
+        \hline
+        $N \log N$ & 9965.78 & 132877.12 & 1660964.04 \\
+
+        & 1 & 13.33 & 166.66 \\
+        \hline
+        $N$ & 1000 & 10000 & 100000 \\
+
+        & 1 & 10 & 100 \\
+        \hline
+        $N^2$ & 1000000 & 100000000 & 10000000000 \\
+
+        & 1 & 100 & 10000 \\
+        \hline
+    \end{tabular}
+
+    \caption{Normalized Growth Functions}
+\end{figure}
+
+\section{Evaluation}
+% Discuss data structure choice
+The data structures used in both methods are linked lists and dynamic arrays. In both approaches, we needed a linked list to restore the points on the convex hull.
+
+Suppose the convex hull points grows at a rate of $\Theta(t)$ with $t\leq n$ where $n$ is the number of points, then the space complexity and time complexity in inserting into the linked list is also $\Theta(t)$ due to the constant insertion cost of linked lists. If we were to use a fixed array, we would need to allocate at least $n$ entries for the worst case, but insertion will still only take $\Theta(t)$ time; for a dynamic array resizing in powers of 2, we have an amortized $\Theta(1)$ insertion and thus only an amortized $\Theta(t)$ space and time cost in populating the convex hull solution.
+
+While linked lists and dynamic arrays have equal amortized theoretical performance, empirically, we may find the constant factor of linked list to be larger than dynamic arrays for the blocking cost of syscall malloc and pointer indirections. However, this would not likely affect the algorithm performance significantly, for they are bottlenecked in computing the convex hull.
+
+I've also chosen a dynamic array for the indices and angles to pass to merge sort. This has the same time complexity as an implementation with linked lists (both taking $\Theta(n \log n)$), but the dynamic array would have a higher space complexity of $\Theta(n \log n)$ compared to the $\Theta(1)$ space in linked lists due to merging. The empirical performance will depend on the trade-off between slower list memory allocations or faster array indexing.
+
+
+% discuss experimental eval
+To get the experimental data, I've used random points in a square sized $100$ by $100$ centered at $(0,0)$ for RANDOM, random points on a circle of radius $50$ for CIRCLE, and random points in a $100$ by $100$ square with the 4 corners for INNER. All normalized results are calculated against the base $n=1000$ operation count.
+
+Fixating within each approach, particularly in the Jarvis March algorithm, we see that the sampling methods represents the best, worst, and average case on the inputs. Jarvis March is input sensitive, for by operation amount at any input size $n$, we see INNER performing the fastest, CIRCLE the slowest, and RANDOM in the middle. The Graham Scan approach is less input sensitive, with all three sampling methods having similar operation counts at each input sizes $n$.
+
+Looking across the column and focusing on the input sizes $n$, we see a upwards trend where higher $n$ leads to higher operation counts for both algorithms. Comparing with a comparative normalized growth function chart, we can approximate the time complexities of each algorithms under the best, worst, and average case:
+\begin{itemize}
+    \item Jarvis March RANDOM: $\Theta(N \log N)$.
+    \item Jarvis March CIRCLE: $\Theta(N^2)$
+    \item Jarvis March INNER : $\Theta(N)$
+    \item Graham Scan RANDOM, CIRCLE, INNER: $\Theta(N \log N)$
+\end{itemize}
+
+% include assumptions or simplifications in implementations
+This time complexity analysis is under the RAM model computation assumption, where we treat and only treat one operation in each of the algorithms: angle comparisons in Jarvis March and sorting comparisons in Graham Scan, with every operation having an equal unit time cost that is abstracted away from CPU instruction cycles.
+
+Therefore, we've ignored the cost in creating the solution linked list and finding the minimum point in both algorithms, and ignored the stack operations in the Graham Scan approach. Additionally, the analysis is simplified by considering the asymptotic case, letting us to drop smaller values of $N < 1000$ and focus on its growth rate instead.
+
+% conclusion on algorithm efficiency
+Using the empirical numbers and under the simplifications, we can see that Jarvis March is faster than Grahman Scan in the best case INNER sampling types for all input sizes. This is not surprising asymptotically for $\Theta(n)$ is bounded upwards by $\Theta(n \log n)$. In the RANDOM case, Jarvis March had similar operation growth as Graham Scan, but loses in absolute numbers at every input. In the CIRCLE worst case, Jarvis March is worse in both higher growth of $\Theta(n^2)$ compared to $\Theta(n \log n)$ and in absolute terms when compared to Jarvis March.
+
+Hence with real world data, we should use Jarvis March only for small input sizes or if we know that the data is under the best case. A use case would be to update the convex hull when adding small amounts new points. In all other cases, Graham Scan performed faster both theoretically in asymptotic analysis and in measurement, with the benefit of being input insensitive that is important for applications where uncertainty should be minimized, like real time image recognition.
+
+
+
+
+\end{document}
