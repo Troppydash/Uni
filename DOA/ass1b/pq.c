@@ -41,10 +41,11 @@ void enqueue(struct pq *pq, void *item, int priority) {
         } else {
             pq->allocated *= 2;
         }
-        pq->queue = (void **) realloc(pq->queue, pq->allocated * sizeof(void *));
+        pq->queue = (void **) realloc(pq->queue,
+                                      pq->allocated * sizeof(void *));
         assert(pq->queue);
-        pq->priorities = (int *) realloc(pq->priorities, pq->allocated *
-                                                         sizeof(int));
+        pq->priorities = (int *) realloc(pq->priorities,
+                                         pq->allocated * sizeof(int));
         assert(pq->priorities);
     }
     (pq->queue)[pq->count] = item;
@@ -139,7 +140,10 @@ void heapqPush(struct heapq *heap, int node, long double priority) {
     // resize if out of storage
     if (heap->capacity == heap->size) {
         heap->capacity *= 2;
-        heap->pairs = realloc(heap->pairs, sizeof(struct pairDouble) * heap->capacity);
+        heap->pairs = realloc(
+                heap->pairs,
+                sizeof(struct pairDouble) * heap->capacity
+        );
         assert(heap->pairs);
     }
 
@@ -182,7 +186,8 @@ void heapqPop(struct heapq *heap) {
             long double left = heap->pairs[lchild].priority;
             long double right = heap->pairs[rchild].priority;
 
-            // check if larger than the smallest, bring it down if so, stop otherwise
+            // check if larger than the smallest,
+            // bring it down if so, stop otherwise
             if (left < right && last.priority > left) {
                 heap->pairs[i] = heap->pairs[lchild];
                 i = lchild;

@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <math.h>
+#include <time.h>
 #include "problem.h"
 #include "convexHull.h"
 
@@ -17,8 +18,12 @@ enum SampleType {
     SAMPLE_INNER,
 };
 
-// create a pair of equal sample points, depending on the generation type and length
-static void makeSamples(enum SampleType type, int n, struct problem **A, struct problem **B) {
+// create a pair of equal sample points,
+// depending on the generation type and length
+static void makeSamples(
+        enum SampleType type, int n,
+        struct problem **A, struct problem **B
+) {
     struct problem *pA = malloc(sizeof(struct problem));
     struct problem *pB = malloc(sizeof(struct problem));
 
@@ -91,7 +96,10 @@ static void test(const char *tag, int n, enum SampleType type)
 
     struct solution *s1 = jarvisMarch(A);
     struct solution *s2 = grahamScan(B);
-    printf("%s, n=%10d, jarvisMarch=%10llu, grahamScan=%10llu\n", tag, n, s1->operationCount, s2->operationCount);
+    printf(
+            "%s, n=%10d, jarvisMarch=%10llu, grahamScan=%10llu\n",
+            tag, n, s1->operationCount, s2->operationCount
+    );
     fflush(stdout);
 
     freeSolution(s1);
@@ -102,6 +110,7 @@ static void test(const char *tag, int n, enum SampleType type)
 }
 
 int main() {
+    srand(time(NULL));
     test("RANDOM", 1000, SAMPLE_RANDOM);
     test("RANDOM", 10000, SAMPLE_RANDOM);
     test("RANDOM", 100000, SAMPLE_RANDOM);

@@ -58,7 +58,8 @@ void addEdge(struct graph *g, int start, int end, int cost) {
             (g->allocedEdges) *= 2;
         }
         g->edgeList = (struct edge **) realloc(g->edgeList,
-                                               sizeof(struct edge *) * g->allocedEdges);
+                                               sizeof(struct edge *) *
+                                               g->allocedEdges);
         assert(g->edgeList);
     }
 
@@ -82,7 +83,8 @@ struct graph *duplicateGraph(struct graph *g) {
     copyGraph->numVertices = g->numVertices;
     copyGraph->numEdges = g->numEdges;
     copyGraph->allocedEdges = g->allocedEdges;
-    copyGraph->edgeList = (struct edge **) malloc(sizeof(struct edge *) * g->allocedEdges);
+    copyGraph->edgeList = (struct edge **) malloc(
+            sizeof(struct edge *) * g->allocedEdges);
     assert(copyGraph->edgeList || copyGraph->numEdges == 0);
     int i;
     /* Copy edge list. */
@@ -114,8 +116,12 @@ struct pair {
     int second;
 };
 
-// compute the shortest path in a graph from two points, returns the minimum distance
-static int bfs(struct list **adjList, int vertices, int startingLocation, int finalLocation) {
+// compute the shortest path in a graph from two points,
+// returns the minimum distance
+static int bfs(
+        struct list **adjList, int vertices,
+        int startingLocation, int finalLocation
+) {
     // allocate visited array
     bool *visited = malloc(sizeof(bool) * vertices);
     assert(visited);
@@ -123,7 +129,8 @@ static int bfs(struct list **adjList, int vertices, int startingLocation, int fi
         visited[i] = false;
     }
 
-    // a queue, maximize size is vertices for each vertex can be added to the queue exactly once
+    // a queue, maximize size is the number of vertices
+    // for each vertex can be added to the queue exactly once.
     // queue elements are of the form (vertex, depth)
     struct pair *queue = malloc(sizeof(struct pair) * vertices);
     assert(queue);
@@ -179,8 +186,12 @@ static int bfs(struct list **adjList, int vertices, int startingLocation, int fi
     return result;
 }
 
-// computes the shortest weighted paths between two points, returns the minimum weighted path
-static int dijkstras(struct list **adjList, int vertices, int startingLocation, int finalLocation) {
+// computes the shortest weighted paths between two points,
+// returns the minimum weighted path
+static int dijkstras(
+        struct list **adjList, int vertices,
+        int startingLocation, int finalLocation
+) {
     // allocate visited array
     bool *visited = malloc(sizeof(bool) * vertices);
     assert(visited);
@@ -253,7 +264,10 @@ static int dijkstras(struct list **adjList, int vertices, int startingLocation, 
 }
 
 // computes the minimum spanning tree, returns the minimum tree weight
-static int primsMethod(struct list **adjList, int vertices, int startingLocation) {
+static int primsMethod(
+        struct list **adjList, int vertices,
+        int startingLocation
+) {
     // allocate visited array
     bool *visited = malloc(sizeof(bool) * vertices);
     assert(visited);
@@ -316,8 +330,12 @@ static int primsMethod(struct list **adjList, int vertices, int startingLocation
     return result;
 }
 
-// computes the shortest percent paths between two points, returns the minimum percent path
-static int dijkstrasPercent(struct list **adjList, int vertices, int startingLocation, int finalLocation) {
+// computes the shortest percent paths between two points,
+// returns the minimum percent path
+static int dijkstrasPercent(
+        struct list **adjList, int vertices,
+        int startingLocation, int finalLocation
+) {
     // allocate visited array
     bool *visited = malloc(sizeof(bool) * vertices);
     assert(visited);
@@ -363,7 +381,8 @@ static int dijkstrasPercent(struct list **adjList, int vertices, int startingLoc
                 continue;
             }
 
-            // the percent cost adds the base 100, converts to double, then divide by 100 into decimal
+            // the percent cost adds the base 100,
+            // converts to double, then divide by 100 into decimal
             long double percentCost = (long double) (cost + 100) / 100.0;
             // add to queue
             heapqPush(queue, other, multiplier * percentCost);
@@ -379,7 +398,8 @@ static int dijkstrasPercent(struct list **adjList, int vertices, int startingLoc
 
 
 struct solution *graphSolve(struct graph *g, enum problemPart part,
-                            int numLocations, int startingLocation, int finalLocation) {
+                            int numLocations, int startingLocation,
+                            int finalLocation) {
     struct solution *solution = (struct solution *)
             malloc(sizeof(struct solution));
     assert(solution);
@@ -413,13 +433,18 @@ struct solution *graphSolve(struct graph *g, enum problemPart part,
     }
 
     if (part == PART_A) {
-        solution->damageTaken = bfs(adjList, vertices, startingLocation, finalLocation);
+        solution->damageTaken = bfs(adjList, vertices, startingLocation,
+                                    finalLocation);
     } else if (part == PART_B) {
-        solution->totalCost = dijkstras(adjList, vertices, startingLocation, finalLocation);
+        solution->totalCost = dijkstras(adjList, vertices, startingLocation,
+                                        finalLocation);
     } else if (part == PART_C) {
-        solution->artisanCost = primsMethod(adjList, vertices, startingLocation);
+        solution->artisanCost = primsMethod(adjList, vertices,
+                                            startingLocation);
     } else {
-        solution->totalPercentage = dijkstrasPercent(adjList, vertices, startingLocation, finalLocation);
+        solution->totalPercentage = dijkstrasPercent(adjList, vertices,
+                                                     startingLocation,
+                                                     finalLocation);
     }
 
     // free adjacency list

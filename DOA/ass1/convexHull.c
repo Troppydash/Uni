@@ -90,9 +90,12 @@ static int ldoubleCompare(long double a, long double b) {
     return (a < b) ? -1 : 1;
 }
 
-// sorts the indices based on angles and distances, returns the number of angle comparisons
-static unsigned long long
-mergesort(const long double *angles, const long double *distances, int *indices, int n) {
+// sorts the indices based on angles and distances,
+// returns the number of angle comparisons
+static unsigned long long mergesort(
+        const long double *angles, const long double *distances,
+        int *indices, int n
+) {
     // base case
     if (n <= 1) {
         return 0;
@@ -133,7 +136,8 @@ mergesort(const long double *angles, const long double *distances, int *indices,
 }
 
 
-// returns the minimum point in x then y in the problem, errors if numPoints is zero
+// returns the minimum point in x then y in the problem,
+// errors if numPoints is zero
 static int minimumPointXY(const struct problem *p) {
     long double x = LDBL_MAX;
     long double y = LDBL_MAX;
@@ -142,7 +146,8 @@ static int minimumPointXY(const struct problem *p) {
     // iteratively finds the smallest point
     for (int i = 0; i < p->numPoints; ++i) {
         if (ldoubleCompare(p->pointsX[i], x) < 0
-            || (ldoubleCompare(p->pointsX[i], x) == 0 && p->pointsY[i] < y)) {
+            || (ldoubleCompare(p->pointsX[i], x) == 0
+                    && p->pointsY[i] < y)) {
             minimum = i;
             x = p->pointsX[i];
             y = p->pointsY[i];
@@ -153,7 +158,8 @@ static int minimumPointXY(const struct problem *p) {
     return minimum;
 }
 
-// returns the minimum point in y then x in the problem, errors if numPoints is zero
+// returns the minimum point in y then x in the problem,
+// errors if numPoints is zero
 static int minimumPointYX(const struct problem *p) {
     long double x = LDBL_MAX;
     long double y = LDBL_MAX;
@@ -162,7 +168,8 @@ static int minimumPointYX(const struct problem *p) {
     // iteratively finds the smallest point
     for (int i = 0; i < p->numPoints; ++i) {
         if (ldoubleCompare(p->pointsY[i], y) < 0
-            || (ldoubleCompare(p->pointsY[i], y) == 0 && p->pointsX[i] < x)) {
+            || (ldoubleCompare(p->pointsY[i], y) == 0
+                    && p->pointsX[i] < x)) {
             minimum = i;
             x = p->pointsX[i];
             y = p->pointsY[i];
