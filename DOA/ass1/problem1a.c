@@ -25,13 +25,13 @@ int main(int argc, char **argv) {
 
     struct solution *solution = jarvisMarch(problem);
 
-    /* Print points in clockwise order. */
-    traverseRingForward(solution->convexHull);
+    /* Print points in counterclockwise order. */
+    traverseRingBackwards(solution->convexHull);
 
     printf("\n");
 
-    /* Print points in counterclockwise order. */
-    traverseRingBackwards(solution->convexHull);
+    /* Print points in clockwise order. */
+    traverseRingForward(solution->convexHull);
 
     printf("\n");
 

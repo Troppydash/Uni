@@ -205,18 +205,9 @@ struct solution *jarvisMarch(struct problem *p) {
 
         // randomly selected an element not current
         int next = 0;
-        if (next == current) {
-            next = 1;
-        }
-
         for (int i = 0; i < p->numPoints; ++i) {
-            // skip identical points
-            if (i == current || i == next) {
-                continue;
-            }
-
             s->operationCount += 1;
-            if (orientation(p, next, current, i) == COUNTERCLOCKWISE) {
+            if (next == current || orientation(p, next, current, i) == COUNTERCLOCKWISE) {
                 next = i;
             }
         }
