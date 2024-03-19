@@ -111,7 +111,7 @@ public class Person {
     public static String randomName(Random rng) {
         String out = "";
         for (int i = 0; i < 10; ++i) {
-            out = out + rng.nextInt('a', 'z');
+            out = out + ('a' + rng.nextInt(26));
         }
         return out;
     }
