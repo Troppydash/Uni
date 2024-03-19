@@ -13,7 +13,7 @@ add_executable(ass1b
         utils.c
         utils.h
 #        problem2a.c
-        problem2b.c
-#        problem2c.c
+#        problem2b.c
+        problem2c.c
 #        problem2d.c
 )

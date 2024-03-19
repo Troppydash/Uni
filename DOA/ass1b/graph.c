@@ -254,6 +254,70 @@ static int dijkstras(struct list **adjList, int vertices, int startingLocation, 
     return result;
 }
 
+// computes the minimum spanning tree, returns the minimum tree weight
+static int primsMethod(struct list **adjList, int vertices, int startingLocation) {
+    // allocate visited array
+    bool *visited = malloc(sizeof(bool) * vertices);
+    assert(visited);
+    for (int i = 0; i < vertices; ++i) {
+        visited[i] = false;
+    }
+
+    struct pq *queue = newPQ();
+
+    // add starting vertex
+    struct pair *init = malloc(sizeof(struct pair));
+    assert(init);
+    init->first = startingLocation;
+    init->second = 0;
+    enqueue(queue, init, 0);
+
+    int result = 0;
+    while (!empty(queue)) {
+        // get shortest
+        struct pair *front = deletemin(queue);
+        int node = front->first;
+        int weight = front->second;
+        free(front);
+
+        // check if visited
+        if (visited[node]) {
+            continue;
+        }
+        visited[node] = true;
+
+        // add this edge weight to total
+        result += weight;
+
+        // iterate through its neighbours
+        struct list *head = adjList[node];
+        while (head != NULL) {
+            struct pair *neighbour = (struct pair *) peekHead(head);
+            int other = neighbour->first;
+            int cost = neighbour->second;
+            head = nextHead(head);
+
+            // ignore if visited
+            if (visited[other]) {
+                continue;
+            }
+
+            // add to queue
+            struct pair *next = malloc(sizeof(struct pair));
+            assert(init);
+            next->first = other;
+            next->second = cost;
+            enqueue(queue, next, cost);
+        }
+    }
+
+    freePQ(queue);
+    free(visited);
+
+    // returns -1 if not found
+    return result;
+}
+
 
 struct solution *graphSolve(struct graph *g, enum problemPart part,
                             int numLocations, int startingLocation, int finalLocation) {
@@ -294,8 +358,7 @@ struct solution *graphSolve(struct graph *g, enum problemPart part,
     } else if (part == PART_B) {
         solution->totalCost = dijkstras(adjList, vertices, startingLocation, finalLocation);
     } else if (part == PART_C) {
-        /* IMPLEMENT 2C SOLUTION HERE */
-        solution->artisanCost = -1;
+        solution->artisanCost = primsMethod(adjList, vertices, startingLocation);
     } else {
         /* IMPLEMENT 2D SOLUTION HERE */
         solution->totalPercentage = -1;
