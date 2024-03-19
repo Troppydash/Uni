@@ -196,8 +196,18 @@ struct solution *jarvisMarch(struct problem *p) {
     do {
         insertTail(s->convexHull, p->pointsX[current], p->pointsY[current]);
 
+        // randomly selected an element not current
         int next = 0;
-        for (int i = 1; i < p->numPoints; ++i) {
+        if (next == current) {
+            next = 1;
+        }
+
+        for (int i = 0; i < p->numPoints; ++i) {
+            // skip identical points
+            if (i == current || i == next) {
+                continue;
+            }
+
             s->operationCount += 1;
             if (orientation(p, next, current, i) == COUNTERCLOCKWISE) {
                 next = i;

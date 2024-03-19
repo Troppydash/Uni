@@ -1,12 +1,4 @@
-//
-// Created by terry on 19/03/24.
-//
-
-#ifndef ASS1_TEST_C
-#define ASS1_TEST_C
-
 #include <stdlib.h>
-#include <assert.h>
 #include <math.h>
 #include "problem.h"
 #include "convexHull.h"
@@ -42,7 +34,6 @@ static void makeSamples(enum SampleType type, int n, struct problem **A, struct 
     switch (type) {
         case SAMPLE_RANDOM: {
             // random points within a square
-
             for (int i = 0; i < n; ++i) {
                 long double x = (realRandom() * 2.0 * UNIFORM_RADIUS) - UNIFORM_RADIUS;
                 long double y = (realRandom() * 2.0 * UNIFORM_RADIUS) - UNIFORM_RADIUS;
@@ -53,7 +44,6 @@ static void makeSamples(enum SampleType type, int n, struct problem **A, struct 
         }
         case SAMPLE_CIRCLE: {
             // random points on a circle
-
             for (int i = 0; i < n; ++i) {
                 long double angle = realRandom() * 2.0 * PI;
                 long double x = UNIFORM_RADIUS * coshl(angle);
@@ -126,6 +116,3 @@ int main() {
 
     return 0;
 }
-
-
-#endif //ASS1_TEST_C
