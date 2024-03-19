@@ -9,8 +9,6 @@ Skeleton written by Grady Fitzpatrick for COMP20007 Assignment 1 2024
 */
 #include <stdlib.h>
 #include <assert.h>
-#include <limits.h>
-#include <float.h>
 #include <math.h>
 #include <stdbool.h>
 #include "graph.h"
@@ -234,7 +232,7 @@ static int dijkstras(struct list **adjList, int vertices, int startingLocation, 
 
             // add to queue
             struct pair *next = malloc(sizeof(struct pair));
-            assert(init);
+            assert(next);
             next->first = other;
             next->second = depth + cost;
             enqueue(queue, next, depth + cost);
@@ -304,7 +302,7 @@ static int primsMethod(struct list **adjList, int vertices, int startingLocation
 
             // add to queue
             struct pair *next = malloc(sizeof(struct pair));
-            assert(init);
+            assert(next);
             next->first = other;
             next->second = cost;
             enqueue(queue, next, cost);
@@ -312,6 +310,67 @@ static int primsMethod(struct list **adjList, int vertices, int startingLocation
     }
 
     freePQ(queue);
+    free(visited);
+
+    // returns -1 if not found
+    return result;
+}
+
+// computes the shortest percent paths between two points, returns the minimum percent path
+static int dijkstrasPercent(struct list **adjList, int vertices, int startingLocation, int finalLocation) {
+    // allocate visited array
+    bool *visited = malloc(sizeof(bool) * vertices);
+    assert(visited);
+    for (int i = 0; i < vertices; ++i) {
+        visited[i] = false;
+    }
+
+    // create queue and add starting vertex
+    struct heapq *queue = newHeapq();
+    heapqPush(queue, startingLocation, 1.0);
+
+    int result = -1;
+    while (!heapqEmpty(queue)) {
+        // get smallest
+        int node;
+        long double multiplier;
+        heapqTop(queue, &node, &multiplier);
+        heapqPop(queue);
+
+        // check if visited
+        if (visited[node]) {
+            continue;
+        }
+        visited[node] = true;
+
+        // check if reached destination
+        if (node == finalLocation) {
+            // bring multiplier to %, floor it, then subtract the base 100
+            result = (int) floorl(multiplier * 100.0) - 100;
+            break;
+        }
+
+        // iterate through its neighbours
+        struct list *head = adjList[node];
+        while (head != NULL) {
+            struct pair *neighbour = (struct pair *) peekHead(head);
+            int other = neighbour->first;
+            int cost = neighbour->second;
+            head = nextHead(head);
+
+            // ignore if visited
+            if (visited[other]) {
+                continue;
+            }
+
+            // the percent cost adds the base 100, converts to double, then divide by 100 into decimal
+            long double percentCost = (long double) (cost + 100) / 100.0;
+            // add to queue
+            heapqPush(queue, other, multiplier * percentCost);
+        }
+    }
+
+    freeHeapq(queue);
     free(visited);
 
     // returns -1 if not found
@@ -360,10 +419,8 @@ struct solution *graphSolve(struct graph *g, enum problemPart part,
     } else if (part == PART_C) {
         solution->artisanCost = primsMethod(adjList, vertices, startingLocation);
     } else {
-        /* IMPLEMENT 2D SOLUTION HERE */
-        solution->totalPercentage = -1;
+        solution->totalPercentage = dijkstrasPercent(adjList, vertices, startingLocation, finalLocation);
     }
-
 
     // free adjacency list
     for (int i = 0; i < vertices; ++i) {

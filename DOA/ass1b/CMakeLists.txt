@@ -14,6 +14,7 @@ add_executable(ass1b
         utils.h
 #        problem2a.c
 #        problem2b.c
-        problem2c.c
-#        problem2d.c
+#        problem2c.c
+        problem2d.c
 )
+target_link_libraries(ass1b m)
