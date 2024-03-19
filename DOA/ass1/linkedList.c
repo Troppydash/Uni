@@ -34,14 +34,10 @@ struct linkedListNode {
     the item. */
 void traverseRingForward(struct linkedList *list) {
     struct linkedListNode *node = list->head;
-    if (node == NULL) {
-        return;
-    }
-
-    do {
+    while (node != NULL) {
         printf("(%Lf, %Lf) ", node->x, node->y);
         node = node->next;
-    } while (node != NULL);
+    }
 }
 
 /* Print out first the first item of the list, then print out each value in
