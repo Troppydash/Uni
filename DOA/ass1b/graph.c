@@ -117,7 +117,7 @@ struct pair {
 };
 
 // compute the shortest path in a graph from two points, returns the minimum distance
-static int shortestPath(struct list **adjList, int vertices, int startingLocation, int finalLocation) {
+static int bfs(struct list **adjList, int vertices, int startingLocation, int finalLocation) {
     // allocate visited array
     bool *visited = malloc(sizeof(bool) * vertices);
     assert(visited);
@@ -181,6 +181,79 @@ static int shortestPath(struct list **adjList, int vertices, int startingLocatio
     return result;
 }
 
+// computes the shortest weighted paths between two points, returns the minimum weighted path
+static int dijkstras(struct list **adjList, int vertices, int startingLocation, int finalLocation) {
+    // allocate visited array
+    bool *visited = malloc(sizeof(bool) * vertices);
+    assert(visited);
+    for (int i = 0; i < vertices; ++i) {
+        visited[i] = false;
+    }
+
+    struct pq *queue = newPQ();
+
+    // add starting vertex
+    struct pair *init = malloc(sizeof(struct pair));
+    assert(init);
+    init->first = startingLocation;
+    init->second = 0;
+    enqueue(queue, init, 0);
+
+    int result = -1;
+    while (!empty(queue)) {
+        // get shortest
+        struct pair *front = deletemin(queue);
+        int node = front->first;
+        int depth = front->second;
+        free(front);
+
+        // check if visited
+        if (visited[node]) {
+            continue;
+        }
+        visited[node] = true;
+
+        // check if reached destination
+        if (node == finalLocation) {
+            result = depth;
+            break;
+        }
+
+        // iterate through its neighbours
+        struct list *head = adjList[node];
+        while (head != NULL) {
+            struct pair *neighbour = (struct pair *) peekHead(head);
+            int other = neighbour->first;
+            int cost = neighbour->second;
+            head = nextHead(head);
+
+            // ignore if visited
+            if (visited[other]) {
+                continue;
+            }
+
+            // add to queue
+            struct pair *next = malloc(sizeof(struct pair));
+            assert(init);
+            next->first = other;
+            next->second = depth + cost;
+            enqueue(queue, next, depth + cost);
+        }
+    }
+
+    // free queue
+    while (!empty(queue)) {
+        struct pair *front = deletemin(queue);
+        free(front);
+    }
+
+    freePQ(queue);
+    free(visited);
+
+    // returns -1 if not found
+    return result;
+}
+
 
 struct solution *graphSolve(struct graph *g, enum problemPart part,
                             int numLocations, int startingLocation, int finalLocation) {
@@ -217,10 +290,9 @@ struct solution *graphSolve(struct graph *g, enum problemPart part,
     }
 
     if (part == PART_A) {
-        solution->damageTaken = shortestPath(adjList, vertices, startingLocation, finalLocation);
+        solution->damageTaken = bfs(adjList, vertices, startingLocation, finalLocation);
     } else if (part == PART_B) {
-        /* IMPLEMENT 2B SOLUTION HERE */
-        solution->totalCost = -1;
+        solution->totalCost = dijkstras(adjList, vertices, startingLocation, finalLocation);
     } else if (part == PART_C) {
         /* IMPLEMENT 2C SOLUTION HERE */
         solution->artisanCost = -1;
