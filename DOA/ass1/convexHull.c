@@ -19,7 +19,7 @@
 #include <string.h>
 #include <stdbool.h>
 
-#define EPS (0.000001)
+#define EPS (0.0000000001)
 
 enum orientationResult {
     COLLINEAR = 0,
