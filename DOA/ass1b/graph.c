@@ -139,7 +139,7 @@ static int bfs(
 
     // add starting vertex
     struct pair init = {startingLocation, 0};
-    visited[next] = true;
+    visited[startingLocation] = true;
     queue[next++] = init;
 
     int result = -1;
@@ -330,6 +330,16 @@ static int primsMethod(
     return result;
 }
 
+// floor only when it is not almost to an integer
+static int custom_floor(long double num) {
+    long double EPS = 0.00001;
+    if (fabsl(roundl(num) - num) < EPS) {
+        return (int) roundl(num);
+    }
+
+    return (int) floorl(num);
+}
+
 // computes the shortest percent paths between two points,
 // returns the minimum percent path
 static int dijkstrasPercent(
@@ -364,7 +374,7 @@ static int dijkstrasPercent(
         // check if reached destination
         if (node == finalLocation) {
             // bring multiplier to %, floor it, then subtract the base 100
-            result = (int) floorl(multiplier * 100.0) - 100;
+            result = custom_floor(multiplier * 100.0) - 100;
             break;
         }
 

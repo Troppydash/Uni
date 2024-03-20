@@ -7,6 +7,7 @@ Skeleton written by Grady Fitzpatrick for COMP20007 Assignment 1 2024
 */
 #include <stdio.h>
 #include <stdlib.h>
+#undef NDEBUG
 #include <assert.h>
 #include "graph.h"
 #include "utils.h"

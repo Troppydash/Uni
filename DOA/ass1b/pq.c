@@ -152,7 +152,7 @@ void heapqPush(struct heapq *heap, int node, long double priority) {
     while (i != 0) {
         // check if smaller than parent
         int parent = (i - 1) / 2;
-        if (heap->pairs[parent].priority < priority) {
+        if (heap->pairs[parent].priority <= priority) {
             break;
         }
 
@@ -188,10 +188,10 @@ void heapqPop(struct heapq *heap) {
 
             // check if larger than the smallest,
             // bring it down if so, stop otherwise
-            if (left < right && last.priority > left) {
+            if (left <= right && last.priority > left) {
                 heap->pairs[i] = heap->pairs[lchild];
                 i = lchild;
-            } else if (right < left && last.priority > right) {
+            } else if (right <= left && last.priority > right) {
                 heap->pairs[i] = heap->pairs[rchild];
                 i = rchild;
             } else {
