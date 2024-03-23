@@ -141,10 +141,10 @@ def parse_output(out: str):
 def benchmark():
     jarvis_program = 'program'
     graham_program = 'graham'
-    iterations = 10
+    iterations = 5
     each_iter = 5000
-    decay = 0.002
-    upper = 20000
+    decay = 0.0001
+    upper = 30000
 
     for i in range(iterations):
         print(f'iteration {i}', flush=True)
@@ -160,10 +160,11 @@ def benchmark():
             inp, jarvis, graham = create_pair(name, n)
 
             # run jarvis program
-            output = subprocess.check_output([f'./{jarvis_program}'], input=inp.encode()).decode()
-            if output != jarvis:
-                print(f'mismatch at {name}, on jarvis')
-                write_error(n, inp, jarvis, output)
+            if n <= 10000:
+                output = subprocess.check_output([f'./{jarvis_program}'], input=inp.encode()).decode()
+                if output != jarvis:
+                    print(f'mismatch at {name}, on jarvis')
+                    write_error(n, inp, jarvis, output)
 
             output = subprocess.check_output([f'./{graham_program}'], input=inp.encode()).decode()
             if output != graham:

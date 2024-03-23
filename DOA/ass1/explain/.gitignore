@@ -1,0 +1,6 @@
+# data.ods  explain.aux  explain.log  explain.pdf  explain.synctex.gz  explain.tex
+*.pdf
+*.synctex.gz
+*.log
+*.aux
+*.ods#
