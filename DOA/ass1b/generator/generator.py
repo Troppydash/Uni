@@ -14,7 +14,6 @@ def custom_floor(num: float):
     return int(floor(num))
 
 
-# TODO: Write generator for all 4 cases
 class TestCaseGenerator:
 
     def __init__(self):
