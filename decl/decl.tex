@@ -1,0 +1,1556 @@
+\documentclass[a4paper]{article}
+
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{parskip}
+
+\begin{document}
+	\tableofcontents
+	\newpage
+
+\section{Overview}
+Declarative programming is very different to imperative code. It requires a very different mindset to understand and code well in it.
+
+Why declarative
+\begin{itemize}
+	\item Grants a different perspective, focusing on what is to be done rather than how
+	\item Work at a higher level of abstraction
+	\item Easier to use more powerful programming techniques
+	\item Cleaner semantics compared to conventional programs
+\end{itemize}
+
+Logical, Imperative, Functional
+\begin{itemize}
+	\item Imperative based on commands, each command is executed with side effects
+	\item Logical aims to find values that sat a set of constraints. Constraints have no side effects
+	\item Functional based on expression, each being pure functions
+\end{itemize}
+
+Side effects
+\begin{itemize}
+	\item Code has side effects if it modifies state or has an observable interaction with the outside world
+	\item Examples: modify globals, modify arguments, raise exceptions, IO
+	\item Declarative languages have functional updates that build ontop of existing data structures when updating. This requires special memory management to maintain performance. Benefits is that don't need to worry about mutability and allows undo, making parallel programming easier.
+	\item Code without side effect can have stronger guarantees on: no modification of parameters, type safety and type systems, no side effects. This helps with debugging and parallelism
+\end{itemize}
+
+Blub paradox
+\begin{itemize}
+	\item Understanding programming language differences requires understanding the more powerful ones
+	\item Looking down at less powerful languages is easy, but looking up at more powerful ones and understanding why is hard. From the POV of the more powerful ones, this is also the same.
+\end{itemize}
+
+
+\section{Prolog Introduction}
+Programming paradigm
+\begin{itemize}
+	\item Imperative, execute instructions step by step, based on John von Neumann
+	\item Functional, function and expressions mapping input to outputs, based on lambda calculus
+	\item Logic, relations with predicates that relates them, based on predicate calculus
+\end{itemize}
+
+Prolog comments are written with a \%.
+
+Relation
+\begin{itemize}
+	\item Specifies a relationship between arguments/columns
+	\item The fact \verb|parent(a, b)| specifies a part of the relationship
+	\item The name of the relation is called a predicate (the function name)
+	\item The arity of the relation is the number of columns it have.
+\end{itemize}
+
+Fact
+\begin{itemize}
+	\item A statement with an entry/row to the relation
+	\item Many facts define a relation
+\end{itemize}
+
+Rules
+\begin{itemize}
+	\item An alternative way to define relations
+	\item Has the form \verb|Head :- Body|, where both are goals and body can be compound
+	\item Means that if Body is true, Head is true
+	\item A relation is defined with any number of clauses in any order
+	\item Can be recursive
+\end{itemize}
+
+Prolog files
+\begin{itemize}
+	\item File containing facts and rules have a name with: lowercase first, only letters/digits/underscores rest, end with pl
+	\item Source file loaded by typing \verb|[name].| which returns true if it is correct
+\end{itemize}
+
+Terms
+\begin{itemize}
+	\item A term is the only datastructure in prolog
+	\item Can be: atom, functor, variable
+\end{itemize}
+
+Clause
+\begin{itemize}
+	\item Lines in the program file
+	\item Can be: fact, rule
+\end{itemize}
+
+Variables
+\begin{itemize}
+	\item Variables begin with capital letter (or underscores).
+	\item Denotes an unassigned term. Variables with the same name must be assigned with the same term during resolution
+\end{itemize}
+
+Queries
+\begin{itemize}
+	\item Queries are executed after loading facts/rules
+	\item Queries look like terms, except that prolog tries to sat it
+	\item Can consist of multiple goals making it a complex goal. Comma implies conjunctive goals, semicolon for disjunctive goals. Conjunction has higher precedence than disjunction like in Python
+	\item Queries with a variable is existental: are there any values for the variable making the query true
+	\item If more than one answer, prolog prints them all, semicolon to see next, enter to finish
+\end{itemize}
+
+Modes
+\begin{itemize}
+	\item Mode denotes the arguments which are bounded (grounded) or unbounded (ungrounded) for a query
+	\item Two similar queries with different modes implies that their bounded arguments are different
+\end{itemize}
+
+Equality
+\begin{itemize}
+	\item Infix operator $=$. Used to assert that two terms are equal.
+\end{itemize}
+
+Negation
+\begin{itemize}
+	\item Written as \verb|\+| as a prefix operator. Higher precedence than both conjunction and disjunction. Must need space between it and parenthesis
+	\item Disequality is an infix \verb|\=|
+	\item Prolog executes negative by trying to prove the expression. If sats, return false. Otherwise, return true.
+\end{itemize}
+
+Closed world assumption
+\begin{itemize}
+	\item Assumes that all true things can be derived from the program, regardless of the semantic meaning of predicates
+	\item Therefore we should bind all variables before negation, so that it performs as expected
+\end{itemize}
+
+Execution order
+\begin{itemize}
+	\item Goals are executed left to right in a query or clause body.
+	\item So place goals that binds the variables in a negation before the negation
+\end{itemize}
+
+
+Datalog
+\begin{itemize}
+	\item The fragment of prolog with facts/rules/queries
+	\item Generalization of what is provided by relational databases. Some modern databases provide datalog features as well or use its implementation techniques
+	\item Can translate relations to tables in databases, and queries to SQL/relational-algebra, and vice versa
+\end{itemize}
+
+\section{Terms and Arithmetic}
+Terms
+\begin{itemize}
+	\item The only data structure in prolog
+	\item Can be atomic, variable, or compound term
+	\item Since prolog is dynamically typed, the arguments of a term (functor) can be any other term. No need to explicitly declare types
+\end{itemize}
+
+Atomic term
+\begin{itemize}
+	\item integer, floats, atoms
+	\item Begin with lowercase. Can also be written with single quotes if space is needed
+\end{itemize}
+
+Variable term
+\begin{itemize}
+	\item variables written captialized, denoted a single unknown term
+	\item the single underscore is special in that it specifies a different variable every time
+	\item during resolution, variables are single-assignment in that they can only be bounded once
+\end{itemize}
+
+Compound term
+\begin{itemize}
+	\item  a functor (function symbol) followed by one or more arguments in parntheses comma separated. 
+	\item Functors have the same naming convention as atoms.
+	\item Some functors can be applied infix
+\end{itemize}
+
+Grounded
+\begin{itemize}
+	\item A term is ground if it contains no variables. Nonground if it contains at least one variable
+\end{itemize}
+
+Substitution
+\begin{itemize}
+	\item A mapping from variables to terms
+	\item Applying a subsitution to a term will consistently replace all occurrences of relevant variables with their mapped terms
+	\item Applying $\theta$ to term $t$ yields the term $t\theta$
+\end{itemize}
+
+Instances
+\begin{itemize}
+	\item  $y$ is an instance of $x$ iff we can apply a sub on $x$ to get $y$, or $x\theta = y$
+	\item Grounded terms only have one instance. Ungrounded have infinite 
+\end{itemize}
+
+Unification
+\begin{itemize}
+	\item A substitution $\theta$ unifies two terms $t,u$ iff $t\theta = u\theta$. If so, $\theta$ is a unifier
+	\item Essentially unification is to find a substitution such that the two terms are equal syntactically after substitution (allowed ungrounded equality)
+	\item Two terms are syntactically equal if their variables are equal, atoms are equal, functors are equally named with equal terms
+	\item If a query contains $t = u$ where both are terms, prolog will attempt to unify $t$ and $u$ with a substitution
+\end{itemize}
+
+Arithmetic
+\begin{itemize}
+	\item Terms like $a * b$ are just data structure shorthand for $*(a, b)$, where the functor $*$ is infix
+	\item The $=$ operator on arithmetic terms does not evaluate them but only unifies them
+	\item The infix predicate $is$ will evaluate arithmetic expressions on the RHS before unifying
+	\[
+		X \quad is \quad 6*7 \implies X = 42
+	\]
+	Note that $is$ requires the second argument to be grounded when it's unifying
+	\item There are ways to do arithmetic in different modes, where we allow variables anywhere in the terms. Will talk about later
+\end{itemize}
+
+Arithmetic operators
+\begin{itemize}
+	\item $+, -, *, /, //, mod, -x$ Arithmetic operators
+	\item $integer, float$ coersions
+	\item $<, <=, >, >=, =:=, =\backslash=$ Arithmetic predicates. Note that equality here are on numbers and returns a boolean atom
+\end{itemize}
+
+Lists
+\begin{itemize}
+	\item Special functor syntax for lists
+	\item Empty list is $[]$. Non empty list is $[H|T]$ where $H$ is the head element and $T$ is the tail list
+	\item If multiple head elements, use \verb![1,2,3|[4|[]]]!
+	\item If all elements are known, use $[1,2,3]$
+\end{itemize}
+
+Proper list
+\begin{itemize}
+	\item Predicate to check if a term is a list: empty or non-empty. Required since prolog has no type system
+	\item \verb!proper_list(List)! will be true if \verb!List! is a list term
+\end{itemize}
+
+Singleton variables
+\begin{itemize}
+	\item Prolog warns singleton variables, variables only used once that are irrelevant. Likely indicate a typo
+	\item Can suppress the warning by replacing singleton variables with underscores
+	\item Should always fix this
+\end{itemize}
+
+Append list
+\begin{itemize}
+	\item \verb!append(A, B, C)! checks if appending list $B$ after $A$ results into $C$
+	\item Implementation similar to proper list, since both pattern match on the list data structure. In general, code to handle a term often pattern matches the data structure of the term
+	\item Typical append mode of \verb!append([1,2], [3,4], List)!
+	\item Other modes where: only first is ungrounded, only second is ungrounded, only third is grounded
+\end{itemize}
+
+Length
+\begin{itemize}
+	\item Predicate relating a list in argument 1 to its length in argument 2
+	\item When used in a mode where first argument is unbound, prolog resolves to a list of (potentially distinct) unbounded variables starting with underscores followed by different numbers
+\end{itemize}
+
+List member
+\begin{itemize}
+	\item \verb!member(Ele, List)! checks if Ele is in List
+	\item Can be implemented using append or using recursion. Recursion is a bit more efficient since it doesn't require building a list of elements before Ele
+\end{itemize}
+
+Combining list predicates
+\begin{itemize}
+	\item Think about how to check if the result is correct rather then how to compute it. Think of what instead of how
+	\item To implement \verb!take(N, List, Front)!, do
+	\begin{verbatim}
+		take(N, List, Front) :- length(Front, N), append(Front, _, List).
+	\end{verbatim}
+	since it should hold when Front is length $N$ and is the first $N$ elements of List.
+\end{itemize}
+
+\section{Resolution and Semantics}
+Syntax is the prolog code that is written. Semantics is the meaning of the prolog code that is written.
+
+Interpretation
+\begin{itemize}
+	\item Each atomic term stands for an entity in the domain of discourse (world)
+	\item Each functor stands for a function from $n$ entities (arity) to one entity in the domain of discourse
+	\item Each predicate stands for a relation between $n$ entities in the domain of discourse (arity)
+	\item Interpretation is a mapping from the program syntax to the world that the program represents. \verb|higher(a,b)| has an interpretation that $a$ is higher than $b$
+\end{itemize}
+
+Predicate interpretation
+\begin{itemize}
+	\item A function from all possible combinations of $n$ terms to a truth value
+	\item Set of n-tuples each with $n$ terms. Every tuple in set is mapped to true and other tuples are false
+	\item Defining a predicate can define either of the two interpretation
+\end{itemize}
+
+Predicate definition interpretation
+\begin{itemize}
+	\item A predicate is defined by a finite number of clauses, each one being an implication statement
+	\item The meaning of a predicate is: start with universial quantifier over variables, a disjunction of the body (with variable assignments) of all the clauses implies the predicate
+	\item To incorporate the closed world assumption, the implication between the disjunction and the predicate is bidirectional (iff). This creates the Clark completion of the program
+\end{itemize}
+
+Clause interpretation
+\begin{itemize}
+	\item The variables in the head are universially quantified over the entire clause. Variables only in the body are existentially quantified only over the body.
+	\item For all possible terms $A,B$, $head(A,B)$ only when there exists a term $C$ where $body(A,C) \land body(C,B)$
+	\item This is equivalent to the interpretation of all variables being universially quantified at the start
+\end{itemize}
+
+Semantics
+\begin{itemize}
+	\item A logic program $P$ contains a set of clauses. The semantics/meaning of the program is its set of logical consequences as ground clauses
+	\item A ground clause $c$ is a logical consequence (entailed by) of a program $P$ if $P$ makes $c$ true. Ofc a negated ground clause $\lnot c$ is a logical consequence if $c$ is not a logical consequence of $P$
+	\item For most logical programs, the semantics set is infinite
+\end{itemize}
+
+
+Finding semantics
+\begin{itemize}
+	\item The immediate consequence operator $T_P$ takes a set of ground clauses $C$ and outputs the set of ground clauses that are immediate logical consequences of clauses in $P$ using $C$
+	\item This will always include all ground instances of clauses in $P$.
+	\item For each clause $H \leftarrow G_1, G_2$ in $P$, if $C$ contains instances of $G_1, G_2$, then said instances of $H$ is also in the output set
+	\item The semantics of a program $P$ is $T_P(T_P(\dots (\emptyset) \dots)$, basically $T_P$ applied infinitely times. The iteration can terminate until a fixed point where $T_P(C) = C$
+\end{itemize}
+
+
+Procedural clause interpretation
+\begin{itemize}
+	\item Instead of a universal quantifier followed by implication used in logical reading, procedural reading says that: to show the predicate for some variable assignments, it is sufficient to show the body is true
+	\item Used in SLD resolution algorithm in Prolog
+\end{itemize}
+
+SLD Resolution algorithm
+\begin{itemize}
+	\item Have a goal $G$ and program $P$
+	\item Output an instance of $G$ that is a logical consequence of $P$, or false
+	\item Basic algorithm
+	\begin{verbatim}
+resolvents = G
+while non_empty(resolvents)
+	choose goal A from resolvents
+	choose clause A' <- B1, B2 from P such that A unifies with A' using theta
+	if no clause exists
+		exit
+	replace A with B1, B2 in resolvents
+	apply theta to resolvent
+	apply theta to G 
+	
+if resolvents empty
+	return G
+else
+	return false
+	\end{verbatim}
+	\item Backtracking algorithm. Resolution can fail. If so, backtrack until the last choicepoint by selecting a different clause to unify
+	\item A choicepoint is created when branches on clauses for goal exists. Prolog backtracks to the most recent choicepoint by removing all variable bindings made after the choicepoint and unbound them, then begin resolution with the next matching clause until all none matching clauses failed. It then deletes the choicepoint and backtrack
+	\item Note that prolog doesn't try another goal if the choicepoint clauses are exhausted
+	\item The resolution/goal will succeed if just one resolution search branch succeeds
+\end{itemize}
+
+Resolution search tree
+\begin{itemize}
+	\item Nodes are current resolvents
+	\item Edges between nodes if a clause is unified with a resolvent while applying the substitution to the entire resolvent
+\end{itemize}
+
+Order of execution
+\begin{itemize}
+	\item The order in which the goals are resolved and clauses are tried does not matter for correctness (which a goal can be resolved), but does impact efficiency if we first the best goal/clause first
+	\item The order will determine the ordering of solutions found, but not which solutions are found since all goals need to be resolved and all matching clauses need to be tried
+	\item During SLD resolution, Prolog selects the first goal to resolve, and first matching clause to unify
+\end{itemize}
+
+Indexing
+\begin{itemize}
+	\item Used by prolog to efficiently select relevant rules/facts when unifying a query, reducing complexity of searching clauses
+	\item By default it will sequential linear search clauses
+	\item Indexing will optimize this using a lookup table (ground clause partial head to list of clauses), often based on predicate name/arity plus ground terms in the first argument
+	\item SWI uses JIT indexing, which dynamically adjusts indexes based on call/resolving patterns
+	\item Indexing will only change performance not semantics
+	\item To optimize indexing, place the most selective/restrictive argument (argument that narrows down the applicable clauses the most) first in the predicate
+\end{itemize}
+
+\section{Debugging Prolog}
+Certain prolog rules will only work in certain modes
+\begin{itemize}
+	\item A query hangs if prolog attempts to search for another solution, but never reaching one. This is an infinite backtracking loop.
+	\item The recursive reverse rule will hang in the mode where one argument is unground and the other is ground
+	\item Note that a query with infinite solutions is not hanging. It needs to execute forever without outputing more solutions
+\end{itemize}
+
+To prevent infinite backtracking on reverse
+\begin{verbatim}
+rev1([], []).
+rev1([A|BC], CBA) :-
+	rev1(BC, CB),
+	append(CB, [A], CBA).
+
+rev(ABC, CBA) :-
+	same_length(ABC, CBA),
+	rev1(ABC, CBA).
+\end{verbatim}
+where \verb|same_length| checks if two lists are equal length. This breaks the backtracking in \verb|rev1| so it doesn't try lists with length longer than the input.
+
+Debugger
+\begin{itemize}
+	\item Prolog uses the byrd box model
+	\item Each goal execution is represented as a box with ports for entering and exiting the box.
+	\item Prolog has four ports to each box:
+	\item Call for initial entry
+	\item Exit for successful completion
+	\item Fail for final failure
+	\item Redo for backtracking into the goal
+	\item An example port usage is: call, exit, redo, exit, redo, fail
+\end{itemize}
+
+Debugger usage
+\begin{itemize}
+	\item trace/0 will enable the debugger
+	\item nodebug/0 will disable the debugger
+	\item Debugger pauses on each port and prints: current port, resolution depth, goal with variable bindings
+	\item Type c/enter/creep to continue execution after each pause
+	\item Type r/retry to time travel back to the time when the goal is first executed
+	\item Type s/skip to time travel forward over the execution of a goal until it exits/fails
+	\item To track down a bug: skip/creep when call/redo/exit with correct results, retry then creep when seeing an incorrect exit or fail. 
+	\item Type b to pause and entry a break level
+	\item Type a/abort to abort
+\end{itemize}
+
+Spypoints
+\begin{itemize}
+	\item use the spy(predicate) predicate to set a spypoint at a named predicated, and nospy(predicate) to stop.
+	\item When prolog reaches a predicate with a spy point, it enables the debugger.
+	\item Type l/leap to skip to the next spypoint
+	\item Type +/- to enable and disable the spypoint at the current call
+\end{itemize}
+
+Documentation
+\begin{itemize}
+	\item Code file should have two levels of documentation: file level and predicate level
+	\item Files should start with comments that outlines: purpose, author, date written, summary of code
+	\item Predicates should have comments that identifies: meaning of each argument, what it does, modes where it can operate
+	\item To document a predicate's mode: prefix arguments with $+$ to indicate input that is grounded, $-$ for output that may be ungrounded, and $?$ for either.
+	\item $:$ indicates that the argument is a meta-argument: code represented as terms
+	\item To document a predicate: write a mode documentation for every mode that the predicate is designed to work in
+\end{itemize}
+
+Determinism
+\begin{itemize}
+	\item The execution is deterministic when each goal is only unified with one rule. Deterministic execution will have no backtracking.
+	
+	\item Ideally we want to write rules that are determinstic: a goal can only unify with one rule head. This can be done by constraining each clause of a predicate to only unify under a unique scenario
+\end{itemize}
+
+Choicepoints
+\begin{itemize}
+	\item When a clause unifies by there are later clauses that may also succeed, prolog will leave a choicepoint for backtracking later
+	\item Choicepoint is back since it invokes backtracking and disables last-call-optimization. Deterministic rules should not create choicepoints.
+	\item Prolog will backtrack to the latest choicepoint after the first assignment exits
+\end{itemize}
+
+If-then-else
+\begin{itemize}
+	\item The syntax \verb|(expr -> then ; else)| will try to unify expr to be true. If it is true, then it will query then. Otherwise, it will query else.
+	\item Importantly, prolog doesn't backtrack to sat the expr after it found a substitution. This makes it deterministic
+	\item Prefer indexing over if-then-else for determinism, since if-then-else leads to code that doesn't work (or produce not enough solutions) in multiple modes
+\end{itemize}
+
+
+\section{Tail Recursion}
+Tail recursion
+\begin{itemize}
+	\item A predicate is tail recursive if the only recursive call in any rules of the predicate is the last goal in its body
+	\item More applicable and better in prolog since data structure memory is constructed at the heard before the recursion call, so no computation is needed after the last recursion call.
+	\item Tail recursion optimization speeds up tail recursive predicates by making them execute like loops. 
+\end{itemize}
+
+Stack
+\begin{itemize}
+	\item Prolog implements calls and exits using a stack.
+	\item A stack frame contains the local variables for a predicate call
+	\item If the caller has nothing to do after its last call, Prolog will release its frame before calling. This is last call optimization
+\end{itemize}
+
+TRO
+\begin{itemize}
+	\item A special case of last call optimization where the last call is recursive.
+	\item Without TRO, requires a stack frame per iteration. With TRO, recursion executes like a loop with constant stack size
+	\item If the caller leaves a choicepoint before last call, it will stay on the stack and prevent the caller's frame to be released.
+	\item Therefore for TRO to work, the predicate must be deterministic and tail recursive
+\end{itemize}
+
+Non-tail recursive factorial
+\begin{itemize}
+	\item Each recursive call for each level of the factorial creates a stack frame.
+	\item Stack size is proportional to $N$, so stack explosion.
+\end{itemize}
+
+Accumulator
+\begin{itemize}
+	\item In general to make a predicate tail-recursive, add an accumulator to its arguments and convert the predicate to do its action involving the accumulator
+	\item Essentially the accumulator is the answer passed to each nested recursive call
+	\item Base case will assign the result to the accumulator
+	\item Recursive case will compute more onto the accumulator, passing it into the recursion
+	\item Key is to define the accumulator and how it is updated
+\end{itemize}
+
+Factorial accumulator example. $fact(N,A,F)$ means if $F$ is the factorial of $N$ multiplied by $A$.
+\begin{verbatim}
+fact(N, A, F) :-
+	(N =.= 0 ->
+	  F = A
+	; N > 0,
+	  N1 is N - 1,
+	  A1 is A * N,
+	  fact(N1, A1, F)
+	).
+	
+fact(N, F) :- fact(N, 1, F).
+\end{verbatim}
+
+For-loop accumulator
+\begin{itemize}
+	\item Accumulator is similar to the sum that is updated in the body of a for loop
+	\item The recursion call updating the data structure is similar to decrementing the i in the for loop
+\end{itemize}
+
+Transformation
+\begin{itemize}
+	\item A systematic way to transform a predicate to be tail recursive:
+	\item First write the non-tail recursive predicate, $f(N, F)$
+	\item Then write the definition of the accumulator version using the non-tail recursive predicate, $f(N, A, F)$
+	\item Then replace the recursive call in the accumulator version $f(N,A,F)$ by the non-tail recursive body (unfolding)
+	\item Simplify the body
+	\item Recognize that the ending goals is similar to the body of the original accumulator version with a substitution, $f(N, A, F)$. Replace it with a recursive call to $f(N,A,F)$ under the substitution (folding)
+	\item $f(N,A,F)$ is now tail-recursive
+\end{itemize}
+
+TRO performance
+\begin{itemize}
+	\item It will always reduce the stack space by a constant factor
+	\item If it can replace an operation with a computation of lower complexity, it can improve performance by a non-constant order.
+\end{itemize}
+
+Tail recursive reverse
+\begin{verbatim}
+rev([], A, A) :- A.
+
+% reverse first argument and append it in front of A
+rev([X|Xs], A, List) :-
+	rev(Xs, [X|A], List).
+	
+rev(A, List) :-
+	same_length(A, List),
+	rev(A, [], List).
+\end{verbatim}
+Note that at each stage of the accumulator, it takes $X$ and appends it in front of $A$. This takes $O(n)$. Note that TRO will not occur under a mode where the first argument is unground (since it creates a choicepoint between the rules). Hence we ground it by calling \verb|same_length| on $A$.
+
+Difference pairs
+\begin{itemize}
+	\item The trick of an accumulator is common: predicate outputing a list will have an extra argument (accumulator) specifying what comes at the end of the list
+	\item The difference pair is the pair of (accumulator, output list). The predicate aims to compute the difference between the difference pair (the XS, X in rev)
+\end{itemize}
+
+\section{Higher Order Predicates}
+Homoiconicity
+\begin{itemize}
+	\item Prolog is homoiconic, meaning that prolog code can run and manipulate prolog programs as data (metaprogramming).
+	\item The predicate \verb|clause(+Head, -Body)| is true if Head can be unified with a knowledge database clause head, and the Body with the corresponding clause body under the same variable assignment. Note that the parameters are compound/functor terms that are treated as predicates
+	\item A fact is a clause where the body is true.
+\end{itemize}
+
+Autoloading
+\begin{itemize}
+	\item Most prolog builtins are autoloaded: prolog detects when you use it for the first time (predicate is undefined) and autoload it.
+	\item Higher order call for a predicate not yet autoloaded will fail.
+	\item To manually load a predicate, either: call it directly, call \verb|use_module(library(...), [...])|. 
+\end{itemize}
+
+A prolog interpreter
+\begin{verbatim}
+interp(Goal) :-
+	( Goal = true
+	-> true
+	; Goal = (G1, G2)
+	-> interp(G1),
+	   interp(G2)
+	; clause(Goal, Body),
+	  interp(Body)
+	).
+\end{verbatim}
+
+Higher order call
+\begin{itemize}
+	\item The \verb|call/1| predicate executes the term as a goal, returning true if it is unifiable and false otherwise.
+	\item Allows treating any prolog term as a goal and executes it.
+	\item To support currying, other arities of \verb|call| will pass further arguments into the functor argument before calling it. This allows the same goal template to be used multiple times with different arguments for \verb|call|.
+\end{itemize}
+
+Maplist
+\begin{itemize}
+	\item The \verb|maplist(:Goal, ?List1, ?List2)| applies the predicate (Goal) to each pair in List1 and List2.
+	\item It is builtin, which reduces boilerplate in coding the recursion everything and makes the intent clearer
+	\item Other arity versions of \verb|maplist| will allow more or less arguments into Goal.
+\end{itemize}
+
+
+All solutions
+\begin{itemize}
+	\item The predicate \verb|setof(+Template, :Goal, -List)| binds List to a sorted (undup) list of all instances of Template that sats Goal
+	\item Template can be any term, usually containing variables in Goal. Setof does not further bind any variables in Template.
+	\item If Goal has variables not in Template, setof will backtrack over all distinct instances of these free variables in Goal and do setof assuming the bindings (free variable is A, List is blah, free variable is B, List is blah blah).
+	\item To use existential quantification in Goal, write the variables before caret in Goal. This prevents backtracking. Multiple variables before caret are in $[]$, and multiple goals after caret are in $()$
+	\item \verb|bagof/3| is similar to \verb|setof/3|, except that it doesn't sort or dedup solutions. This is not purely logical since the order of the solutions should not matter nor should duplicates exists (but bagof enforces an order).
+\end{itemize}
+
+Term comparison
+\begin{itemize}
+	\item The ordering predicates can compare all terms: $@<, @=<, @>, @>=$.
+	\item Only use these for grounded terms since the term might change class after unification (variable to atom after unification).
+	\item The ordering between terms from low to high: variables, numbers, atoms, compound. Ordering within each class as expected. Compound terms are first ordered by arity, then by functor name, then by arguments left to right.
+\end{itemize}
+
+Sorting
+\begin{itemize}
+	\item Three builtins to sort grounded lists according to $@<$ ordering
+	\item \verb|sort(+List, -Out)| sorts and removes duplicates
+	\item \verb|msort(+List, -Out)| sorts without removing duplicates
+	\item \verb|keysort(+KeyValue, -Out)| stable sorts $X$ part of $X-Y$ terms
+\end{itemize}
+
+Determining term types
+\begin{itemize}
+	\item integer, float, number, compound, atom are true if the terms are their respective types (at the call site). They DO NOT instantiate variables in arguments and are false for variables.
+	\item var for unbounded variable, unvar for bounded variable. ground for any grounded term recursively
+	\item Used to write code that works in different modes by doing an if-else on argument modes to dynamically dispatch to implementations that works on specific modes
+\end{itemize}
+
+Input output
+\begin{itemize}
+	\item Not pure or logical, io operations executed when they are reached in resolution, not undone on backtracking
+	\item \verb|read(X)| reads a term into $X$. \verb|write(X)| prints a term $X$.
+	\item Handle code that does IO carefully, since their ordering matters. Recommend to isolate IO code into their own small part and maintain most code IO free
+\end{itemize}
+
+Can define custom operators by \verb|op(+Precedence, +Infixness, +Name)|. This is more complex and allows clearer terms
+
+The predict \verb|assertz(:Fact)| will add the fact or rule into the knowledge database.
+
+Cut
+\begin{itemize}
+	\item The cut operator $!$ interferes with backtracking. When it is reached during resolution, it discards all previous choicepoints and commits to the unification.
+	\item Cuts can be used to define negation and if-then-else. It improves efficiency (good for performance) and expression no backtracking. 
+	\item Messes with logical aspect, avoid. Can fail in different modes
+\end{itemize}
+
+\section{Constraint Logic Programming}
+Types of programming
+\begin{itemize}
+	\item Imperative program specifies the exact sequence of actions to take
+	\item Functional program specifices how the result is computed at an abstract level. The code only suggests an ordering of action that the compiler can deviate from
+	\item Logic program specifies a set of equality cnstraints that the terms must sat, and searches for a solution
+	\item Constraint program allows for more general constraints than logical program. The searching algo for solutions will follow a fancy algorithm.
+\end{itemize}
+
+Constraint programming problem specification
+\begin{itemize}
+	\item A set of variables, each having a known domain
+	\item A set of constraints, each involving one or more variables
+	\item Optional objective function
+\end{itemize}
+
+Constraint programming solver
+\begin{itemize}
+	\item Find a solution (set of assignments of values to variables) that sats all constraints
+	\item The objective function maps each solution to a number. Optimizer will find the lowest cost solution
+\end{itemize}
+
+Constraint problem kinds/systems
+\begin{itemize}
+	\item Herbrand constraint system. Variables are terms. Constraints are unification and equality. Prolog constraint system
+	\item Finite domain. Each variable's domain has a finite number of elements
+	\item Boolean sat. Variables are booleans. Constraints assert the truth of a proportional formula.
+	\item Linear inequality constraint. Variables are real numbers. Constraints are linear inequalities.
+\end{itemize}
+
+Herbrand constraints
+\begin{itemize}
+	\item Herband constraints are just equality constraints over terms. Exactly like a prolog program
+	\item Prolog will search for solutions that sats the equality constraints
+\end{itemize}
+
+Search strategy
+\begin{itemize}
+	\item Prolog uses ``generate and test'' to search for variable bindings that sat constraints. Non-deterministic goals generates potential solutions, and later goals tests those solution.
+	\item Constraint logic programming uses a more efficient ``constrain and generate''. Allows for more sphisticated constraints. Done in prolog using attributed variables that allows custom unification process.
+\end{itemize}
+
+FD constraint solving using propagation and generate: propagation and labelling
+\begin{itemize}
+	\item Propagation reduces the domain of each variable as much as possible. Done by iterating over all variables and constraints, removing value from its domain if it invalids a constraint, schedule that variable to be checked again.
+	\item Propagation ends if: each variable has a domain size of one (success), some variable has an empty domain (failure), there are no more constraints to be done (move to labelling).
+	\item Labelling will: pick a not-yet-fixed variable, partition its domain into $k$ parts, recursively invokes the solver $k$ times for each domain restriction
+	\item The solver will alternate between propagation and labelling
+	\item Labelling will generate a search tree. The size of the tree depends on the propagation effectiveness --- more domain values eliminated will lead to smaller search tree and less searching time.
+\end{itemize}
+
+CLPFD library
+\begin{itemize}
+	\item Models the finite domain on integers constraint system
+	\item Contains for arithmetic constraints that works in all modes. These arithmetic constraints are prefixed with a hash
+	\item \verb|var in Low..High| to constrain a variable between two inclusive numbers. And \verb|List ins Low..High| for a list of variables
+	\item Propagation involves the library revising the domains of relevant variables given an arithmetic constraint. This may be enough to reduce the domains to a single element. Otherwise there may be multiple solutions. To get explicit solutions, use \verb|label([A,B,C])|, which will enumerate all assignments that sats the constraints.
+\end{itemize}
+
+Sudoku is a classic finite domain constraint sat problem.
+\begin{itemize}
+	\item Variables are the 81 numbers
+	\item Constraints are uniqueness constraints of the variables
+	\item Solution
+	\begin{verbatim}
+		:- use_module(library(clpfd))
+		
+		sudoku(Rows) :-
+			length(Rows, 9), maplist(same_length(Rows), Rows),
+			append(Rows, Vs), Vs ins 1..9,
+			maplist(all_distinct, Rows),
+			transpose(Rows, Columns),
+			maplist(all_distinct, Columns),
+			Rows = [A,B,C,D,E,F,G,H,I],
+			blocks(A,B,C), blocks(D,E,F), blocks(G,H,I).
+			
+		blocks([],[],[]).
+		blocks([A,B,C|R1], [D,E,F|R2], [G,H,I|R3]) :-
+			all_distinct([A,B,C,D,E,F,G,H,I]),
+			blocks(R1, R2, R3).
+	\end{verbatim}
+\end{itemize}
+
+Linear inequality constraints
+\begin{itemize}
+	\item Need to set up a system of linear constraints, and an objective function formula to maximize.
+	\item  The CLPR library allows for this. The variables are real numbers. Constraints are linear inequality constraints
+	\item Write all linear inequality constraints in \{\}, and \verb|maximize(X)| to find the variable assignment that optimize the variable $X$.
+	\item An example is
+	\begin{verbatim}
+		{250*B + 200*C =< 10000},
+		{Revenue = 4*B + 6.5*C},
+		maximize(Revenue).
+	\end{verbatim}
+\end{itemize}
+
+\section{Basic Haskell}
+
+FP
+\begin{itemize}
+	\item Basis of FP is equational reasoning: if two expressions have equal value, then they are replacable
+	\item FP uses equational reasoning to rewrite a complex expression to be simpler, until it is a single literal
+\end{itemize}
+
+
+Comments
+\begin{itemize}
+	\item Start with \verb|--| and continue til the end of line
+\end{itemize}
+
+Offside rule
+\begin{itemize}
+	\item Given $n$ and $m$ be the ident for two lines
+	\item If $m > n$ (more nested), then second line is a continuation of first line
+	\item If $m=n$ (equal nested), then the second line is a new construct at the same level as first line
+	\item If $m<n$ (less nested), then the second line is a continuation of the parent construct that the first line is a part of (or a new construct on the parent construct level)
+\end{itemize}
+
+Lists
+\begin{itemize}
+	\item List type definition \verb|[] x:xs| for lists
+	\item Syntax sugar \verb|[a,b,c]| is just \verb|a:b:c:[]|.
+\end{itemize}
+
+
+Function
+\begin{itemize}
+	\item A function definition consists of several equations, each is a equality between the LHS and RHS
+	\item Every function definition typically pattern matches on the LHS arguments
+	\item The set of patterns should be exhaustive on the LHS. It is also good practice to make the set exclusive.
+	\item In all cases, there are exactly one pattern that will be applied/matched for every possible call (unless no pattern matches).
+	\item Typically for a function call expression, haskell will repeatedly search for a pattern matched equation and replace the expression with the pattern matched equation's RHS.
+\end{itemize}
+
+Function Syntax
+\begin{itemize}
+	\item A function call contains no parenthesis or commas
+	\item Parenthesis are only needed around individual arguments to change precedence
+	\item The name of functions are sequence of letters, numbers, and underscores. Must begin with a lowercase letter.
+\end{itemize}
+
+Recursion
+\begin{itemize}
+	\item Often a function on a data structure argument is defined to pattern match on each possible structure of the data structure, (empty list and non-empty list for lists)
+	\item The base case is an equation that has no recursive calls
+	\item The recursive case is an equation with a recursive call
+\end{itemize}
+
+Expression evaluation
+\begin{itemize}
+	\item To evaluate an expression, haskell repeatedly iterates some steps:
+	\item look for a function call in the expression
+	\item search the list of equations defining the function top-to-bottom, trying to match
+	\item set values of variables in the matching pattern with expression arguments
+	\item replace the LHS with the RHS on the equation in the expression
+	\item Loop stops when there are no function calls to replace
+\end{itemize}
+
+Order of evaluation
+\begin{itemize}
+	\item If there are more than one function call that we can equate, the implementation doesn't define which one to use
+	\item Church-Rosser theorem: for lambda calculus, regardless of the order that the origin term is rewritten, the final result is the same.
+	\item Since all functions are pure, it doesn't matter which call to equate, the final result is the same (Church-Rosser theorem, haskell is a variant of lambda calculus)
+	\item Church-Rosser theorem is not applicable to imperative languages. The order of evaluation may matter to the final result.
+	\item Evaluation order doesn't change result, but it does change the efficiency due to short-circuiting/lazyness
+\end{itemize}
+
+Imperative and declarative
+\begin{itemize}
+	\item Due to side effects, imperative program's behavior depends on its history (and order of evalaution)
+	\item Understanding effectful programs requires thinking about history, making it harder to understand
+	\item Managing side-effects is diffcult. Haskell guarantees no side-effects
+	\item Main difference between pure imperative and pure functional is side-effects
+	\item Haskell does allow one type of side-effects: exceptions. We can ignore this since it always terminates the program
+\end{itemize}
+
+Referential transparency
+\begin{itemize}
+	\item No side-effects leads to referential transparency: an expression is replacable by its value
+	\item Because a function always returns the same value on the same input
+	\item Impure FP languages are impure because they permit some side effects like assignments or IO. So they are not refernetial transparent
+\end{itemize}
+
+Single assignment
+\begin{itemize}
+	\item Imperative languages contains variables storing a value. Assignment changes that value
+	\item FP variables are single assignment: there are no re-assignment operator, you can only define a variable's value but not redefine it after.
+\end{itemize}
+
+Assignment operator
+\begin{itemize}
+	\item Explicit way. A let clause \verb|let pi = 3.14 in ...|, pi is only defined in the local scope after \verb|in|
+	\item Implicit way. A variable in a pattern on the LHS of an equation \verb|len (x:xs) = ...|, which are assigned during pattern matching. The variables are only defined in the scope of the function.
+\end{itemize}
+
+
+\section{Haskell Types}
+
+Haskell type system
+\begin{itemize}
+	\item Strong, safe, static
+	\item Strong means no loopholes, cannot randomly type cast
+	\item Safe means a running programming will never crash due to type errors
+	\item Static means that types are checked at compile time, not at run time. Haskell will not start with a type errors
+\end{itemize}
+
+Basic haskell types
+\begin{itemize}
+	\item Bool, True or False
+	\item Int, 32 or 64 bits depending on platform. Integer for unbounded ints. There are other fixed bit integer types like Int64
+	\item Double and Float
+	\item Char for characters
+\end{itemize}
+
+List type
+\begin{itemize}
+	\item List is a type constructor. It takes a type \verb|t| and creates new type called a list of \verb|t|
+	\item Can be nested like \verb|[[Int]]|
+	\item Type constructors are similar to generics in other languages
+\end{itemize}
+
+Strings
+\begin{itemize}
+	\item Strings are just a list of characters. Literally synonyms in the type system
+\end{itemize}
+
+Names of haskell types all start with capital letters
+
+GCHI
+\begin{itemize}
+	\item REPL Interpreter for haskell
+	\item Prelude is haskell's stdlib that is automatically loaded
+	\item \verb|:l file.hs| to load a file
+	\item \verb|:t expr| to check the type of the expression
+	\item Use \verb|:set +t| to always print the expression type
+\end{itemize}
+
+Function types
+\begin{itemize}
+	\item Each function should have its type declared for good programming style. Otherwise, haskell can infer the function type automatically.
+	\item Function type declaration is \verb|name :: type|
+	\item All local variable types are also inferred is not declared.
+	\item Type declaration helps to improve haskell's error messages, and makes functions easier to understand. It will raise an error if the function is used in a way that is incompatible with its type (in call or in definition)
+\end{itemize}
+
+Number typeclass
+\begin{itemize}
+	\item All integer types belong in the typeclass \verb|Num a|, where \verb|a| is a type variable
+	\item The notation: \verb|Num a => a| means that if \verb|a| is a numeric type, then the expression is type \verb|a| (basically \verb|a| is in the typeclass \verb|Num|)
+	\item All arithmetic operators work on all number types. All integers by default are expressed as a num typeclass
+\end{itemize}
+
+If-then-else
+\begin{itemize}
+	\item If-then-else is an expression \verb|if cond then v1 else v2|
+	\item The else arm is not optional, and both arms are expressions
+	\item Be aware of the offside rule when using if-else-then
+\end{itemize}
+
+Guards
+\begin{itemize}
+	\item Guards specific cases to use when defining a function. The equal sign is after each guard
+	\item If no guard conditions matches, an exception is raised
+\end{itemize}
+
+Parametric polymorphism
+\begin{itemize}
+	\item A function with free type variables in the type definition is parametric polymorphic. It means that the function can handle types with any type that is parametric in the parameter
+	\item Haskell automatically derives parametric type definitions for functions
+\end{itemize}
+
+\section{User defined types}
+Enumeration
+\begin{itemize}
+	\item Do \verb!data Name = Enum1 | Enum2!
+	\item The type \verb|Name| is an arity type constructor. The enums are data constructors. Both can take arguments and must be in uppercase
+	\item Type names and data constructor names can be the same
+\end{itemize}
+
+Standard library types
+\begin{itemize}
+	\item Prefer user defined types to prevent accidential semantic switch (using Gender vs Boolean). Improve type safety
+	\item Haskell can catch semantic errors using user-defined types
+	\item Use separate types for  separate semantic distinctions
+\end{itemize}
+
+Structure types
+\begin{itemize}
+	\item Do \verb|data Card = Card Suit Rank|
+\end{itemize}
+
+Type instance creation
+\begin{itemize}
+	\item Data constructors are functions that create an instance of a user defined type
+	\item Can use data constructors as functions
+\end{itemize}
+
+Show typeclass
+\begin{itemize}
+	\item A typeclass containing a show function with signature \verb|show :: (Show a) -> a -> String|
+	\item Can manually implement the typeclass for type \verb|T| using \verb|instance (Show T) where ...|
+	\item Can let Haskell autoderive the typeclass by \verb|deriving Show|
+\end{itemize}
+
+Eq and Ord typeclass
+\begin{itemize}
+	\item Eq typeclass exports the \verb|==| and \verb|/=| operator. Use \verb|deriving Eq| to automatically derive it for a type
+	\item Ord typeclass exports all comparison operators like \verb|>=|, \verb|<|. Use \verb|deriving Ord| to derive it for a type (first sorted by order of data constructor in type def, then sorted by data constructor arguments)
+	\item Ord typeclass depends on the Eq typeclass
+\end{itemize}
+
+Disjunction and conjunction
+\begin{itemize}
+	\item Disjunction refers to enumerated types
+	\item Conjunction refers to structured types
+	\item Haskell allows type definition to have both at the same time --- discriminated union types. Discriminated since haskell knows what variant the value is; Union since it is a structured type
+	\item Due to disjunction and conjunction being boolean operators, this type system is an Algebraic type system with Algebraic data types
+\end{itemize}
+
+C only have undiscriminated unions, since the type system doesn't know which variant is stored in a value of said type.
+
+Maybe
+\begin{itemize}
+	\item Monad type either: \verb|Nothing| or \verb|Just x|
+	\item Type constructor is a polymorphic type: \verb|Maybe a|
+\end{itemize}
+
+\section{Haskell Types Comparison}
+Haskell algebraic data type
+\begin{itemize}
+	\item Offers a much more direct definition of the type relationship/structure that the programmer desires
+	\item Also shorter definition free of implementation notes
+\end{itemize}
+
+Error comparison
+\begin{itemize}
+	\item C implementation is more error prone due to: accessing meaningless field, forgetting to initialize some fields, forgetting to switch/process on enums.
+	\item Java will catch the 1st and 3rd.
+	\item Haskell can catch all three.
+\end{itemize}
+
+Memory comparison
+\begin{itemize}
+	\item C representation may take more memory or risk using unions that increase complexity
+	\item Java and Haskell has similar memory usage
+\end{itemize}
+
+Maintain comparison
+\begin{itemize}
+	\item To extend the datatype enum: Java requires adding a new class and implementing method; C requires adding an enum and adding code to handle the new enum; Haskell adds a new alternative to the type, and add code to functions handling the new enum
+	\item To extend on the interface method: Java requires adding a new abstract method and implementing for all types; C and haskell requires adding another function
+\end{itemize}
+
+Haskell pattern matching
+\begin{itemize}
+	\item \verb|case value of Pat1 -> ... Pat2 -> ...|
+	\item Case-of is an expression construct that pattern matches on \verb|value|. Can be used instead of functions
+\end{itemize}
+
+Warn incomplete pattern
+\begin{itemize}
+	\item A flag that warns missing cases in pattern matches
+	\item Useful in maintenance to protect against adding a new variant. Compiler can warn functions that need to be updated
+	\item Otherwise, haskell will throw an exception when missing alternative. 
+	\item C will sliently ignore the new type and compute an incorrect result
+	\item Java abstract method will also throw an error, grants the same safety as haskell
+\end{itemize}
+
+Data structure process comparison
+\begin{itemize}
+	\item C requires pointer dereferencing to process variants, which is dangerous
+	\item Haskell provides safe variant switching with pattern matching
+\end{itemize}
+
+
+\section{Declarative Programming Paradigm}
+C to Haskell conversion
+\begin{itemize}
+	\item Straight-line (step-by-step) code converted to expressions or \verb|let ... in ...| or where.
+	\item Loops converted to recursive functions, likely defined as an auxiliary function outside the function.
+\end{itemize}
+
+Type signature preference
+\begin{itemize}
+	\item The explicit function type signature should always be of the most general form
+	\item Prefer type classes over explicit types if operators are needed
+\end{itemize}
+
+Recursion vs iteration
+\begin{itemize}
+	\item Functional languages have no iteration constructs. They use recursion instead
+	\item Recursion only is not a limitation at all, almost all loops can be implemented using recursion, but some recursion are hard to implement in iteration
+\end{itemize}
+
+Key considerations when choosing fp
+\begin{enumerate}
+	\item Code writing process. Haskell will warn about more (logical) errors such as incomplete pattern matches, easier process.
+	\item Reliability of code. In haskell, names of auxiliary functions provides documentation. Functions ease the correctness argument (compared to loop invariants). More reliable code produced
+	\item Productivity. Large library of pre-written functions allows easy reuse. Extracting loops to reusable recursive functions also increases reuse. Increased documentation may take extra time but helps everyone to understand it better later.
+	\item Efficiency of code. Potentially larger stack size compared to iterative version. Less efficient in general due to more stack frame allocations. Compilers can help to optimize recursive code and convert them to iterations.
+\end{enumerate}
+
+Efficiency
+\begin{itemize}
+	\item Typically 10\% to 100\% slower than C. But much faster than interpreted languages
+	\item Tradeoff between higher-level and performance in a language. Thus the tradeoffs between productivity (high-level) and efficiency (performance)
+\end{itemize}
+
+Immutatable data structures
+\begin{itemize}
+	\item Declarative languages have immutable data structures
+	\item To update a ds, create another version with the change
+	\item Can retain the old ds if the software requires it for: recursion, undo, gathering statistics
+\end{itemize}
+
+Garbage collector
+\begin{itemize}
+	\item Declarative languages often have no memory management features
+	\item Automatic memory management using the Haskell GC that automatically frees unused memory cells
+\end{itemize}
+
+\section{Polymorphism}
+Polymorphic types
+\begin{itemize}
+	\item Written as \verb|data Type a b = Data a b|, to indicate that the type constructor takes two type variables $a$ and $b$
+	\item Polymorphic functions can use polymorphic types without changing the implementation much.
+	\item Can restrict the polymorphic types in functions with type classes on its type arguments
+\end{itemize}
+
+General comparison
+\begin{itemize}
+	\item Some types cannot be compared for equality. Two functions ideally are equal if all sets of input argument leads to the same outputs. It is proven that function equality is undecidable (there cannot be an algorithm that solves this generally).
+	\item Some types can be compared for equality but not for ordering. Examples are a set of integers.
+\end{itemize}
+
+Haskell comparison typeclasses
+\begin{itemize}
+	\item Equality comparison is implemented in Eq typeclass
+	\item Ordering comparison is implemented in Ord typeclass
+	\item Ord typeclass requires Eq typeclass
+\end{itemize}
+
+Typeclass constraint
+\begin{itemize}
+	\item Do \verb|(Typeclass a) => a| to restrict the type \verb|a| to the typeclass
+	\item Multiple typeclass constraints are separated by commas
+\end{itemize}
+
+Data Map
+\begin{itemize}
+	\item Do \verb|import Data.Map as M|
+	\item Map represents a polymorphic self-balancing binary tree.
+	\item Key functions are: insert, lookup, index, size
+\end{itemize}
+
+Deriving
+\begin{itemize}
+	\item Eq, Ord, Show, typeclasses (and more) can be automatically derived on custom algebraic datatypes
+	\item The derived comparison method is sensitive to the order of data constructors in the type definition and the ordering of argument per data constructor
+\end{itemize}
+
+Recursive types
+\begin{itemize}
+	\item Recursive types using themselves in the data constructor. It requires a base case
+	\item Non-recursive types does not
+\end{itemize}
+
+Mutually recursive types
+\begin{itemize}
+	\item Mutually recursive types use each-other for recursion, but maybe not directly use itself
+	\item For mutually recursive types, it is enough for one type to have a non-recursive data constructor
+\end{itemize}
+
+Structure induction
+\begin{itemize}
+	\item Code on nonrecursive type is simple
+	\item Code on recursive type requires: an equation for the nonrecursive data constructor, a recursive equation for the recursive data constructor (often with the constraint that the recursive call is strictly smaller than the argument)
+	\item The recursive function definition outlines a correctness argument by induction. The number to induct on is the number of nested data constructors in the data. Base case corresponds to the base case induction. Recursive case corresponds to the induction step.
+	\item Mutually recursive types can also have structure induction proofs.
+	\item Picking the right type structure is important since the code tightly follows the type structure
+\end{itemize}
+
+Formality
+\begin{itemize}
+	\item Formal proofs can prove the correctness of functions and entire programs
+	\item Requires a formal sepcification of expected relationships between input/outputs of functions
+	\item Uncommon to do formal proofs in practice due to cost.
+	\item Functional languages typically have informal correctness arguments by specifying in natural language about the success criteria for each function
+\end{itemize}
+
+Let and where
+\begin{itemize}
+	\item Both are value alias
+	\item Let can be used anywhere, where can only be used at the top level
+\end{itemize}
+
+\section{Higher Order Functions}
+Orders
+\begin{itemize}
+	\item First order values are pure data (as in data structures)
+	\item Second order values are functions whose arguments are first order values
+	\item Third order values are functions whose arguments and results are first or second order values
+	\item In general, nth order values are functions whose arguments and results are $n-1$ (or lower) order values 
+\end{itemize}
+
+First order functions are second order values. Etc
+
+Haskell supports higher order functions/values out-of-the-box.
+
+Backticks
+\begin{itemize}
+	\item To convert any function to an infix operator, surround it by backticks
+	\item Operators written with backticks have high precedence and is parsed left-to-right associated
+	\item Can also define non-alphanumeric operators with custom precedence and fixity.
+\end{itemize}
+
+Lambdas
+\begin{itemize}
+	\item Used to pass a namely function argument to a higher order function
+	\item Lambda expressions are \verb|\x y -> blah|. Syntax based on lambda calculus
+	\item Lambda calculus uses a lambda with the argument list followed by a dot. Like $$\lambda x . \lambda y. x$$
+\end{itemize}
+
+Partial applying (currying)
+\begin{itemize}
+	\item Partial application of a function returns a closure function with the remaining inputs unfilled and the supplied input filled
+	\item Value/point-free-definition of functions are functions defined partially without taking the last argument to operate on.
+	\item Enclosing infix operators in parenthesis will convert it to a function. Can partially apply it too by enclosing its operands in the parenthesis.
+	\item The type signature of functions represents the fact that all functions can be curried. Note that the arrow type operator is right associative.
+\end{itemize}
+
+Function composition
+\begin{itemize}
+	\item the \verb|.| operator composes two functions
+	\item its type is \verb|(.) :: (b->c) -> (a->b) -> a -> c|
+	\item Defining a function as a sequence of functions using functional composition is called the point/value-free style
+\end{itemize}
+
+Higher order programming
+\begin{itemize}
+	\item Advantages of: code reuse, higher level abstraction, set of prebuilt solutions to frequently used operations
+	\item Code that doesn't use higher order functions tend to follow the copy-paste anti-pattern, since similar code snippets are copy-pasted for reuse
+	\item Benefit from higher order programming scales linear with the complexity of the data structure traversed, since one implementation is required per branch per reducer (compared to one implementation per reducer)
+\end{itemize}
+
+Some common builtin higher-order-functions
+\begin{itemize}
+	\item Filter
+	\item Map, replacing loop
+	\item Fold, replacing recursion. Derived: sum, product, concat, maximum, minimum, reverse (using flip)
+\end{itemize}
+
+Folds
+\begin{itemize}
+	\item A reduction operation, reducing a list to a single value
+	\item Three variants: left, right, balanced fold
+	\item Parameters are: binary operator, identity element, foldable list
+	\item Left fold has the accumulator on the left and first in the binary operator. Right fold has the accumulator on the right and second in the binary operator.
+	\item Balanced fold is not in prelude. It uses divide and conquer (merge sort) to fold. Its assumes the same type between the list and the accumulator. Used for parallel computing
+	\item foldl1 and foldr1 requires no identity element. They will raise errors on empty lists
+	\item \verb|foldl' and foldr'| are strict versions of fold. Prefer fold-left strict, then fold-right, then fold-left
+\end{itemize}
+
+Foldable
+\begin{itemize}
+	\item Any types having the typeclass \verb|Foldable t| can also be folded over.
+	\item Foldable requires defining just foldr on a custom type.
+	\item The foldable derived functions, like: length, sum, maximum, minimum, all works after deriving foldable
+\end{itemize}
+
+List comprehensions
+\begin{itemize}
+	\item The syntax \verb![f x | x <- xs, cond x, let z = x, y <- ys]! creates a list using list comprehension
+	\item The LHS of \verb!|! is a template indicate the resulting list values
+	\item The RHS containing \verb|x <- xs| denotes a generator from list xs
+	\item The RHS containing \verb|cond x| denotes a test on elements from ealier (left) generators
+	\item The RHS containing \verb|let z = x| denotes a local variable definition
+	\item The rightmost (latest) generator loops the fastest in the resulting list.
+\end{itemize}
+
+Visitor pattern
+\begin{itemize}
+	\item Haskell can use a higher order function to reduce/visit a data structure. Similar to the visitor pattern
+	\item Types of the function makes it clear that it is collecting data or create an updated data structure. Other imperative languages may have the visit method mututate existing data
+	\item Haskell traversal functions are typically next to each other. Visitor visit methods are dispersed among the classes.
+\end{itemize}
+
+Librarys and frameworks
+\begin{itemize}
+	\item Libraries export functions that your program calls. Sometimes they are higher order functions. The control is in the program. (Data structure library exporting api to work with data structures)
+	\item Framework calls functions that the program provides when it is time. The control is in the framework. (Webserver framework calling user endpoints only when a web response demands it)
+	\item Haskell frameworks can be a library function call at root that is higher order. Can also be mimiced in other languages. Better inplace of code generation (like OpenGL c frameworks) which removes abstraction
+\end{itemize}
+
+\section{Functors and Applicative Functors}
+Units
+\begin{itemize}
+	\item Bugs due to different units of a quantity can be avoided by wrapping the identical underlying type behind a quantity data type
+	\item Example is a Length data type with Meters or Feet data constructors each maintaining a double. This prevents mixing meters and feet doubles.
+	\item Another example is encoding different currencies all represented by Decimal
+	\item There may also be bugs when the units are identical but have different semantics. Solution is to define a new type per semantic.
+	\item Example is that both the duration seconds and unix epoch seconds are in seconds, but are defined differently and can't be mixed.
+\end{itemize}
+
+Functor
+\begin{itemize}
+	\item Models a box that we can apply a function to the contents within
+	\item Exports \verb|fmap :: (Functor f) => (a -> b) -> f a -> f b|, which converts a function to a function over a functor box.
+	\item \verb|fmap = <$>| which is an infix operator
+	\item Instances: list, maybe, functions
+
+\end{itemize}
+
+Applicative functor
+\begin{itemize}
+	\item All applicative functors are functors. This means that we can define \verb|fmap| using \verb|pure, <*>|
+	\item Models a functor where we can apply a multi-arity function to the contents within. Equivalently, a functor which can contain functions that is applied onto functors itself.
+	\item Exports \verb|pure :: (Applicative f) => a -> f a| which wraps an item into the applicative, and \verb|<*> :: (Applicative) => f (a -> b) -> f a -> f b| which applies a function already in an applicative to the applicative functor contents
+	\item Instances: list, maybe, functions
+\end{itemize}
+
+\section{Monads}
+Any and all
+\begin{itemize}
+	\item Any is true when the predicate is true on any list element. Or existential quantifier
+	\item All is true when the predicate is true on all list elements. Or universal quantifier
+\end{itemize}
+
+Flip
+\begin{itemize}
+	\item Flip reverses the order of a two arity function
+	\item Alternatively, use the partial operation application syntax
+\end{itemize}
+
+Monad
+\begin{itemize}
+	\item A monad is a type constructor that represents a computation which returns a value. Alternatively, it can be represented as a box carrying contents with some other metadata.
+	\item These computations can be combined using bind, and can be constructed using return.
+	\item The two operations are: \verb|return :: a -> m a|, and \verb|(>>=) :: m a -> (a -> m b) -> m b|
+	\item All monads are applicatives and functors
+\end{itemize}
+
+Monad usage
+\begin{itemize}
+	\item Wrap the content using return
+	\item Apply sequencing operation using bind on the monad, which returns another monad
+\end{itemize}
+
+Monad Maybe (Either)
+\begin{itemize}
+	\item Return wraps the object into just
+	\item Bind will apply the function if it is a success variant. Otherwise it directly returns the error variant
+	\item In a sequence of binds, the result is successful only when all invocations succeed. When a single failure occurs, no further operation is done
+\end{itemize}
+
+Unit type
+\begin{itemize}
+	\item \verb|()| is a unit type, the type of 0-tuple.
+	\item It has only one variant, namely the type itself \verb|()|
+\end{itemize}
+
+IO
+\begin{itemize}
+	\item IO is a monad. An expression with type \verb|IO t| means an input-output computation that also returns \verb|t|. These are called IO actions
+	\item The input actions are: \verb|getChar, getLine|
+	\item The output actions are: \verb|putChar, putStr, putStrLn, print|
+	\item Return will just return the value without doing IO
+	\item Bind \verb|f >>= g| will first perform $f$, then calls $g$ with $f$'s return value, finally returning the return value of $g$.
+\end{itemize}
+
+Hello World haskell
+\begin{verbatim}
+main =
+	putStr "Hello, "
+		>>= \_ ->
+			putStrLn "World!"
+			
+-- or using do-notation
+main = do
+	putStr "Hello, "
+	putStrLn "World!"
+\end{verbatim}
+
+Do-block
+\begin{itemize}
+	\item Simplifies monad bind (\verb|>>=|) and sequence (\verb|>>|) operations using syntactic sugar
+	\item Do-block consists of a series of steps (each on its own line). The steps are:
+	\item \verb|expr| which are chained using monadic sequence
+	\item \verb|val <- expr| which are chained using monadic bind
+	\item \verb|let var = val| which are regular let bindings. The do-block cannot end with this.
+	\item To return a value wrapped in a monad at the end of the do-block (since it must end with a monad value), use the \verb|return| function
+\end{itemize}
+
+Apply operator
+\begin{itemize}
+	\item The \verb|$| operator applies a LHS function with an RHS argument
+	\item It has the lowest operator precedence, so can be used in place of parenthesis
+\end{itemize}
+
+
+\section{Monad Advanced}
+IO actions as descriptions
+\begin{itemize}
+	\item The correct interpretation of a method that returns \verb|IO t| is that they return both: a value of type $t$, and a description of the IO action to generate $t$
+	\item The bind operator is interpretated as taking the description of two IO actions and combine them into one IO action (which executes both IO actions in order)
+	\item The return method creates a no-op IO action description with a fixed value.
+\end{itemize}
+
+
+Description Execution (Conceptual)
+\begin{itemize}
+	\item Every haskell binary program must have a function \verb|main :: IO ()|
+	\item Conceptually: the OS starts the program and invokes the haskell runtime system, the haskell runtime calls main and returns a description of an IO action (consisting of a sequence of nested IO actions), the runtime then executes the description IO action (which will execute each IO operation in the sequence)
+\end{itemize}
+
+Description Execution (Practice)
+\begin{itemize}
+	\item The compiler and runtime in practice will ensure to execute the IO operation as soon as its description is computed, assuming that: the description is guaranteed to end up in the list of operations returned in main, and all previous IO operations are executed
+	\item The assumptions are needed since: we don't execute IO actions that the program doesn't need, and we don't want to execute IO actions in the wrong order
+\end{itemize}
+
+Non-immediate IO action execution
+\begin{itemize}
+	\item Creating an IO description does not execute it directly (nor ensure that it will be executed)
+	\item IO actions are first class monads, so we can: put them into lists and bsts
+	\item We can execute those IO actions in data structures later by sequencing them in main
+\end{itemize}
+
+Input process output
+\begin{itemize}
+	\item Batch program reads input, processes, and prints output
+	\item Interactive program does the above for each interaction.
+	\item Majority of code is in the processing stage without IO
+	\item Imperative languages does not distinguish this stage. Haskell does by the lack of IO action
+\end{itemize}
+
+Haskell IO benefits
+\begin{itemize}
+	\item Only a subset of methods are IO actions
+	\item Unit tests for non-io functions are simple input/output pairs. Testing is easy
+	\item Code without IO can be optimizes by replacement
+	\item Calls to functions without IO can be done in parallel
+\end{itemize}
+
+Debugging
+\begin{itemize}
+	\item Cannot insert random printf in haskell code
+	\item Debugging printfs are only for debugging, so we violate the ordering requirement of IO. \verb|unsafePerformIO :: IO a -> a| performs IO anywhere without caring about the order. It takes an IO description (with value), runs the IO action, returns the value.
+	\item Do not use unsafePerformIo outside of debugging.
+\end{itemize}
+
+State monad
+\begin{itemize}
+	\item Used for computations that need to pass a state throughout the computation. Operations are: accessed, updated, passed around
+	\item Simulates an imperative style with a global variable
+	\item \verb|newtype State s v = State (s -> (v, s))|, meaning an operation that updates the state $s$ and returns a new value $v$.
+	\item The partial type \verb|State s| is a monad.
+	\item The monad operation will take a state operation, perform the update, and pass the value returned into $f$.
+	\item The method \verb|get :: State s s| simply gets the current state
+	\item The put \verb|put :: s -> State s ()| updates the state, and return a unit monad
+	\item To run the states, \verb|runState :: s -> State s v -> v|
+\end{itemize}
+
+\section{Laziness}
+Eager vs Lazy eval
+\begin{itemize}
+	\item Most programming languages use eager eval, where expressions are evaluated as soon as they are bound to variables (explicit or implicit in function call).
+	\item Haskell uses lazy evaluation, so the expr is not evaluated until it is needed
+	\item Conditions when expr are evaluated: wants to ouput the value, want to match the value against a pattern, wants the value as input to arithmetic operation
+\end{itemize}
+
+Infinite data structures
+\begin{itemize}
+	\item Laziness allows programs to work with infinite data structures, since it only evaluate the part that is required
+	\item \verb|take 5 [1..]| will work
+	\item Can be used to quickly generate fib, or primes (using sieve)
+\end{itemize}
+
+Unevaluated expressions
+\begin{itemize}
+	\item Expressions are not evaluated until their values are needed. Instead, Haskell stores the unevaluated expression data as a thunk
+	\item The data for the partial expression that lazily computes the value is called a thunk (or suspension, promise)
+\end{itemize}
+
+Parametric polymorphism
+\begin{itemize}
+	\item The name of type polymorphisms
+	\item Requires that the memory values of all types to be identically sized. Mechanism, boxing and unboxing
+	\item This common size is often the machine pointer size (word size, 64 bits). Larger elements are stored as a pointer pointing to the heap
+	\item The arguments of a function in suspension can then be stored in an array of words.
+\end{itemize}
+
+Laziness benefits
+\begin{itemize}
+	\item Allows the programmer to focus on what the method/function means, rather than exactly how it computes
+	\item Does not waste resources, evaluate expressions at most once in the same method. This means that when the suspense is evaluated, the value is stored for further uses of the same function
+\end{itemize}
+
+Call by need
+\begin{itemize}
+	\item Operations like printing, arithmetic, and pattern matching requires their subexpressions to be partially evaluated until the top level data constructor is determined. The arguments of those data constructor can be in suspense
+	\item This is called ``call by need'' since expressions are only evaluated when its value is needed
+\end{itemize}
+
+Control structures as functions
+\begin{itemize}
+	\item Since haskell is lazy, the trivial implementation of \verb|ite| works and only evaluates the correct branch
+	\item Laziness prevents unnecessary slowdowns when using functions over explicit control structures
+\end{itemize}
+
+Sorting and minimum
+\begin{itemize}
+	\item Haskell sort is $O(n \log k)$ where $n$ is the length of the list and $k$ is the number of elements taken. Works well with laziness
+\end{itemize}
+
+Multiple passes
+\begin{itemize}
+	\item Multiple chained computations are reduced to a single pass with no extra memory overhead storing previous data structures. This is unlike imperative languages which may store additional memory on them
+	\item Hence haskell will require a maximum memory at one time equal to the size of the suspense tree, which is often much smaller than imperative languages
+\end{itemize}
+
+Lazy input
+\begin{itemize}
+	\item \verb|readFile| returns the file content lazily, in that it only reads the next character when the program needs it
+	\item Similarly with file output and stdout
+\end{itemize}
+
+\section{Performance}
+Laziness overhead
+\begin{itemize}
+	\item A lot of suspensions are created and evaluated, requiring unpacking suspensions
+	\item Every access to a value requires checking if the value has been computed
+\end{itemize}
+
+Dominant laziness effect
+\begin{itemize}
+	\item Sometimes it speedups the program due to avoiding executing redundent computations. Sometimes it adds overhead
+	\item The dominant effect depends on the program and its input, but often it is a lottory that evens out in the end.
+\end{itemize}
+
+Strictness
+\begin{itemize}
+	\item Bottom $\bot$ is the value of an expression that loops infinitely (or throws exception)
+	\item A function is strict if it always needs the values of all its arguments. Formally, if any of its arguments is $\bot$, then the function result is $\bot$
+	\item $+$ is a strict function, and \verb|ite| is non-strict
+	\item Strictness analysis (GHC included) is a compiler pass who analyze the code of the program and mark each function as strict and non-strict
+	\item When a function is determined strict, then the compiler will generate code that an imperative language compiler would generate instead of using suspensions (call by value)
+	\item Otherwise if a function is deemed non-strict, the compiler will generate code that creates a suspension 
+\end{itemize}
+
+Unpredicability
+\begin{itemize}
+	\item Laziness makes it harder for the programmer to undersetand where the program is spending most of its time and where most memory is allocated
+	\item Small changes in where the program needs a value can cause great changes in what parts of the suspension tree are evaluates, causing great changes in time and space complexity of program
+	\item It is hard for programmers to be aware (at the same time) of all relevant details of the program in order to optimize it, so modern haskell compilers have good profilers to help programmer to understand the cpu and memory behaviors of their program
+\end{itemize}
+
+Memory efficiency
+\begin{itemize}
+	\item In a naive implementation of BST (persistent BST), when inserting a new node, every node on the path to the new node is copied and modified.
+	\item In a balanced bst with height $O(\log n)$, insertion has better memory efficiency under imperative language if the old version is not needed. Otherwise, haskell will do better
+\end{itemize}
+
+Deforestation
+\begin{itemize}
+	\item If the code follows a pattern of converting data structures to intermediate data structures, we can optimize this by directly computing the last data structure from the firt.
+	\item This is called deforestation (forest are the intermediate data structures) since the interemdiate ones are often trees
+\end{itemize}
+
+Simple deforesting
+\begin{itemize}
+	\item Converting two maps/filters into one by composing their lambda argument
+	\item To combine map and filter, use a custom filtermap using recursion. This can be applied in general for multiple list functions
+	\item To compute the standard deviation, instead of three passes, we can do one pass computing all relevant information.
+\end{itemize}
+
+Cords (accumulators)
+\begin{itemize}
+	\item Append takes $O(n^2)$ time in haskell. In order to get constant time concat (doublely linked list), we can switch to a cord data structure
+	\item Cord is defined as \verb!data Cord a = Nil | Leaf a | Branch (Cord a) (Cord a)!. Then append is always $O(1)$ due to the branch data constructor.
+	\item The naive conversion from Cord to list is still $O(n^2)$. To be linear, the idea is to only use the $O(1)$ list cons as well as keeping an accumulator to get $O(1)$ list creation
+	\begin{verbatim}
+		cord_to_list :: Cord a -> [a] -> [a]
+		cord_to_list Nil rest = rest
+		cord_to_list (Leaf x) rest = x:rest
+		cord_to_list (Branch a b) rest
+			= cord_to_list a $ cord_to_list b rest
+	\end{verbatim}
+	\item Accumulator (difference-lists) are used to grant $O(1)$ list concat when processing lsits
+\end{itemize}
+
+Sortedness check
+\begin{itemize}
+	\item The obvious sorting definition needs three cases: empty, one, two
+	\item To reduce it down to two cases, use a subfunction with the type \verb! a -> [a] -> Bool! that checks if $a$ is smaller than that of $[a]$.
+	\item Without optimization, this is much faster. With optimization turned on, it is even
+\end{itemize}
+
+Optimization
+\begin{itemize}
+	\item Optimization/compilation speedups the code a lot
+	\item Always benchmark on the compiled code instead of the interpreted code
+\end{itemize}
+
+\end{document}

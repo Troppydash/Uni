@@ -1,0 +1,492 @@
+\documentclass[a4paper]{article}
+
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{parskip}
+
+\begin{document}
+	
+\section{Agile Development}
+Project
+\begin{itemize}
+	\item Temporary endeavor to create a unique product or service
+	\item Quality is determined by: scope, cost, time
+\end{itemize}
+
+Waterfall
+\begin{itemize}
+	\item Back in 1970
+	\item Goes through each stage of software developement in series
+\end{itemize}
+
+Agile
+\begin{itemize}
+	\item Around 2000
+	\item Aim to address project issues during development, changing emphasis by clients, reducing reliance on documentations
+	\item Flexible and lightweight
+\end{itemize}
+
+Ideas in agile
+\begin{itemize}
+	\item Project inception
+	\item Sprints
+	\item Roles
+	\item Standups
+	\item Retrospectives
+	\item Scope
+\end{itemize}
+
+Roles
+\begin{itemize}
+	\item Scrum master, provides leadership and guidance, ensuring teamwork, facilitates discussion
+	\item Product owner, deep knowledge of business, priority backlog, communicates with clients
+	\item Developers, building products
+\end{itemize}
+
+Agile methods
+\begin{itemize}
+	\item Kanban board (todo, doing, done)
+	\item Scrum: divide development into sprints, product owner place client inputs into sprint backlog in sprint planning meeting, within each sprint complete the stuff in the backlog, after each sprint do sprint retrospectives
+	\item Or any broad practical idea
+\end{itemize}
+
+Ceremonies
+\begin{itemize}
+	\item Standups
+	\item Sprints
+\end{itemize}
+
+Sprint
+\begin{itemize}
+	\item Sprint planning, why sprint, what to do, who to do
+	\item Standups, inspect progress, adapt if needed
+	\item Sprint review, inspect outcome, present to stakeholder
+	\item Retrospective, increase quality for future, what worked what didnt, focus on process
+\end{itemize}
+
+Sprint planning
+\begin{itemize}
+	\item Adjust backlog
+	\item Decide task to do
+	\item Check with client
+	\item Allocate work equally by estimating task sizes
+	\item Metrics to estimate task sizes: t-shirt sizes, fibonacci numbers, poker
+\end{itemize}
+
+Standup
+\begin{itemize}
+	\item Keep everyone on track
+	\item Stop blockers
+	\item Improve communication
+	\item Everyone speaks
+	\item What did I do since last? What will I do before next? Are there any blockers?
+\end{itemize}
+
+Sprint retrospective
+\begin{itemize}
+	\item Focus on the process, not the outcome
+	\item What did we do well, what could we have done better
+	\item Brainstorming style or combining indep answers
+\end{itemize}
+
+Sprint review
+\begin{itemize}
+	\item Focus on the outcome/product, often with client
+	\item What is done, what isnt done
+\end{itemize}
+
+\section{Requirements}
+Clients
+\begin{itemize}
+	\item Important component
+	\item Project must meet their needs/interests
+	\item Client may not clearly express their needs
+\end{itemize}
+
+Requirement type
+\begin{itemize}
+	\item Functional requirements, what the software needs to do
+	\item Quality (non-functional) requirements, security/scalability/portability/maintainability, ease-of-use, performance
+	\item Emotional requirements, what using the software should feel like
+\end{itemize}
+
+Requirement trajectory
+\begin{itemize}
+	\item Inception: determines what to build, elicit client wants and needs, document client requests as requirements
+	\item Sprints: updating requirements and priorities
+	\item Conclusion: when the project is complete
+\end{itemize}
+
+Requirements in subject
+\begin{itemize}
+	\item No fixed process due to varying projects, backgrounds, team capabilities
+	\item Will give some recommended approaches so you can practise learning things
+\end{itemize}
+
+User stories
+\begin{itemize}
+	\item Short description of a feature told from the perspective of the person who desires the new capability (usually a customer of the system.)
+	\item Template of: as a user, I want goal so that this reason
+	\item Organized into epics, which are collections of user stories. Each epic has a description summarizing the user stories inside it
+	\item Each user story has a priority. Priority can be: essential/optional, high/medium/low, must/should/could/won't.
+\end{itemize}
+
+Persona
+\begin{itemize}
+	\item Depicting a typical user of the software. From HCI to understand the customer
+\end{itemize}
+
+Motivational modelling
+\begin{itemize}
+	\item Method to share a common understanding of the problem between client and developers
+	\item Easy to connect to (verify with) requirements/designs.
+	\item Symbols: emotional goals (how it should feel), functional goal (what it should do), quality goal (how it should be), roles (who achieves goal)
+	\item A model contains functional goals each surrounded by roles/emotions-goals/quality-goals. Edges between functional goals implies relationship
+	\item Three-stage process:
+	\item Brainstorming to produce 4 lists of who/do/be/feel
+	\item Transform list into single page model (using AMMBER)
+	\item Get feedback from individual/clients and tweak model
+	\item Produce diagram and ongoing monitor its relevancy
+\end{itemize}
+
+\section{Design}
+Double diamond design model
+\begin{itemize}
+	\item Discover (divergent thinking)
+	\item Define (convergent thinking)
+	\item Develop (divergent thinking)
+	\item Deliver (convergent thinking)
+\end{itemize}
+
+Architecture design
+\begin{itemize}
+	\item A communication exercise so people can understanding your thinking.
+	\item No fixed method
+	\item Contains: detailed architecture, high level architecture, ui design (templates, prototypes). Requires design diagrams
+	\item Design diagrams are intended for: other team members, clients, future developers on the same projects
+\end{itemize}
+
+High level architecture
+\begin{itemize}
+	\item Frontend is about the user interface
+	\item Backend is about storing and retrieving information
+\end{itemize}
+
+4+1 architecture model
+\begin{itemize}
+	\item Defines a set of views, each relevant to different stakeholders. They are:
+	\item Logical view, for end-user functionality
+	\item Development view, for programmers
+	\item Process view, for integrators
+	\item Physical view, for system engineers
+	\item Scenarios, user stories and use-cases
+\end{itemize}
+
+Logical view
+\begin{itemize}
+	\item Describes functional requirements of the system. Shows components of the system and their relationship
+	\item Domain model, database ER model.
+\end{itemize}
+
+Process view
+\begin{itemize}
+	\item Deals with the dynamic aspects of the system, how processes communicate at runtime
+	\item Sequence diagrams
+\end{itemize}
+
+Development view
+\begin{itemize}
+	\item The components from the programmer's perspective
+	\item Architecture goals and constraints, package diagram, system diagrams (architecture diagram), api description
+\end{itemize}
+
+Physical view
+\begin{itemize}
+	\item System from an engineer's perspective. Topology of software components at the physical layer
+	\item Deployment diagram (flowchart for deployment, CI/CD)
+\end{itemize}
+
+Scenario
+\begin{itemize}
+	\item Subset of important usecase
+	\item Use case diagram 
+\end{itemize}
+
+Low fidelity prototypes
+\begin{itemize}
+	\item Ensures that interface is correct
+	\item Basic visual elements, only key elements, no colors
+	\item Test interaction with user
+\end{itemize}
+
+High fidelity prototype
+\begin{itemize}
+	\item As similar to the product as possible
+	\item Only develop after there is a solid understanding of the UI
+	\item Realistic interactions, content, colors
+\end{itemize}
+
+\section{Coding}
+Coding ideas
+\begin{itemize}
+	\item Use coding standards
+	\item Linters
+	\item Careful about open source licenses
+\end{itemize}
+
+Repository
+\begin{itemize}
+	\item Elements required: Readme, license, branch protection, notification/integration
+	\item Development using meaningful pull requests
+	\item Releases and tags
+\end{itemize}
+
+Git workflow
+\begin{itemize}
+	\item Master branch contains only stable releases
+	\item Feature branches contain commits for a specific feature. Merged into master when completed
+	\item Develop branch used to protect master branch from unstable releases
+\end{itemize}
+
+Tech stack
+\begin{itemize}
+	\item Key considerations are: client preference, team expertise, learning, resource constraint
+	\item Freedom to choose any
+\end{itemize}
+
+Web Framework components
+\begin{itemize}
+	\item Front end
+	\item Back end
+	\item Server
+	\item Database
+\end{itemize}
+
+Pair programming
+\begin{itemize}
+	\item Two developers working on the same task at the same time
+	\item One is driver, one is reviewer
+	\item Improves code quality, collaborator, productivity
+\end{itemize}
+
+Code review
+\begin{itemize}
+	\item One person reviewing anther person's code during PR
+	\item Helps to reduce bugs, improve quality, encourages discussion
+	\item Tightly integrated with version control system
+	\item Exact process depends on the team and negotiation
+\end{itemize}
+
+\section{Testing}
+Software testing
+\begin{itemize}
+	\item A process to identify the correctness, completeness, and quality of software.
+	\item Contains a set of activities conducted with the intent of finding errors in software to correct before release
+	\item Software bugs can be costly
+\end{itemize}
+
+Testing principles
+\begin{itemize}
+	\item Exhaustive testing is not possible (testing all combinations is costly)
+	\item Defect clustering (a small number of modules contain most of the defects)
+	\item Pesticide paradox (if the same tests (testcases) are repeated, eventually they will not find new bugs)
+	\item Testing shows presence of defects (hard to argue that software is defect free)
+	\item Absence of errors is a fallacy (bug free code may not meet requirements)
+	\item Testing is context dependent (cheaper to fix a defect in the early stage)
+\end{itemize}
+
+Testing methods
+\begin{itemize}
+	\item Whitebox testing, testing your own code with knowledge of code
+	\item Blackbox testing, testing others' code without looking
+	\item Test-driven development
+\end{itemize}
+
+Test plan
+\begin{itemize}
+	\item Document strategies, objectives, and tools
+	\item Ensure everyone understands the objectives. Testing should not be neglected
+	\item Includes: objectives, tools, scope, type of test completed, bug-report strategy
+\end{itemize}
+
+Testing types
+\begin{itemize}
+	\item Unit tests, whether each software unit performs as expected
+	\item Integration tests, checking whether multiple software components operate correctly
+	\item Acceptance testing, if the application meets requirements (user-stories)
+	\item Load testing
+	\item UX testing
+\end{itemize}
+
+Manual or Automated
+\begin{itemize}
+	\item Manual testing requires documentation detailing step by step instructions. Confirmed by another reviewer
+	\item Automated testing allows automated running of testcases
+\end{itemize}
+
+Integration testing
+\begin{itemize}
+	\item Big bang. All units combined and tested in one go
+	\item Top down, top level units tested first, lower level tested later
+	\item Bottom up, reverse of top down
+\end{itemize}
+
+Code coverage
+\begin{itemize}
+	\item Common metric for examining thoroughness of test
+	\item Proportion of code covered
+	\item Level: function, statement, branches, condition, line coverage
+\end{itemize}
+
+Acceptance testing
+\begin{itemize}
+	\item Ensure that system meets the user requirements
+	\item Criteria written before implementation. Independently testable with defined pass or fail.
+\end{itemize}
+
+When to write tests
+\begin{itemize}
+	\item Within Agile sprints, parallel to development if defined in the sprint planning
+	\item Helps team collaboration and improve quality
+\end{itemize}
+
+Test case templates
+\begin{itemize}
+	\item Use lecture slides
+\end{itemize}
+
+Load testing
+\begin{itemize}
+	\item How well the program can cope with scalability
+	\item Type of performance testing
+\end{itemize}
+
+User experience testing
+\begin{itemize}
+	\item Client testing and using the program
+	\item Check if the tool is easy to use
+\end{itemize}
+
+V model of testing
+\begin{itemize}
+	\item Each stage of software development corresponds to a stage of testing
+\end{itemize}
+
+When should tests be ran
+\begin{itemize}
+	\item Everytime when there is a change to the codebase
+\end{itemize}
+
+\section{Ethics and professionalism}
+
+Professional
+\begin{itemize}
+	\item Professional workers have standards they need to respect. Professional behaviors follows the standards of the profession
+	\item IT workers are professional workers according to the lecturer
+	\item Bad things can happen if one doesn't follow professional behaviors.
+\end{itemize}
+
+Code of ethics
+\begin{itemize}
+	\item A list of rules that should be followed (adhered to)
+	\item Examples: australian computer society code, engineers australia, software engineering
+\end{itemize}
+
+Law Compliance 
+\begin{itemize}
+	\item Illegal downloading of music and films
+	\item Should not build software that violates the law
+	\item Companies have minimum control unless you are profitable
+\end{itemize}
+
+\section{Deployment}
+
+Before Devops
+\begin{itemize}
+	\item Two teams: developer teams writing code, operations team deploys and monitors production
+	\item Teams worked in isolation
+	\item Lots of problems integrating code and managing release
+\end{itemize}
+
+Devops
+\begin{itemize}
+	\item Merge developer and operations teams. Increases their collaboration and allows release through automated workflows
+	\item Automation is using technology to perform tasks in a reproducible way. Minimum human intervention and detailed feedbacks
+	\item Devops pipeline: a set of automated processes including CI/CD
+\end{itemize}
+
+CI/CD
+\begin{itemize}
+	\item Continuous integration, integrating code changes onto master branch. Automated building and tests
+	\item Continuous delivery, extends CI. Automates the release process so that the application can be deployed at anytime.
+	\item Continuous deployment, extends CD. Automated deployment to production if all other stages are successful.
+	\item Continuous delivery still requires a manual deployment stage (but everything is setup to make it easy). Continuous deployment automates the entire stage.
+\end{itemize}
+
+Why CI/CD
+\begin{itemize}
+	\item Fast releases through automating the workflow
+	\item Simple integration
+	\item Fewer errors due to less human intervention
+	\item Isolated failure from detailed feedback where in the pipeline has failed
+\end{itemize}
+
+Devops pipeline
+\begin{itemize}
+	\item Involves a set of steps executed when a condition is met (PR)
+	\item Need to perform checks before deployment
+	\item Continuous integration: Push code, Automated build and test
+	\item Continuous deployment: Review and Approve, Automated deploy.
+\end{itemize}
+
+Expectation
+\begin{itemize}
+	\item Consider devops and deployment options
+	\item Depends on client needs
+	\item Webapps should have automated CI/CD
+	\item Github actions too
+\end{itemize}
+
+Deployment
+\begin{itemize}
+	\item SaaS, vendor manages everything: salesforce
+	\item PaaS, vendor manages architecture: heroku
+	\item IaaS, you manage everything: digitalocean
+\end{itemize}
+
+\section{Handover}
+Conducting the handover meeting
+\begin{itemize}
+	\item Demonstrate the application: initial project requirements, specific functionalities that were a focus
+	\item Discuss the code and documentation: guide client through repo, highlight structure and key components
+	\item Review outstanding items: communicate unimplemented features and reasons and suggestions for future
+	\item Discuss accounts/api-key
+	\item Arrange deployment on client infrastructure
+\end{itemize}
+
+Handover checklist
+\begin{itemize}
+	\item Codebase
+	\item Licenses and thirdparty licenses
+	\item Readme files on repo structure
+	\item Database access and credientials
+	\item Hosting service access
+	\item Database structure (ER diagram)
+	\item Uh % TODO:
+	\item Key classes and application layers
+	\item Key algorithms
+	\item Project documentation (user stories, personas, motivational model, design document, meeting minutes, development log)
+	\item User Manual, highlighting system use cases leveraging acceptance testing doc
+	\item Startup and shutdown instructions
+	\item Deployment guidelines, how to deploy the code
+\end{itemize}
+
+Post handover
+\begin{itemize}
+	\item Provide contact information
+	\item Follow up email
+\end{itemize}
+
+
+\end{document}
