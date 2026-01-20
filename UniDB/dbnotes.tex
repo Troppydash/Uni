@@ -1,0 +1,1312 @@
+\documentclass[9pt,a4paper]{extarticle}
+
+\usepackage{mathtools}
+\usepackage{float}
+\usepackage{parskip}
+\usepackage{amsfonts}
+\usepackage[margin=0.55in, headsep= 2mm]{geometry}
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{multicol}
+\usepackage{blindtext}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+
+\usepackage{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+
+\newtheorem{problem}{Problem}[section]
+
+
+\pagestyle{fancy}
+%\renewcommand{\headrulewidth}{0pt}
+\fancyhf{}
+\fancyhead[R]{\rmfamily \small \nouppercase \leftmark $\quad \mid$ Page \thepage }
+\setcounter{page}{1}
+
+
+
+\newcommand{\NPages}{\text{NPages}}
+
+\usepackage{enumitem}
+\setlist[description]{ wide=5pt, leftmargin=*, nosep, topsep=-0.9\parskip}
+\setlist[itemize]{ wide=5pt, leftmargin=*, nosep, topsep=-0.9\parskip}
+
+\begin{document}
+	% \section*{Database Notes}
+	
+	\begin{multicols}{2}
+		\section{Database}
+		Data and Information
+		\begin{description}
+			\item[Data:] facts stored and recorded, text, numbers, dates
+			\item[Information:] data presented in context, proceed to increase knowledge
+			\item[Metadata:] data about data. structure, rules, and constraints about data. ensures consistency. usernames, date, duration
+		\end{description}
+		
+		DBMS
+		\begin{description}
+			\item[Database:] large, integrated, structured collection of data. Models enterprise data. Has entities and relationships
+			\item[DBMS:] software system designed to store, maintain, facilitate access to databases
+			\item[Database systems:] manages data in a structured and relational way. Ethical issues of database breaches, keep personal identifiable info private and anonymize info when publishing
+		\end{description}
+		
+		Problems and Benefits against file based
+		\begin{itemize}
+			\item Program-Data Dependence. File structure changes implies program changes; Data independence and central repository
+			\item Duplication of data, loss of data integrity; Minimal data redundancy, improved data consistency.
+			\item Limited data sharing, tied to application; Improved sharing
+			\item Lengthy dev time, low level data management and file format management each time
+			\item Excessive program maintenance, high percentage of dev time in maintaining file based; Reduced maintenance, data structure can change without changing data
+			\item ;Novel data access using SQL
+		\end{itemize}
+		
+		\section{System Development}
+		Dev lifecycle
+		\begin{description}
+			\item[Database planning:] enterprise data model
+			\item[Systems definition:] scope, boundaries, interfacing with other systems
+			\item[Requirements definition and analysis:] collecting and analyze requirements
+			\item[Database Design:] Conceptual, Logical, Physical design
+			\item[Conceptual] Create data model independent of all physical considerations or logical models
+			\item[Logical] Construct relational model based on conceptual
+			\item[Physical] Description of implementation of logical model for a specific DBMS brand. Contains data types, file organization, indexes
+			\item[Application Design:] create interface and application using db
+			\item[Implementation:] Realization of database
+			\item[Data Conversion and Loading]: load existing data to db
+			\item[Testing:] tests for error, logical problems, performance, robustness, recoverability, adaptability
+			\item[Operational Maintenance:] monitor and maintaining after commission
+		\end{description}
+		
+		Data types help DBMS to store and use information efficiently. It makes assumptions in computations, guarantee efficiency, minimize storage space, and help data integrity
+		\begin{description}
+			\item[CHAR(size)] A FIXED length string. The size parameter specifies the column length in characters - can be from 0 to 255. Default is 1
+			\item[VARCHAR(size)] A VARIABLE length string. The size parameter specifies the maximum column length in characters - can be from 0 to 65535
+			\item[BINARY(size)] Equal to CHAR(), but stores binary byte strings. The size parameter specifies the column length in bytes. Default is 1
+			\item[VARBINARY(size)] Equal to VARCHAR(), but stores binary byte strings. The size parameter specifies the maximum column length in bytes.
+			\item[TINYBLOB] For BLOBs (Binary Large OBjects). Max length: 255 bytes
+			\item[TINYTEXT] Holds a string with a maximum length of 255 characters
+			\item[TEXT(size)] Holds a string with a maximum length of 65,535 bytes
+			\item[BLOB(size)] For BLOBs (Binary Large OBjects). Holds up to 65,535 bytes of data
+			\item[MEDIUMTEXT] Holds a string with a maximum length of 16,777,215 characters
+			\item[LONGBLOB] For BLOBs (Binary Large OBjects). Holds up to 4,294,967,295 bytes of data
+			\item[ENUM(val1, val2, val3, ...)] You can list up to 65535 values in an ENUM list.
+			\item[SET(val1, val2, val3, ...)] You can list up to 64 values in a SET list
+			\item[BIT(size)] A bit-value type. The number of bits per value is specified in size. The size parameter can hold a value from 1 to 64. The default value for size is 1.
+			\item[TINYINT(size)] Signed range is from -128 to 127. Unsigned range is from 0 to 255. The size parameter specifies the maximum display width (which is 255)
+			\item[BOOL] Zero is considered as false, nonzero values are considered as true.
+			\item[BOOLEAN] Equal to BOOL
+			\item[SMALLINT(size)] Signed range is from -32768 to 32767. Unsigned range is from 0 to 65535. The size parameter specifies the maximum display width (which is 255)
+			\item[MEDIUMINT(size)]  Signed range is from -8388608 to 8388607. Unsigned range is from 0 to 16777215. The size parameter specifies the maximum display width (which is 255)
+			\item[INT(size)] Signed range is from -2147483648 to 2147483647. Unsigned range is from 0 to 4294967295. The size parameter specifies the maximum display width (which is 255)
+			\item[INTEGER(size)] Equal to INT(size)
+			\item[BIGINT(size)] Signed range is from -9223372036854775808 to 9223372036854775807. Unsigned range is from 0 to 18446744073709551615. The size parameter specifies the maximum display width (which is 255)
+			\item[FLOAT(size, d)] The total number of digits is specified in size. The number of digits after the decimal point is specified in the d parameter.
+			\item[FLOAT(p)] A floating point number. MySQL uses the p value to determine whether to use FLOAT or DOUBLE for the resulting data type. If p is from 0 to 24, the data type becomes FLOAT(). If p is from 25 to 53, the data type becomes DOUBLE()
+			\item[DOUBLE(size, d)] A normal-size floating point number. The total number of digits is specified in size. The number of digits after the decimal point is specified in the d parameter
+			\item[DOUBLE PRECISION(size, d)]
+			\item[DECIMAL(size, d)] An exact fixed-point number. The total number of digits is specified in size. The number of digits after the decimal point is specified in the d parameter. The maximum number for size is 65. The maximum number for d is 30. The default value for size is 10. The default value for d is 0.
+			\item[DEC(size, d)] Equal to DECIMAL(size,d)
+			\item[DATE] A date. Format: YYYY-MM-DD. The supported range is from '1000-01-01' to '9999-12-31'
+			\item[DATETIME(fsp)] A date and time combination. Format: YYYY-MM-DD hh:mm:ss. The supported range is from '1000-01-01 00:00:00' to '9999-12-31 23:59:59'.
+			\item[TIMESTAMP(fsp)] A timestamp. TIMESTAMP values are stored as the number of seconds since the Unix epoch ('1970-01-01 00:00:00' UTC). Format: YYYY-MM-DD hh:mm:ss. The supported range is from '1970-01-01 00:00:01' UTC to '2038-01-09 03:14:07' UTC.
+			\item[TIME(fsp)] A time. Format: hh:mm:ss. The supported range is from '-838:59:59' to '838:59:59'
+			\item[YEAR] A year in four-digit format. Values allowed in four-digit format: 1901 to 2155, and 0000.
+		\end{description}
+		
+		Data dictionary is metadata describing the schema of the table produce in database design. It contains: keys, attributes, data types, null, uniques, and description.
+		
+		Chen diagram, Crows-Foot diagram
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=0.9\linewidth]{screenshot001}
+			\includegraphics[width=0.9\linewidth]{screenshot002}
+			\label{fig:screenshot001}
+		\end{figure}
+		
+		\section{Data Modeling}
+		Definitions
+		\begin{description}
+			\item[Entity] A real world object distinguishable from other objects. Defined by a unique set of attributes.
+			\item[Entity Set] A list of entities of the same type.
+			\item[Relationship] Entity has a key for association in a relationship between two or more entities. Relationship can have attributes
+			\item[Relationship Set] A collection of relationships with same type
+			\item[Key] A minimal set of attributes to identify an entity in a set. A form of integrity constraint. A key is a superkey that is a minimal set (no subset is a superkey)
+			\item[Superkey] A set of fields where no two distinct entities have the same set.
+			\item[Primary, Candidate keys] One key is chosen to be primary, and all other keys are candidate keys
+			\item[Foreign keys] a set of fields in one relation referring to a tuple (via primary key) of another relation.
+		\end{description}
+		
+		Constraints
+		\begin{description}
+			\item[Integrity Constraint] Constraints on data in a relation, includes PK constraints, FK/referential constraints, domain constraints
+			\item[Domain constraints] Domain specific restrictions on attributes
+			\item[Primary key constraints] Entities in an entity set are all unique, via primary key
+			\item[Foreign Key constraints] PK and FK to ensure validity of relationships between entities (cannot point to non-existent). If all key constraints are satisfied, there is referential integrity.
+			\item [Key Constraints] the maximum number of entities in a relationship. many-to-many, one-to-many, one-to-one
+			\item[Participation Constraint] The minimum number of relationships an entity must participate in. Total participation means at least one, partial participation means at least zero.
+			\item[Legal instance] A relation instance that satisfies all ICs. DBMS should not allow illegal instances
+		\end{description}
+		
+		Enforcing constraints. Under FK relationship
+		\begin{itemize}
+			\item Reject adding tuple with non-existent FK
+			\item Deleting/Updating PK need to: cascade deletion with associated FK; disallowed if any PK dependents; set FK to null
+		\end{itemize}
+		
+		Weak entities
+		\begin{itemize}
+			\item Identified uniquely by another owner/strong entity/entities through an identifying relationship (set).
+			\item The identifying relationship must have the weak entity take total participation in one-to-one, or one-to-many (uncommon).
+			\item Only have partial keys, uniquely identified only by its partial key combined with its owner's primary key (but has an identifier/primary key).
+			\item Created by business rules.
+		\end{itemize}
+		
+		Types of relationships due to key/participation constraints on one entity
+		\begin{description}
+			\item[Optional-many] $0..m$, any number of relationships
+			\item[Mandatory-many] $1..m$, one or more relationships
+			\item[Optional-one] $0..1$, at most one relationship
+			\item[Mandatory-one] $1..1$, must participate one relationship (weak entity)
+		\end{description}
+		
+		Special attributes
+		\begin{description}
+			\item[Multi-valued] attributes contains multiple values of the same type (array, homogeneous)
+			\item[Composite] attributes have a structure inside with elements of different types (struct, heterogeneous).
+		\end{description}
+		
+		Crow's foot terms
+		\begin{description}
+			\item[Identifier] A key
+			\item[Partial identifier] Partial key
+			\item[Mandatory attributes] NOT NULL, blue diamond
+			\item[Optional attributes] NULL, empty diamond
+			\item[Derived attributes] square brackets
+			\item[Multi-valued] curly braces, multiple homogeneous types
+			\item[Composite attributes] parenthesis, multiple heterogeneous types
+			\item[Relationship degree] number of entities sets participating in a relationship, unary, binary, ternary
+			\item[Relationship cardinalities] mapping cardinalities, cardinality ratios, is the number of other entities that can be associated with an entity in an entity set through a relationship (depends on key constraints, many-to-one implies one entity set has $m$ cardinality and one entity set has $0..1$ cardinality)
+		\end{description}
+		
+		Note that Crow's foot flips the cardinality orders compared to chen's notation. In Chen, between $A$ and $B$, the number of relationships that entities in $A$ can participate in is on $A$'s side, while this is flipped for crow's. Omitting participation constraints on Crow's defaults to partial participation.
+		
+		Conceptual design
+		\begin{itemize}
+			\item Model entities, attributes, relationships.
+			\item Captures semantics of data via relationships (address as attributes or entities)
+			\item Follows requirement analysis, yields high level description of data stored, subjective
+		\end{itemize}
+		
+		Relational model
+		\begin{description}
+			\item[Data model] Translates real world objects into structured data (data model). Includes relational, OO, network, hierarchical
+			\item[Entity sets] are represented by rows (tuples) and columns (fields)
+			\item[Relationships] are represented by PK and FK.
+			\item[Relational database] is a database using the relational model. It contains relation sets.
+			\item[Relation] is made of a schema and an instance. Commonly, relation is the relational instance
+			\item[Relation Schema] specifies the relation metadata like name, column/attribute names and types
+			\item[Relation Instance] is a table with rows and columns. Cardinality is number of rows, degree/arity is number of columns. All rows are distinct with no ordering
+		\end{description}
+		
+		A relation schema is written like \verb|Employee(ssn: string)| with the type being optional.
+		
+		Conceptual to relational
+		\begin{itemize}
+			\item entity sets become relations, entity attributes becomes relation attributes
+			\item multi-valued attributes are unpacked into entities or lookup table, so are composite attributes into attributes
+			\item many-to-many relationships require a new associative entity set (relation) with the FKs of participating entity sets forming a composite PK, and also descriptive attributes. The associative entity is weak
+			\item one-to-many relationships adds a FK of the relation with key constraint (one-side). If total participation, put NOT NULL on the FK, can put ON DELETE NO ACTION or ON DELETE RESTRICT on FK.
+			\item one-to-one places the FK depending on business rules. The PK on the mandatory side is a FK on the optional side (place it where it is least likely to be NULL). If both are optional or mandatory, arbitrarily pick one. Include descriptive attributes on the FK side
+			\item weak entities combines the weak entity set and identifying relationship set into the same relation like one-to-many. Must specify ON DELETE CASCADE on FK, so that owner deletion implies all weak entity deletion
+		\end{itemize}
+		
+		For Unary relationships, do the transition on the same entity set. For ternary many-to-many, create three way weak associative entity.
+		
+		Database design process summary
+		\begin{description}
+			\item[conceptual design] create ER diagrams of entities and relationships
+			\item[logical design]  create relational data models
+			\item[physical design] choose the data types and nullity of the relational fields
+			\item[implementation] SQL DDL statements
+		\end{description}
+		
+		\section{Relational Algebra}
+		Theory behind SQL, ensures it produces the correct answers.
+		
+		Queries is a sequence of operations, each with inputs and outputs as relations
+		\begin{description}
+			\item[Selection] horizontal filtering, selects a subset of rows. $\sigma_{a\theta b}(R)$ selects on $R$, identical schema, can't have duplicates.
+			\item[Projection] vertical filtering, retains a subset of columns. $\pi_{a_1, a_2, \dots}(R)$ retains attributes on the projection list in $R$, with the same name. In RA, this removes duplicates. SQL doesn't
+			\item[Union] combines tuples in one with tuples in another, schema must equal (Union compatible). $R \cup S$ combines $R$ and $S$, must have same number of fields with same types. Duplicates will be removed
+			\item[Set difference], filter/include tuples in one that is not in another, union compatible. $R - S$ retains rows in $R$ but not in $S$.
+			\item[Cross product], combine two relations tuple by tuple and combined schema. $R \times S$ merges the rows with attributes inherited both $R$ and $S$, may need to rename.
+			\item[Renaming] $\rho(C(a\to b), R)$ renames $a$ to $b$ in $R$ into relation $C$. Also can use field index from $1$ in place of attribute names
+		\end{description}
+		
+		The conditions uses the typical operators where AND and OR are $\land$ and $\lor$.
+		
+		Compound operators are combinations of basic operators with no added computaitonal power
+		\begin{description}
+			\item[Intersection] Retains rows appearing in both relations, union compatible. $R \cap S = R - (R-S)$.
+			\item[Natural Join] $R\bowtie S$ is a cross product that selects rows where equal named attributes in both relations are equal (keeping only one version in final schema)
+			\item[Conditional Join] theta join, cross product with condition, $R \bowtie_\theta S = \sigma_\theta (R\times S)$
+			\item[Equi-Join] a conditional join where condition is equality. different to natural join for we keep the duplicated columns and can also arbitrarily join
+		\end{description}
+		
+		\section{SQL}
+		SQL supports CRUD: create, read, update, delete. Its commands include
+		\begin{itemize}
+			\item DDL, data definition language to define the db
+			\item DML, data manipulation language to maintain and use the db
+			\item DCL, data control language to control access to the db
+			\item Other commands for admin and transactions
+		\end{itemize}
+		
+		Always use single quotes. Commands, attributes are case insensitive. Table names depend on OS.
+		
+		DDL create table
+		\begin{verbatim}
+			CREATE TABLE Customer(
+			customer_id SMALLINT AUTO_INCREMENT,
+			name VARCHAR(100)
+			PRIMARY KEY (customer_id)
+			);
+			
+			CREATE TABLE Account(
+			...
+			customer_id SMALLINT NOT NULL,
+			FOREIGN KEY (customer_id)
+			REFERENCES Customer(customer_id)
+			ON DELETE RESTRICT
+			ON UPDATE CASCADE
+			);
+		\end{verbatim}
+		
+		Actions are
+		\begin{description}
+			\item[NO ACTION, RESTRICT] Default, restricts deletion (or changing PK) of PK record and throws error if did
+			\item[CASCADE] Delete FK row on deletion of PK row. Changing PK changes FK.
+			\item[SET NULL] Set FK to NULL when PK delete (or on update)
+			\item[SET DEFAULT] Set FK to Default Value (or on update)
+		\end{description}
+		
+		
+		DDL views
+		\begin{itemize}
+			\item Virtual relations not in the physical design, but available to users
+			\item Hide query complexities, hide data from unauthorized users
+			\item Improves data security by granting different views on same relation for different users
+			\item In SQL, can be used just like any other table.
+		\end{itemize}
+		\begin{verbatim}
+			CREATE VIEW name AS
+			SELECT ...;
+		\end{verbatim}
+		
+		DDL alter drops or inserts attributes
+		\begin{verbatim}
+			ALTER TABLE table ADD
+			field1 type1;
+			ALTER TABLE table DROP
+			field1;
+			ALTER TABLE table RENAME COLUMN old TO new;
+		\end{verbatim}
+		
+		DDL rename renames tables
+		\begin{verbatim}
+			RENAME table old TO new;
+		\end{verbatim}
+		
+		DDL truncate removes everything from table, faster than DELETE but cannot be rolled back
+		\begin{verbatim}
+			TRUNCATE table;
+		\end{verbatim}
+		
+		DDL drop kills a relation with its schema. No undos
+		\begin{verbatim}
+			DROP TABLE table;
+		\end{verbatim}
+		
+		DML insert table
+		\begin{verbatim}
+			INSERT INTO Customer
+			(first_name, last_name)
+			VALUES ('Peter', 'Smith');
+			
+			INSERT INTO Customer
+			VALUES (DEFAULT, 'Peter')
+			(DEFAULT, 'Terry');
+			
+			INSERT INTO table
+			(SELECT * from table2);
+		\end{verbatim}
+		\begin{itemize}
+			\item Default implies the default value (auto increment or null).
+			\item Inserting using columns implies the rest are default.
+			\item Query schema must match table schema
+		\end{itemize}
+		
+		
+		DML replace is identical to insert except that it replaces rows inserted that match records with the same PK. Insert will throw an exception here.
+		\begin{verbatim}
+			REPLACE INTO table
+			VALUES (values);
+		\end{verbatim}
+		
+		DML update. Defaults to update all rows. Would trigger key constraint checks.
+		\begin{verbatim}
+			UPDATE table
+			SET field1 = field1 * 1.1, field2 = field2 * 1.2
+			WHERE ...;
+			
+			-- also CASE as an multi-branch for a column/value
+			UPDATE salaries
+			SET salary = CASE
+			WHEN cond1 THEN value1
+			WHEN cond2 THEN value2
+			ELSE value3
+			END;
+		\end{verbatim}
+		
+		
+		DML delete. Default to all records. Would trigger key constraint checks.
+		\begin{verbatim}
+			DELETE table
+			WHERE ...;
+		\end{verbatim}
+		
+		DML select. Square brackets are optional, curly are choices.
+		\begin{verbatim}
+			SELECT [ALL|DISTINCT]
+			{columns}
+			FROM table1, table2
+			WHERE ...
+			GROUP BY {column|expr} [ASC|DESC]
+			HAVING ...
+			ORDER BY {column|expr} [ASC|DESC]
+			LIMIT { [offset] count | count OFFSET offset }
+		\end{verbatim}
+		Important SELECT features
+		\begin{itemize}
+			\item Can do maths like \verb|SELECT 1+2|.
+			\item orders of expressions in select matters
+			\item Default ordering is ASC.
+			\item DISTINCT implies unique rows, ALL is default
+			\item FROM with multiple tables implies cross product
+			\item WHERE only works outside of GROUP BY
+			\item Logical keywords are AND, OR, NOT. And basic comparison operators (\verb|<>| is not equals).
+			\item LIKE is also a logical operator with \verb|column LIKE pattern|, and pattern is a string with wildcards \% for any number of characters, and \_ for single character
+			\item Rename expressions in the columns (and tables) using AS.
+			\item Disambiguate fields with the same name by \verb|table.field|. Select all fields from table using \verb|table.*|.
+		\end{itemize}
+		
+		Aggregation function operate on the subset (or entire) of values in a column and returns a single value: AVG, COUNT, MIN, MAX, SUM. Importantly
+		\begin{itemize}
+			\item All except \verb|COUNT(*)| ignores NULL and returns NULL if all NULL. \verb|COUNT(*)| counts all records including NULL, while \verb|COUNT(col)| only includes non-null.
+			\item Also has \verb|COUNT(DISTINCT col)|.
+			\item Using aggregate functions without groupby will result in one row of aggregated results
+		\end{itemize}
+		
+		DML joins.
+		\begin{verbatim}
+			-- Cross product
+			SELECT * FROM R, S;
+			
+			-- Equi-join
+			SELECT *
+			FROM R INNER JOIN S
+			ON R.id = S.id;
+			
+			-- Natural join
+			-- Cross product if no same-named attributes
+			SELECT *
+			FROM R NATURAL JOIN S;
+			
+			-- OUTER JOINS
+			SELECT *
+			FROM R LEFT OUTER JOIN S
+			ON R.id = S.id;
+			SELECT *
+			FROM R RIGHT OUTER JOIN S
+			ON R.id = S.id;
+		\end{verbatim}
+		\begin{itemize}
+			\item Inner joins include records only if the condition matches.
+			\item  Outer joins includes matching records, but also non-matching records on one side filled with NULL in empty columns.
+			\item Full outer join doesn't exist
+		\end{itemize}
+		
+		Useful functions
+		\begin{verbatim}
+			UPPER(str), LOWER(str), LEFT(str, n), RIGHT(str, n)
+			COALESCE(value, default), DATE("2024-10-22")
+			IF(cond, a, b)
+		\end{verbatim}
+		
+		DML set operations. UNION removes duplicated, UNION ALL to keep
+		\begin{verbatim}
+			SELECT ...
+			UNION
+			SELECT ...;
+		\end{verbatim}
+		
+		DML subqueries are nested select statements that produces a relation (single column is table set). They can be used to perform set tests or set comparisons like
+		\begin{verbatim}
+			SELECT ...
+			WHERE
+			id IN (...)
+			id NOT IN (...)
+			id > ANY (...)
+			id > ALL (...)
+			EXISTS (...);
+		\end{verbatim}
+		We can also explicitly write sets in parenthesis \verb|(10,20,30)|. Note that subqueries has a performance penalty.
+		
+		
+		DCL admin commands
+		\begin{description}
+			\item[CREATE USER]
+			\item[DROP USER]
+			\item[GRANT] for assigning privileges and roles for users and roles
+			\item[REVOKE] for revoking privileges
+			\item[SET PASSWORD]
+			\item[ANALYZE TABLE table] for table statistics
+			\item[CHECK TABLE table] checks for errors
+			\item[DESCRIBE table] to obtain table schema
+			\item[EXPLAIN expression] for query execution plans
+			\item[SHOW DATABASES] and USE database to show and choose a specific db
+		\end{description}
+		
+		\section{Storage}
+		Components of DBMS
+		\begin{itemize}
+			\item Query Processing Modules
+			\item Storage module
+			\item Concurrency control module
+			\item Crash recovery module
+			\item Database files
+		\end{itemize}
+		
+		Data is stored on disk, we need to swap them to memory to process them. Swapping data in and out of RAM is called paging.
+		
+		Storage hierarchy for speed, cost, size tradeoffs
+		\begin{itemize}
+			\item CPU registers
+			\item Cache
+			\item RAM
+			\item Hard disk
+			\item Tape
+		\end{itemize}
+		
+		Storage terms
+		\begin{itemize}
+			\item Database contains files
+			\item Files is a collection of pages
+			\item Page is a collection of records
+		\end{itemize}
+		
+		File organization methods
+		\begin{description}
+			\item[Heap files]: no particular order between records, implemented as a doubly linked list of pages, suitable for full scan accesses. fast inserts due to fast disk page allocation
+			\item[Sorted files]: pages and records ordered by some condition, implemented as a doubly linked list of pages, but sorted according to some columns, best for ranged ordered retrieval of records, slow inserts due to reshuffling
+			\item[Index files]: contains indexes along-side files that speed up retrievals in some order
+		\end{description}
+		
+		Assign a cost for all operations as the number of page accesses (or IOs). Decide file organization method by typical operation IOs.
+		
+		Indexes
+		\begin{itemize}
+			\item As index files, containing data structures on top of data pages used to speed up searches
+			\item Built over specific fields called search key fields (any subset of fields in relation, non-unique), only speed up searches on these search key fields
+			\item Contains data entries. The entries are sorted by search keys and contains the search keys and pointers to data pages containing the records
+			\item B+ tree has directories, which are inside nodes that has no pointers to data records but contains partitioning information. Data entries are always leaf nodes.
+		\end{itemize}
+		
+		Classification of indexes
+		\begin{description}
+			\item[Clustered] Clustered indexes have the data entries and data records in the same order. Otherwise it is unclustered. A data file can have at most one clustered index on one particular search key. Clustered implies sorted files. For clustered, retrievals and range searches are cheaper, but harder to maintain on inserts.
+			\item[Primary] Primary indexes has the search key on the table's primary key. Secondary indexes doesn't. Primary indexes have no duplicated search keys
+			\item[Composite] Single key index has a single column search key. Composite key index has a subset as a search key.
+			\item[Technique] The underlying data structure. Hash-based use a hash table to locate the data entries. It maps the search keys to the bucket containing data entries. Only good for equality selections. Tree-based use a B+ tree. Contains directories with boundary search key values and pointers to lower levels, leafs containing data entries. Good for range selection and equality searches.
+		\end{description}
+		
+		In practice B+ tree with heap file is more efficient than sorted files.
+		
+		\section{Query Processing}
+		Shortcuts when performing operations (benefits of relational db)
+		\begin{description}
+			\item[Evaluation] Clever operation implementations
+			\item[Optimzer] Exploiting equivalencies of relational operators
+			\item[Cost model] To choose between alternatives
+		\end{description}
+		But there are no universally superior implementations/techniques for operations.
+		
+		Query processing/optimization workflow
+		\begin{itemize}
+			\item Break query into blocks of SELECT statements.
+			\item Convert each block to RA
+			\item Use catalog manager for table schemas and statistics
+			\item For each block, optimize the query by continuously generating execution plans through RA equivalences, then estimating costs
+			\item Outputs a query plan, evaluated by the executor
+		\end{itemize}
+		
+		Terms
+		\begin{description}
+			\item[Query execution plan] The sequence in which tables are accessed, the methods used to extract data from table, and methods used to compute calculations, including filtering, aggregating/joining, and sorting data.
+			\item[Executor] takes a query execution plan and actually runs it
+			\item[Access path] is the way that records in a table is fetched (heap, index, sorted files)
+			\item[Reduction Factor] selectivity, estimates the proportion of relation that will qualify for a predicate, estimated from catalog information. Combination of RF uses multiplication.
+			\item[Projection Factor] proportion of attributes keeping against all attributes, similar to RF
+			\item[Main memory] Let main memory buffer be pages to store temporary data. Let $B$ be the number of buffer units.
+			\item[Catalog] Contains schema information and column statistics, updated periodically
+			\item[Query block] a SELECT statement. These are units of optimization and we begin by optimizing the inner most block first.
+		\end{description}
+		
+		Catalog contains
+		\begin{itemize}
+			\item relation and index information, and column statistics
+			item
+			\item Number of tuples and pages per relation
+			\item distinct key values for each column
+			\item low and high key values for each attribute
+			\item index height and pages
+			\item reduction factors
+		\end{itemize}
+		
+		Reduction factors
+		\begin{description}
+			\item[Col$=$Value] Assume uniform distribution $1/NKeys(col)$
+			\item[Col$>$Value] $(High(col)-val)/(High(col)-Low(col))$
+			\item[Col$<$Value] Similar using $Low(col)$ instead
+			\item[a$<$Col$<$b] Use $(b-a)/(High(col)-Low(col))$
+			\item[Col1$=$Col2 Joins], use $1/\max(NKeys(col1), NKeys(col2))$
+			\item[No information] use magic number $1/10$
+		\end{description}
+		
+		Result size can be approximated by the RF and relation pages
+		\[
+		\NPages(result) = \prod_j \NPages(R_j) \prod_i RF_i
+		\]
+		
+		Processing selections (access path), costs and process
+		\begin{description}
+			\item[No index unsorted] Heap scan $\NPages(R)$
+			\item[No index sorted] B-search $\log(\NPages(R))+ \NPages(R) RF_i $
+			\item[Single Tuple] For b+tree $Height(I)+1$, for hash $2.2$
+			\item[Indexed clustered] Need to find data entries, then data records. Data entries have $\NPages(I)$ pages, and are always sorted. B+tree $(\NPages(I) +  \NPages(R)) RF_i$, hash $2.2 \NPages(R) RF_i$
+			\item[Indexed unclustered] B+tree $(\NPages(I) + NTuples(R)) RF_i$, hash $2.2 NTuples(R) RF_i$
+			\item[B+tree usage] B+tree index can match a combination of predicates using attributes in the prefix of its search key. The prefix predicates are called matching predicates or primary conjuncts; the RF will only include RF from these matching predicates
+			\item[Hash tree] Requires predicates that includes all search keys. While B+tree can process all predicate types, hash can only match equality predicates
+			\item[1] Find cheapest access path by estimating IOs
+			\item[2] Retrieving tuples using access path, using matching predicates
+			\item[3] Apply non-matching predicates to discard some retrieved tuples. These selections on the non-matching predicates after the access path are said to be done ``on-the-fly''.
+		\end{description}
+		
+		Processing projections, mainly removing duplicates
+		\begin{description}
+			\item[Sorting] Scan and retrieve relevant fields, sort the result, remove adjacent duplicates. Use external merge sort with $P$ passes
+			\begin{align*}
+				&ReadTable + WriteProjected + Sort + ReadProjected\\
+				&\NPages(R) + \NPages(R) PF_i + 2P \NPages(R) PF_i + \NPages(R) PF_i
+			\end{align*}
+			\item[Hashing] Scan relation extract needed attributes, hash records into buckets, remove duplicates within each bucket. Use external hashing where pointers to partitions are stored in the $B-1$ buckets. Hash function is constant time so no sorting step
+			\begin{align*}
+				&ReadTable + WriteProjectedHash + ReadProjected\\
+				&\NPages(R) + \NPages(R) PF_i + \NPages(R) PF_i
+			\end{align*}
+			\item[Index scan] If we have an index with search keys as projection fields, we can page only the data entries. This reduces the cost of ReadTable in both sort and hash projections to $\NPages(R) PF_i = \NPages(I)$.
+		\end{description}
+		
+		Processing joins, focus on conditional joins on one column.
+		\begin{description}
+			\item[Definition] Left relation is outer relation, right relation is inner relation
+			\item[Conditions] Nested loop joins works for all conditional joins. Sort-merge and hash join only works for equality joins.
+			\item[Simple nested loop join] For each record in outer, scan entire inner relation to match. $$\NPages(Outer) + NTuples(Outer) \NPages(Inner)$$
+			\item[Page oriented nested loop join] For each page in outer, scan entire inner relation to match. $$\NPages(Outer) + \NPages(Outer) \NPages(Inner)$$
+			\item[Block nested loop join] Assigns one memory buffer for inner relation, one for the output, and $B-2$ for block storing outer relation. Read next $B-2$ outer relation pages into block, scan through entire inner relation, storing matching pages, repeat. $$\NPages(Outer) + NBlocks(Outer) \NPages(Inner)$$ where $NBlocks(Outer) = ceil(\NPages(Outer)/(B-2))$.
+			\item[Sort Merge Join] Sort outer and inner relation on join column, two pointer merge on sorted relation. $$2 P \NPages(O) + 2 P \NPages(I) + \NPages(O) + \NPages(I)$$ due to external merge sort with $P$ passes. Useful if relations are already sorted due to access path, or if output is required to be sorted on the join column.
+			\item[Hash join] Partition both relation into hash buckets. Then reading matching pairs in each bucket. $$2 \NPages(O) + 2\NPages(I) + \NPages(O) + \NPages(I)$$
+		\end{description}
+		
+		\section{Query Optimization}
+		Reasons for query optimization
+		\begin{itemize}
+			\item Many equivalent ways of executing the query
+			\item Cost varies significantly between alternative plans
+			\item Want to find the query plan with lowest cost
+		\end{itemize}
+		
+		Details of query plan
+		\begin{itemize}
+			\item A tree with RA operations as inner nodes and access paths as leaves
+			\item Each operator and access path is labeled with a choice of algorithm (access path, join, on-the-fly algorithms)
+			\item Total cost of query plan is the sum of the operator/access-path costs
+		\end{itemize}
+		
+		Details about operator equivalence
+		\begin{itemize}
+			\item Changes in operators that don't change the results. Used by query optimizers to generate query plans
+			\item Selection operator has cascade and commute equivalences
+			\begin{align*}
+				\sigma_{c_1\land c_2}(R) &= \sigma_{c_1} (\sigma_{c_2} (R))\\
+				\sigma_{c_1}(\sigma_{c_2}(R)) &= \sigma_{c_2}(\sigma_{c_1}(R))
+			\end{align*}
+			\item Projection operator has cascade equivalence, where $a_1 \supset a_2$
+			\[
+			\pi_{a_1}(R) = \pi_{a_1}(\pi_{a_2}(R))
+			\]
+			\item Joins are associative and commutative
+			\begin{align*}
+				R\bowtie (S \bowtie T) &= (R \bowtie S) \bowtie T\\
+				R \bowtie S &= S \bowtie R
+			\end{align*}
+			\item Mixing joins, cross products, and selection projections
+			\begin{align*}
+				\sigma_{s_1=r_1}(S\times R) &= S \bowtie_{s_1=r_1} R\\
+				\sigma_{s_1}(S\bowtie R) &= (\sigma_{s_1}(S) \bowtie R)\\
+				\pi_{s_2}(S \bowtie_{s_1=r_1} R) &= \pi_{s_2}(\pi_{s_1,s_2}(S) \bowtie_{s_1=r_1} \pi_{r_1}(R))
+			\end{align*}
+		\end{itemize}
+		
+		Consider the result size of a query block in the number of tuples. All predicate RF are included.
+		\begin{description}
+			\item[Single table] $NTuples(R) \prod_i RF_i$
+			\item[Cross product] $\prod_j NTuples(R_j)$
+			\item[Joins] Note that we treat conditional joins as cross products with predicates $\prod_j NTuples(R_j) \prod_i RF_i$
+		\end{description}
+		
+		The types of query plans are: single relation query plans and multiple relation plans. The main costs are in the access path and joining, with non-matching predicates performed on-the-fly with no additional costs.
+		
+		Single relation query plan
+		\begin{itemize}
+			\item Consider each access path (heap, index, sorted). Always consider heap scan.
+			\item Other non-matching predicates or project is done on the fly.
+			\item Result size may depend on access path if selection is done .
+			\item Using index but no matching predicates implies $RF=1$
+		\end{itemize}
+		
+		Multi-relation query plan
+		\begin{itemize}
+			\item Steps are: select relation join orders, select join algorithm for each join, select access method for each relation
+			\item The number of query plans is $N! J^{(N-1)} A^N$ where $N$ is the number of relations, $J$ is the number of join algorithms, and $A$ is the number of indexes
+			\item Limit to left-deep join trees, for they have fully pipelined plans where intermediate results are not written to temporary files but are directly used in the next calculations
+			\item Prune out cross product trees and only use conditional joins
+		\end{itemize}
+		
+		Key points in cost computation
+		\begin{itemize}
+			\item When joining against an intermediary relation, estimate its relation size, and apply joining algorithm using the estimated size. Assume that it is already read and subtract one $\NPages(R)$ cost from the join
+			\item After SMJ, the relation is already sorted on the index
+			\item A clustered index access path is sorted on the search key for SMJ
+			\item Heap scan is never sorted
+		\end{itemize}
+		
+		\section{Normalization}
+		Terms
+		\begin{description}
+			\item[Universal relation] is a table containing every relation in denormalized form
+			\item[Normalization] Separation of records by attributes into their own tables. A technique that removes unwanted redundancies.
+			\item[Denormalization] Storing records all in a large table with many columns. Contains duplicates and potential inconsistencies
+		\end{description}
+		
+		Denormalization anomalies
+		\begin{description}
+			\item[Insertion] Cannot add a new value into a column without at least one record spanning all fields
+			\item[Deletion] Removing one record may lose an entirely unique value in one field
+			\item[Update] Changing one attribute for a value will change multiple records, or inconsistency
+		\end{description}
+		
+		Normalization benefits
+		\begin{itemize}
+			\item Minimum redundancy, no inconsistency, no anomalies, no performance issues
+		\end{itemize}
+		
+		Denormalization Benefits
+		\begin{itemize}
+			\item Faster queries, for joining is slow
+			\item Improve performance on time critical operations
+		\end{itemize}
+		
+		Functional Dependency
+		\begin{itemize}
+			\item Dependency between fields (sets of fields) in a relation
+			\item Attribute $X$ determines $Y$ if each value of $X$ uniquely identifies with one value of $Y$ across all records. Then $X\to Y$.
+			\item $X$ determines $Y$, $X$ implies $Y$, $Y$ dependent on $X$, $Y$ upon $X$.
+			\item Determinants are attributes on the LHS of the arrow
+			\item Key attributes are attributes that are subsets of the primary key (only on PK), non-key attributes are not key attributes
+			\item Partial functional dependency is a functional dependency of non-key attributes on a subset of the PK but not all.
+			\item Transitive dependency is a functional dependency between two non-key attributes.
+		\end{itemize}
+		
+		Armstrong's axioms
+		\begin{description}
+			\item[Reflexivity] $B \subseteq A \implies A\to B$
+			\item[Augmentation] $A \to B \implies AC \to BC$
+			\item[Transitivity] $A\to B \land B \to C \implies A \to C$
+		\end{description}
+		
+		Normalization forms
+		\begin{description}
+			\item[Inheritence] Normal forms are inherited, higher order implies lower order
+			\item[First NF] keep atomic data and remove repeating groups. Let repeating groups as attributes with multiple values per record (not representable in relational models with 2d tables), and atomic data as attributes with singular values. Need to convert repeating groups into a new relation with FK linking back.
+			\item[Second NF] Remove partial dependencies. Take both sides of partial dependency into new relation with PK subset as composite PK, add PK/FK in original relation linking to composite PK in new relation.  Can have anomalies between determinant and non-key attributes.
+			\item[Third NF] Remove transitive dependencies. Extracting attributes into new table with the determinant as PK, then put FK in original record.  Can have anomalies between determinant and dependent.
+			\item[Boyce Codd NF] Every determinant is a candidate key (or superkey). Relations not in BCNF but are in 3NF have functional dependencies of key attributes on non-key attributes, or key attributes on key attributes. Separate non-candidate key determinant and dependent into new relation with determinant as PK, add PK/FK in the original relation. Can have anomalies.
+		\end{description}
+		
+		Normalization cannot fix all design flaws, like designs where an attribute is represented by the specific table instead of as a column.
+		
+		\section{Transactions}
+		Terms
+		\begin{description}
+			\item[Transaction] A logical unit of work (atomic unit of work). Contains a sequence of DML or SQL statements. It solves the defining units of work and concurrency problem.
+			\item[Atomic unit] A unit of work that must be either entirely completed or aborted
+			\item[Consistent state] All IC in the DB are satisfied
+		\end{description}
+		
+		Atomic units
+		\begin{itemize}
+			\item DML or SQL statements are atomic by themselves
+			\item Create user-defined atomic units of work via transactions.
+			\item Successful transaction changes the db from a consistent state to another consistent state
+		\end{itemize}
+		
+		ACID property of transactions
+		\begin{description}
+			\item[Atomicity] Transactions are treated as a single, indivisible, logical unit of work. All operations must either be completed or aborted with everything undone.
+			\item[Consistency] Constraints that held before a transaction must also hold after it. Multiple users accessing the same data must see the same value
+			\item[Isolation] Changes made during the execution of a transaction cannot be seen by other transactions until this one is finished
+			\item[Durability] Completed transactions makes permanent changes to the db, even if db fails after.
+		\end{description}
+		
+		Defining units of work
+		\begin{itemize}
+			\item Single SQL statements are transactions. If db crashes in the middle, the transaction is reversed and no records will be changed after restart.
+			\item Multiple statements can be combined into a user-created transaction.
+			\item Business rules may require transactions. Features of units of work: series of statement embedded in a larger application, indivisible units, rollback on errors keeping database consistency
+			\item Errors during a transaction will reverse all SQL statements, with the user being able to retry it later.
+		\end{itemize}
+		
+		SQL Transaction
+		\begin{verbatim}
+			-- implicit after commit/rollback
+			START TRANSACTION;
+			
+			-- SQL statements...
+			
+			-- explicit commit
+			COMMIT;  -- or ROLLBACK;
+		\end{verbatim}
+		
+		Concurrent access is the concurrent execution of DML on shared db by multiple users. Its problems are
+		\begin{description}
+			\item[Lost updates] Transaction that writes last overwriting the writes of the first transaction.
+			\item[Uncommitted data] First transaction modifies data then rollback. Second transaction accesses the uncommitted data and writes result based on that
+			\item[Inconsistent retrievals] When aggregating over a db, another transaction updates the data, so some aggregating data is read before and some after the change.
+		\end{description}
+		
+		Solutions to concurrency
+		\begin{itemize}
+			\item A schedule is the order that transactions runs in. It is serializable if multiple concurrent transactions appear as if they were executed one after another
+			\item Serializable schedules only need to appear as running it one by one, just need to have the exact results. True serial execution with no concurrency is expensive.
+			\item Transactions should run in a serializable schedules. This ensures consistent results without problems.
+			\item In reality, DBMS creates a schedule of reads and writes for all concurrent transactions, then interleaves their execution using concurrency control algorithms.
+		\end{itemize}
+		
+		Concurrency control algorithms are: locking, timestamp, optimistic concurrency control
+		\begin{description}
+			\item[Lock] Grants exclusive use of data to a transaction. Need to acquire lock prior to data access, then release it after. Another transaction needs to wait to acquire the lock on the same data. Main bottleneck is the waiting time to acquire a lock
+			\item[Availability] Measures how likely we need to wait to access the data
+			\item[Lock manager] Responsible for assigning and controlling locks used by transactions
+			\item[Database level] Locking entire db. Good for batch processing (large infrequent) but bad for multi-user DBMS.
+			\item[Table level] Cause bottlenecks if two transactions want to access different parts of a table, not good for highly multi-user db
+			\item[Page level]
+			\item[Row level] Improves data availability, high overhead in storing locks and using locks. Most popular
+			\item[Field level] Most flexibility with highest data availability, extremely high overhead, not common.
+			\item[Binary locks] Two states for both read and write. Eliminates lost update problem. Too restrictive for optimal concurrency for locks on reads.
+			\item[Exclusive locks] Reserves read/write access. Must be obtained to write. Granted if no other locks are held
+			\item[Shared locks] Grants read access, must be obtained to read, acquired if no exclusive locks.
+			\item[Deadlock] Two transactions wait for each other to unlock data. Only happen with exclusive and binary locks. Dealt but prevention (graphs) or detection (timer and timeouts). MySQL automatically detects deadlocks and rollbacks the transaction that detects it
+			\item[Timestamp] Assign unique timestamp for each transaction. Each data item accessed by a transaction gets its timestamp. When transaction wants to read or write, compare current transaction timestamp against attached timestamp and allow if current time is later, rollback otherwise.
+			\item[Optimistic] Executes transaction without restrictions. When committing, checks for data its read for alteration, rollback if so. Assumes that a majority of database operations do not conflict.
+		\end{description}
+		
+		Logs
+		\begin{itemize}
+			\item In general contains updates to data and transaction statements
+			\item A log for the beginning of transaction and one for the end
+			\item For each SQL statement, log contains operation performed, objects affected, before and after values, points to previous and next transaction logs
+			\item Grants ability to restore database to previous consistent state when aborted. Or to restore a crashed database to a checkpoint.
+			\item A checkpoint is a time when all committed data are consistent, all uncommitted transactions are recorded, and all logs are kept. If system failure, restore to previous checkpoint and examine the logs for uncommitted transactions and restart.
+		\end{itemize}
+		
+		\section{Capacity Planning}
+		Capacity planning considers
+		\begin{description}
+			\item[Disk space] Predicting future data size that may saturate the system, and delaying it. Depends on relation data volumes. Done in system design
+			\item[Transaction throughput] Depends on relation access frequencies. Done in system design
+			\item[Continuous maintenace] Monitor and predict disk usage and transaction load between go-live and throughout the system life. Done in system maintenance
+		\end{description}
+		
+		
+		Data type sizes
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=0.9\linewidth]{screenshot005}
+			\includegraphics[width=0.9\linewidth]{screenshot004}
+			\label{fig:screenshot004}
+		\end{figure}
+		
+		Estimating disk space requirements, an estimation as DBMS stores more than just records
+		\begin{description}
+			\item[Database size] The sum of the table sizes in bytes.
+			\item[Table size] The product of cardinality and average row width
+			\item[Row width] Sum of storage size of fields, depends on data type. For numeric or datetime, use cheatsheet. For varchar or blob, use average size in bytes from catalog.
+			\item[Growth forecast] Gather estimates of rate of new records from system analysis business rules, multiply by row size to estimate disk size growth rates
+		\end{description}
+		
+		Estimating transaction load
+		\begin{itemize}
+			\item Multiply frequency of transaction by the number of SQL statements per transaction
+			\item Limit the processing time of a transaction to ensure performance
+		\end{itemize}
+		
+		%\newpage
+		\section{Backups and Recovery}
+		A backup is a copy of the database. It aims to restore the data if the data is lost. A backup strategy details how data is backed up and what is the recovery process.
+		
+		Type of errors (failure causes)
+		\begin{description}
+			\item[Human errors] Accidental drop or delete (most common)
+			\item[Hardware or software] Malfunction like bugs, hard drive failure, corruption, CPU memory failed
+			\item[Malicious activity] security compromise on servers, db, applications
+			\item[Natural or man-made disasters]
+			\item[Regulation] archiving rules, metadata collection, privacy rules
+		\end{description}
+		
+		Types of failures are
+		\begin{description}
+			\item[Statement] SQL syntax issue
+			\item[User process] Database process fails
+			\item[Network] Between user and db
+			\item[User error] Accidental drops
+			\item[Memory] Memory is corrupt
+			\item[Media and disk] corruption
+		\end{description}
+		
+		Backup categories
+		\begin{description}
+			\item[Physical backup] Stores exact copies of files, logs, and directories. Suitable for large databases requiring fast recovery. Offline backup and recovery (can use locks to do it online). Only portable to machines with similar configuration
+			\item[Logical backup] Use SQL queries to store relations into files. Slower than physical in backup and recovery. Output larger than physical for no compression. No log or config files. Machine independent. Online backups. Use \verb|SELECT ... INTO OUTFILE file| and \verb|LOAD DATA INFILE infile|.
+			\item[Hot backup] Online backup, backup occurs when database is live. Clients don't realize a backup is happening. Requires locking to ensure data consistency.
+			\item[Cold backup] Offline backup, backup occurs when db is stopped. To maximize availability, take backup from replication server. Simpler for no locks. Preferable method but not possible in all situations (especially if no downtimes).
+			\item[Full backup] Backups the entire database, includes everything needed to get the db operation in an entire db failure
+			\item[Incremental backup] Stores changes since the last backup, only the logs. To restore, stop db, restore using full backup, copy incremental log files to disk, start db and ask it to redo the logs.
+			\item[Offsite backups] Backups stored physically not near the server (tapes in vaults, remote replicate mirror db, cloud backup). Enables disaster recovery
+			\item[Onsite backup] Backups stored in the same server as db
+		\end{description}
+		
+		Recovery process
+		\begin{itemize}
+			\item Use backup to recover db to last backup state
+			\item Use crash recovery transaction logs to recover to last checkpoint to recover all committed transactions and uncommitted transaction states
+		\end{itemize}
+		
+		\section{Data Warehouse}
+		OLTP vs OLAP
+		\begin{description}
+			\item Managers wants to know statistics/metrics about company. Use data encoded in databases for analysis and business decisions
+			\item[OLTP] Transactional database. Relational db are Online Transaction Processing DB (OLTP) suitable for processing day-to-day operations, is efficient and automates business processes
+			\item[OLAP] Informational database. Integrated way to get entire organization's data, a single db that stores all data in a form that supports business decision-making.
+			\item[Transactional queries] Narrow with simple queries on few tables
+			\item[Analytical queries] Complete queries that are board, accessing multiple tables. Contains a numerical aggregation part (sales) and a dimension part (by store).
+			\item[Problems of OLTP] Not designed to process large, complex, aggregation queries
+			\item Too many databases with different types of DBMS
+			\item Problems of duplicated data, inaccessible data, inconsistent data when scaled
+		\end{description}
+		
+		Comparison between transaction and informational db
+		\begin{figure}[H]
+			\begin{tabularx}{\linewidth}{|X|X| X|}
+				\hline
+				Feature & Transactional & Informational \\
+				\hline
+				Primary Purpose & Run day to day buisness & Support decision making \\
+				\hline
+				Type of data & Current data representing current state of business & Historical data, snapshots and potentially predictions \\
+				\hline
+				Primary Users & Customers, Clerks, other employees & Managers, analysts \\
+				\hline
+				Usage Scope & Narrow, planned, fixed interfaces & Broad, ad hoc, complex interface \\
+				\hline
+				Design Goal & Performance, availability & Flexible and data accessibility  \\
+				\hline
+				Volume & Constant updates and queries on a few rows and tables  & Periodic batch updates, complex query on multiple tables or rows \\
+				\hline
+			\end{tabularx}
+		\end{figure}
+		
+		Data warehouse is an informational database
+		\begin{itemize}
+			\item Single repository of organizational data
+			\item Integrates data from multiple sources, automatic extraction, transformation, and loading into warehouse
+			\item Makes entire data available to managers
+			\item Supports analysis and business decision-making
+			\item Read-only, large data store with several Tb or Pb of data
+			\item Supports analytical queries without reducing operational db performance
+		\end{itemize}
+		
+		Advanced data warehouse features
+		\begin{description}
+			\item[Subject oriented] Organized around particular subjects
+			\item[Validated and integrated data] Combining data from different systems into a common format for comparison and consolidation. Validation of data sources
+			\item[Time variant] Contains historical data organized as snapshots with time stamps. Allows trend analysis
+			\item[Non-volatile] Only read access and updates done automatically by extract transform load process by database admin periodically
+		\end{description}
+		
+		Architecture of DW
+		\begin{itemize}
+			\item Extract data from data systems, internal or external sources
+			\item Process data in staging area. Cleaning, matching, de-duplication, standardization
+			\item Load data into storage area. Contains metadata, data warehouse, smaller data mart by subject
+			\item Data from DW fed into analytic and reporting tools. Dashboards, adhoc queries, modeling, visualization, applications, data mining. (Business intelligent dashboard is a software that provides information about the financial state of the business through visualizations)
+		\end{itemize}
+		
+		Dimensional modeling
+		\begin{description}
+			\item[Dimesional Analysis] Business analyst analyze by focusing on single indicator, then going in dimensions to solve a problem. Has a single fact and a series of dimensions.
+			\item[Dimensional modeling] A database model that supports dimensional analysis queries stored in DW
+			\item[Star Schema] A dimensional model based on the multi-dimensional model of data, designed for retrieval only databases. Preferable over OLTP for they are organized around facts and dimensions that resembles dimensional analysis, also denormalized so faster in aggregating and querying data.
+		\end{description}
+		
+		Dimensional model is a restricted ER model, containing
+		\begin{itemize}
+			\item Fact tables
+			\item Dimensional tables associated with the facts
+			\item Hierarchies in the dimensional tables
+		\end{itemize}
+		
+		Steps of dimensional model design
+		\begin{itemize}
+			\item Choose business process (operation)
+			\item Choose measured facts
+			\item Choose granularity of fact table
+			\item Choose dimensions
+			\item Complete dimension tables with hierarchies
+		\end{itemize}
+		
+		Terms
+		\begin{description}
+			\item[Facts] Business aggregated metrics, stored as non-key attributes in fact table.
+			\item[Dimension] A factor that we can classify a fact by. Stored as PFK in fact tables pointing to dimension tables.
+			\item[Hierarchies] For dimension, starts specific then goes general. Embedded as attributes of dimension table or separated into new dimension tables. One-to-many relationships from general to specific tables.
+			\item[Hierarchy normalization]  The choice of hierarchies is a choice of normalization.  If normalized, eliminates redundancy, creates storage efficiency, referential integrity. If denormalized, faster querying, useful for analysis. Usually want denormalized tables in DW for performance and analysis.
+			\item[Granularity] Level of detail for the facts. Depends on keys used, the finest detail of a fact table is determined by the finest level in each dimension
+			\item[Star schema] Place fact table in center, with FK relationships to surrounding dimension tables. One-to-many relationship between dimensions and facts
+			\item[Snowflake schema] Where hierarchies are separated out into dimension tables.
+		\end{description}
+		
+		
+		\section{Distributed DB}
+		Terms
+		\begin{description}
+			\item[Distributed DB] Single logical database spread physically across multiple computers in multiple locations connected by a communication link. Appears to users as if it is one database
+			\item[Decentralized DB] A collection of independent DB which are not networked as one logical db. Appears to users as if is several dbs
+			\item[Vertical Scaling] Increasing processing capabilities of existing servers to increase performance
+			\item[Horizontal] Adding more servers to increase performance
+		\end{description}
+		
+		Objectives of distributed dbs
+		\begin{description}
+			\item[Location transparency] User/Program does not need to know where the data is stored. Any request it makes from should be forwarded to the site related to its request.
+			\item[Local autonomy] A node can continue to function for local users if inter-connectivity to the network is lost. Admins can administer their local dbs individually with powers of: control local data, perform security checks, log transactions, recover local failures, full access to local data
+		\end{description}
+		
+		Features of distributed dbs
+		\begin{itemize}
+			\item Locate data with a distributed catalog for metadata
+			\item Determine location from with to retrieve data from and to process query components
+			\item DBMS translation between nodes/servers with different local DBMSs using middlewares
+			\item Data consistency through multiphase commit protocol
+			\item Global primary key control
+			\item Scalability
+			\item Security, concurrency, query optimization, failure recovery
+		\end{itemize}
+		
+		Advantages of distributed DBMS
+		\begin{itemize}
+			\item Good fit for geographically distributed organizations and users. Utilizes the internet
+			\item Data often located near the site with the greatest demand
+			\item Faster local data access (data specific to location)
+			\item Faster data processing due to workload split amongst physical servers. A kind of horizontal scaling
+			\item Allows modular growth in processing capabilities, by adding new servers as load increases through horizontal scaling
+			\item Increased reliability and availability. Less danger of a single point of failure (SPOF) if the data is replicated
+			\item Supports database recovery if data is replicated
+		\end{itemize}
+		
+		Disadvantages of distributed DBMS
+		\begin{itemize}
+			\item Complexity of management and control. Because the DBMS must stitch together data across multiple sites.
+			\item Complexity problems like: where is the current version of the record, who is waiting to update this information; how is this logic displayed to the application
+			\item Data integrity, more exposure to improper updates
+			\item Data integrity problems like: race condition of two users in different locations updating the same record. (solved with transaction manager, or master-slave database design)
+			\item Security, for many servers implies higher chance of data breach. Requiring protection in networks and storage infrastructure against cyber and physical attacks
+			\item Lack of standards, different protocols for different DDBMS
+			\item Increased training and maintenance costs due to: complex IT infrastructure, increased disk storage, fast intra and inter network infrastructure, clustering software (that manages DDB)
+			\item Increased storage required due to replication
+		\end{itemize}
+		
+		Distribution options
+		\begin{description}
+			\item[Replication] Duplicating data to different nodes. Most popular.
+			\item[Partitioning] Partitioning data into chunks stored in different nodes. A chunk can be a set of rows or a set of columns in a relation.
+			\item[Horizontal partitioning] Splits table rows across nodes
+			\item[Vertical partitioning] Splits table columns across nodes
+		\end{description}
+		
+		Advantages of replication
+		\begin{itemize}
+			\item High reliability due to redundancy
+			\item Faster access to data
+			\item Avoid complicated distributed integrity routines, can simply refresh replicated data at scheduled intervals
+			\item Decoupled/offline nodes don't affect data availability, transactions can continue even if some nodes are down
+			\item Reduced network traffic if updates can be delayed
+		\end{itemize}
+		
+		Disadvantages of replication
+		\begin{itemize}
+			\item Storage space, for all the copying
+			\item Data integrity, high tolerance of applications for out of date data is needed
+			\item Takes time for updates. Updates may cause performance issues for busy nodes for it needs to propagate. Retrieves incorrect data if updates have not propagated.
+			\item High network communication capability is needed, for updates can place heavy demand on the networks. High speed network as expensive
+		\end{itemize}
+		
+		Benefits of horizontal partitioning
+		\begin{itemize}
+			\item Data can be stored close to where it is used for efficiency, allows local access optimization
+			\item Only relevant data is stored locally,  better security
+			\item Unioning across partitions is easier for querying
+		\end{itemize}
+		
+		Problems of horizontal partitioning
+		\begin{itemize}
+			\item Inconsistent access speed when accessing data across partitions
+			\item No data replication, SPOF vulnerability
+		\end{itemize}
+		
+		Vertical partitioning has the same advantages and disadvantages as horizontal partitioning except combining data across partitions is more difficult for it needs joins instead of unions.
+		
+		Tradeoffs in DDBMS
+		\begin{itemize}
+			\item Availability vs Consistency, either make data always available and partition tolerant or make it always consistent
+			\item Synchronous vs Asynchronous updates, should changes be immediately visible everything but expensive, or later propagated but less expensive
+		\end{itemize}
+		
+		The CAP theorem states that you can only have two out of three features for a distributed system
+		\begin{itemize}
+			\item Consistency, everyone sees the same data
+			\item Availability, system stays up when nodes fail
+			\item Partition tolerance, system stays up when network between systems fail
+		\end{itemize}
+		
+		For synchronous updates
+		\begin{itemize}
+			\item Data is continuously kept up to date and all users will access the same data
+			\item If a data item is updated anywhere on the network, the same update is immediately applied to all other copies of the data item or the update is aborted
+			\item Ensures data integrity and minimizes complexity of knowing where the most recent version is located
+			\item Slow response time and high network usage. Needing to spend time checking for successful update and propagation, committed update record must propagate to all servers
+		\end{itemize}
+		
+		For async updates
+		\begin{itemize}
+			\item Must tolerate some temporary inconsistency, could be fine if the temp is short and well managed
+			\item Acceptable response time, updates are applied locally and data replications are synchronized only in batches and predetermined intervals
+			\item More complex to plan and design, to ensure data integrity and consistency
+		\end{itemize}
+		
+		Some information system are suited for async updates (social media), others must need synchronous updates (finance systems).
+		
+		\section{NoSQL}
+		NoSQL
+		\begin{itemize}
+			\item Most business data are tabular and suitable for relational model
+			\item Adoption of NoSQL driven by problems of relational databases
+			\item Polyglot persistence of different approaches to support different storage requirements
+			\item Some aggregate data is not inherently tabular, costly to disassemble data and recompute aggregates. Can directly store as XML or JSON files.
+		\end{itemize}
+		
+		Benefits of relational design
+		\begin{itemize}
+			\item Simple, can capture most business use cases
+			\item Integrate/interface multiple applications via a shared data store
+			\item Standard interface language SQL
+			\item Adhoc queries, across and within table aggregates
+			\item fast, reliable, concurrent, consistent
+		\end{itemize}
+		
+		Problems of relational databases
+		\begin{itemize}
+			\item Object relational impedance mismatch, problem in translating object oriented data to relational data models (multi-level hierarchy, list of lists)
+			\item Not good with big data
+			\item Not good with clustered or replicated servers
+		\end{itemize}
+		
+		Big data consists of three Vs
+		\begin{itemize}
+			\item Volume, larger quantity of data than typical for relation databases
+			\item Variety, lots of different data types and formats
+			\item Velocity, data comes at a very fast rate (from sensors or web clicks)
+		\end{itemize}
+		
+		A data lake is a large integrated repository for internal and external data that does not follow a predefined schema (schema-on-read). It captures everything, and you can access the relevant parts later.
+		
+		Conventions for schemas in databases
+		\begin{itemize}
+			\item Schemas on write, pre-existing data model, traditional relational databases. Traditional design process: requirement gathering, formal data modeling, database schema, usage based on predefined schemas
+			\item Schema on read, data model determined later when reading, depends on how it is used. Big data design process: collect large amounts of data with local structures, stores data in data lake, analyze the stored data and create meaningful structures, structuring and organize the data after data analysis
+		\end{itemize}
+		
+		Schema-on-read problems with: overhead when reading for different data formats, difficult for analysis since no way ahead of time to know relevant data fields and need to filter for it, takes more space storing schemas.
+		
+		The features and purpose of a NoSQL database are
+		\begin{itemize}
+			\item doesnt use relational model nor SQL
+			\item runs well on distributed servers
+			\item open-source
+			\item modern, built for the modern web
+			\item schema-less (could have implicit schema)
+			\item support schema on read
+			\item not ACID compliant
+			\item BASE
+			\item Purpose: Improve programmer productivity in avoiding OR mismatch
+			\item Purpose: Handle larger data volumes and throughput (big data)
+		\end{itemize}
+		
+		Types of NoSQL databases
+		\begin{description}
+			\item[Key Value] Keys are strings. Values are any datatype --- the application is in charge of the interpretation. Operations are put for storing, get to fetch, and update to update.
+			\item[Document based] Similar to a key-value store except that the document (generalized key value pair) is examinable by the database and is structured, so we can query parts its contents and update parts of it. A document generally is a JSON file denoting one entry in a table.
+			\item[Column Family] It is a generalized key-value store. Each row is represented as a row key plus a dictionary of key value fields representing the columns. The columns of each row can differ in names, structure, and format. The database will then store similar columns together on disk (ordered by columns instead of by rows), related columns are grouped into families. This makes analysis faster as less data is fetched for aggregating data across columns, due to disk groupings of relevant data (queries often don’t require all columns). Like automatic vertical partitioning.
+			\item[Graph Databases] A graph is a node and arc network (a network of nodes and arcs). These graphs are difficult to design in relational databases. A graph database is designed to store such graphs with entities and relationships. It facilitates fast graph queries (like finding extended friends) which deduce knowledge from the graph.
+		\end{description}
+		
+		Aggregate oriented databases
+		\begin{description}
+			\item[Definition] Key-value, document store, column family. Store business objects in aggregate form
+			\item[Benefits] Entire aggregate of data is stored together, no need for transactions in updating or reading
+			\item Efficient storage on clusters and distributed databases
+			\item[Problems] Hard to analyze across subfields of aggregates (aggregate on sales, hard to compute aggregate on products)
+		\end{description}
+		
+		Fowler's version of CAP theorem states that for distributed databases, under a data partition, we must choose between availability of consistency. Different types of data in the same system can require different availability and consistency levels.
+		
+		BASE Principles
+		\begin{description}
+			\item [Basically Available] The constraint that the system does guarantee availability of data in responding to all requests, but the data may be in an inconsistent state or changing state.
+			\item [Soft state] The state of the system could change over time even where there are no inputs. This is due to changes from the ``eventually consistency'' clause.
+			\item [Eventual consistency] The system will eventually become consistent once it stops receiving inputs. The data will eventually propagate. But the system can always continue receiving inputs and not check the consistency of any transactions before processing the next one.
+		\end{description}
+		
+		Variations of the eventual consistency principle. In practice, a number of theses are fulfilled (read-your-write and monotonic reads)
+		\begin{description}
+			\item[Casual] Processes that has casual relationships will see consistent data
+			\item[Read your write] Process will always access the most recent data after it updates it and will not see an older value
+			\item[Session] Within a session, guarantee read-your-write
+			\item[Montonic read] if a process has seen a particular value, all subsequent reading of this data by this process will not return any previous values
+			\item[Montonic writes] Guarantees serialize writes by the same process
+		\end{description}
+		
+		\section{Spatial DB}
+		Special data types
+		\begin{itemize}
+			\item Regular data types can be processed using basic operations
+			\item Special data types are harder to process, retrieve, or operate with
+			\item Includes images, videos, audio
+			\item Requires indexes to process queries efficiently
+		\end{itemize}
+		
+		Spatial data
+		\begin{itemize}
+			\item Contains items located in space
+			\item Requires complex computation for retrievals like: intersection, range queries, nearest neighbor
+			\item No trivial ways to sort them
+		\end{itemize}
+		
+		Quadtrees
+		\begin{itemize}
+			\item Indexing spatial data in 2d space can exponentially reduce the number of comparisons using the Quadtree index.
+			\item These are implemented in Oracle Spatial and other DBMSs as extensions.
+			\item The quadtree has an implicit tree structure on quads that divides a space, with fast implementations of the nearest neighbor algorithm using priority queue
+			\item Each node is associated with a rectangular region of space. The root node is the entire target space
+			\item Each division is due to a rule based on the specific data type. This division is recursive until a stopping conditioin
+			\item Non-leaf nodes divides its region into four equally sized quads, containing four child nodes corresponding to them.
+			\item Leaf nodes have between zero to some fixed maximum number of points
+		\end{itemize}
+		
+		Kd tree is another data structure used to index in multiple dimensions.
+		\begin{itemize}
+			\item Each level of a kd tree partitions the space into two against one dimension
+			\item We choose a different dimension to partition the space between levels, cycling through the dimensions across levels
+			\item Aim to partition so that about half the points in the subtree will fall on either side
+			\item Recursively partition until a node has less than a given number of points
+		\end{itemize}
+		
+		R-trees
+		\begin{itemize}
+			\item Both quadtrees and kd trees are only faster in memory. Some databases also need a tree index on disk.
+			\item A generalized n-dimensional B+ tree. It is used to index sets of rectangles or polygonal data.
+			\item It stores only the nodes in memory, while keeping the last few nodes and objects on disk.
+			\item Well-supported across DBMS. Variants are R+ or R* trees.
+			\item Generalize the one dimensional interval coverage within each B+ node to n-dimensional interval coverage (rectangles) of each R-tree node
+			\item Often used for the common $N=2$ case, generalization is simple, but they only work well with small $N$ data
+			\item For each R-tree node, we partition the set of polygons inside it into smaller sets of new nodes, creating smaller r-tree nodes each having a bounding box
+			\item The clusters are determined based on a rule (proximity), and is done recursively until a stopping condition
+			\item Define a bounding box of a node as the minimum sized rectangle that contains all polygons in the node.
+			\item The disadvantages are that bounding boxes of children of a node may overlap with others.
+		\end{itemize}
+		
+		To find data items intersecting a given region
+		\begin{itemize}
+			\item Start from the root node
+			\item If node is a leaf, output the data items whose keys intersect the region
+			\item For each child of the current node, check if their bounding box intersects the region, if so then recursively search
+			\item This can very inefficient in the worst case since multiple paths will be searched due to the overlaps. But it works fine in practice.
+		\end{itemize}
+		
+		To do nearest neighbor from a point
+		\begin{itemize}
+			\item Start by adding the root node to the priority queue
+			\item Pull element from queue repeatedly.
+			\item If the node is not an element, push its subnodes onto the queue. If the subnodes are nodes with bounding boxes, use the closest point of the box to the point, else use the closet point on the polygon to the point.
+			\item If the node is an element, that is the nearest neighbor
+			\item Repeat until we found the $k$th nearest neighbor
+		\end{itemize}
+		
+		There is no point going through all index types for all data types. What we should do is instead to
+		\begin{itemize}
+			\item For a given data set, during the DBMS uploading stage
+			\item Find the potential queries
+			\item Research indices the DBMS has for this data type
+			\item Research which queries that can be done more efficiently on which index
+			\item Create index if we have large data
+			\item Monitor, tune or create other indices
+		\end{itemize}
+		
+		There are also special algorithms that the DBMS implements for special data types and queries.
+		\begin{itemize}
+			\item Some algorithms are: shortest path, tsp.
+			\item We can run these algorithms using extensions to SQL.  It can also extend the relational model to incorporate new data types as tables. These can be new functions to filter based on distance, or keywords indicating special data type tables.
+			\item But these may not be enough, so we have new technologies on storage and querying for some specific data types (big data and NoSQL).
+		\end{itemize}
+		
+		
+	\end{multicols}
+	
+\end{document}
